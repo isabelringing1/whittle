@@ -1,0 +1,85 @@
+body {
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgb(53, 57, 61);
+	color: white;
+	font-family: "Dongle", sans-serif;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+#title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	letter-spacing: 0.4rem;
+	font-weight: 700;
+
+	height: 20vh;
+	font-size: 12vh;
+}
+
+#body {
+	height: 50vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	height: 30vh;
+	font-size: 7vh;
+}
+
+#letters-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80%;
+	font-weight: 300;
+	height: 8vh;
+	font-size: 10vh;
+	transition: color 0.3s;
+}
+
+.green {
+	color: rgb(0, 222, 0);
+}
+
+.red {
+	color: red;
+}
+
+.letter {
+	padding: 0 0.3vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	transition: padding 0.1s ease-in, transform 0.1s ease-in, width 0.1s ease-in;
+}
+
+.disappear {
+	padding: 0;
+	transform: scaleX(0);
+	width: 0;
+}
+
+.letter:hover {
+	opacity: 0.8;
+}
+
+.restart {
+	width: 10vh;
+	filter: invert(1);
+}

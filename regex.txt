@@ -1,0 +1,12 @@
+
+one letter words:
+^[a-z]$\n 
+(replace w nothing)
+
+two letter:
+\n[a-z]{2}\n
+(replace with \n)
+
+
+scowl query:
+./scowl word-list scowl.db --size 40 --deaccent --wo-pos-classes abbr,s,pre,suf,x,wp,we --apostrophe False --regions US > wl.txt

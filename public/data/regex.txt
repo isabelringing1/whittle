@@ -1,0 +1,8 @@
+
+one letter words:
+^[a-z]$\n 
+(replace w nothing)
+
+two letter:
+\n[a-z]{2}\n
+(replace with \n)
