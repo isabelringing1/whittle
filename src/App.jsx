@@ -1,199 +1,194 @@
 import { useState, useEffect } from "react";
 import puzzles from "/data/puzzles.txt";
 import wordData from "/data/wl.txt";
-import restartImg from "/images/restart.png";
+import backArrow from "/images/back_arrow.png";
 
 import "./App.css";
 import Letter from "./Letter";
+import LetterPuzzle from "./LetterPuzzle";
+import Menu from "./Menu";
 
 function App() {
-	const [wordDict, setWordDict] = useState({});
-	const [letters, setLetters] = useState([]);
-	const [letterStates, setLetterStates] = useState([]);
-	const [solutionDict, setSolutionDict] = useState({});
-	const [isAnimating, setIsAnimating] = useState(false);
-	const [gameState, setGameState] = useState(0); // 0 = in play, 1 = win, 2 = loss
+	const [allPossibleWords, setAllPossibleWords] = useState({});
+
+	const [dailyPuzzleDict, setDailyPuzzleDict] = useState({});
+
+	const [gameState, setGameState] = useState("menu"); // menu, play, win
+	const [prevGameState, setPrevGameState] = useState("none"); // none, menu, play, win
+
+	const [playerData, setPlayerData] = useState(null);
 
 	useEffect(() => {
 		readDataAsync();
-		restart();
+		var playerData = loadData();
+		if (playerData != null) {
+			setPlayerData(playerData);
+		}
 	}, []);
 
-	const restart = (e) => {
-		setLettersFromString("splatter");
-		setGameState(0);
-		setIsAnimating(false);
-		console.log("restarting");
-		Array.from(document.getElementsByClassName("letter")).forEach(
-			(letter) => {
-				letter.classList.remove("disappear");
+	useEffect(() => {
+		var title = document.getElementById("title");
+		var backButton = document.getElementById("back-button-container");
+		if (gameState == "play" && prevGameState == "menu") {
+			title.classList.remove("title-bounce-in");
+			backButton.classList.remove("back-button-bounce-out");
+			title.classList.add("title-bounce-out");
+			backButton.classList.add("back-button-bounce-in");
+		} else if (gameState == "menu" && prevGameState != "none") {
+			title.classList.remove("title-bounce-out");
+			backButton.classList.remove("back-button-bounce-in");
+			title.classList.add("title-bounce-in");
+			backButton.classList.add("back-button-bounce-out");
+		}
+	}, [gameState]);
+
+	useEffect;
+
+	function saveData(dailyData) {
+		var newPlayerData = {
+			puzzleLog: {},
+		};
+		if (playerData != null) {
+			newPlayerData = {
+				...playerData,
+			};
+		}
+
+		newPlayerData.puzzleLog[getDailyPuzzleId()] = dailyData;
+		var saveString = JSON.stringify(newPlayerData);
+		localStorage.setItem("whittle", window.btoa(saveString));
+		setPlayerData(newPlayerData);
+	}
+
+	function loadData() {
+		var saveData = localStorage.getItem("whittle");
+		if (saveData != null) {
+			try {
+				saveData = JSON.parse(window.atob(saveData));
+			} catch (e) {
+				console.log("Could not parse save data: ", e);
+				return null;
 			}
-		);
-		var lettersContainer = document.getElementById("letters-container");
-		lettersContainer.classList.remove("green");
-	};
+			return saveData;
+		}
+		return null;
+	}
 
 	const readDataAsync = async () => {
 		try {
 			const wordsResponse = await fetch(wordData);
 			const wordsText = await wordsResponse.text();
 			var words = wordsText.split("\n");
-			var newWordDict = {};
+			var newAllPossibleWords = {};
 			words.forEach((word) => {
-				newWordDict[word] = true;
+				newAllPossibleWords[word] = true;
 			});
-			setWordDict(newWordDict);
+			setAllPossibleWords(newAllPossibleWords);
 
-			// need to consider possible words that AREN'T valid solutions, btw
 			const response = await fetch(puzzles);
 			const text = await response.text();
-			var solutions = text.split("\n");
-			createSolutionDictForWord(solutions);
+			var dailyPuzzles = text.split("\n");
+			var newDailyPuzzleDict = {};
+			for (var i = 0; i < dailyPuzzles.length; i++) {
+				var tokens = dailyPuzzles[i].split(",");
+				newDailyPuzzleDict[tokens[0]] = { startingPhrase: tokens[1] };
+			}
+			setDailyPuzzleDict(newDailyPuzzleDict);
 		} catch (error) {
 			console.error("Error loading data:", error);
 		}
 	};
 
-	const createSolutionDictForWord = (solutions) => {
-		var newSolutionDict = {};
-		solutions.forEach((solution, i) => {
-			var words = solution.split(",");
-			for (var i = 0; i < words.length; i++) {
-				var word = words[i];
-				var nextWord = words[i + 1];
-				if (i == words.length - 1) {
-					//single letter
-					newSolutionDict[word] = true;
-				} else {
-					if (word in newSolutionDict) {
-						if (!newSolutionDict[word].includes(nextWord)) {
-							newSolutionDict[word].push(nextWord);
-						}
-					} else {
-						newSolutionDict[word] = [nextWord];
-					}
-				}
-			}
-		});
-
-		setSolutionDict(newSolutionDict);
+	const getDailyPuzzleId = () => {
+		var date = new Date();
+		const month = date.getMonth();
+		const day = date.getDate();
+		const year = date.getFullYear();
+		var id = month + "/" + day + "/" + year;
+		return id;
 	};
 
-	const setLettersFromString = (str) => {
-		var newLetters = [];
-		var newLetterStates = [];
-		for (var i = 0; i < str.length; i++) {
-			newLetters.push(str[i]);
-			newLetterStates.push(true);
-		}
-		setLetters(newLetters);
-		setLetterStates(newLetterStates);
+	const getDailyPuzzleStartingPhrase = () => {
+		var id = getDailyPuzzleId();
+		return dailyPuzzleDict[id].startingPhrase;
 	};
 
-	const onClick = (index) => {
-		if (isAnimating || gameState != 0) {
-			return;
-		}
-		if (isValidRemoval(index)) {
-			removeLetterAtIndex(index);
-		} else {
-			failRemoveLetterAtIndex(index);
-		}
+	const onBackButtonClicked = () => {
+		setPrevGameState(gameState);
+		setGameState("menu");
 	};
 
-	const isValidRemoval = (index) => {
-		var potentialWord = getWord(index);
-		return potentialWord in wordDict;
-	};
-
-	const getWord = (potential_removal_index = -1) => {
-		var word = "";
-		for (var i = 0; i < letterStates.length; i++) {
-			if (letterStates[i] && i != potential_removal_index) {
-				word += letters[i];
-			}
-		}
-		return word;
-	};
-
-	const removeLetterAtIndex = (index) => {
-		var letter = document.getElementById("letter-" + index);
-		if (letter.classList.contains("disappear")) {
-			return;
-		}
-
-		var newLetterStates = [...letterStates];
-		newLetterStates[index] = false;
-		setLetterStates(newLetterStates);
-		var lettersLeft = newLetterStates.filter((e) => e).length;
-
-		letter.classList.add("disappear");
-		setIsAnimating(true);
-		setTimeout(() => {
-			var lettersContainer = document.getElementById("letters-container");
-			lettersContainer.classList.add("green");
-			if (lettersLeft > 1) {
-				setTimeout(() => {
-					lettersContainer.classList.remove("green");
-					setIsAnimating(false);
-				}, 300);
-			} else {
-				setGameState(1);
-				setIsAnimating(false);
-			}
-		}, 100);
-	};
-
-	const failRemoveLetterAtIndex = (index) => {
-		var letter = document.getElementById("letter-" + index);
+	const onLetterClick = (index) => {
+		var letter = document.getElementById("title-letter-" + index);
 		if (letter.classList.contains("disappear")) {
 			return;
 		}
 		letter.classList.add("disappear");
-		setIsAnimating(true);
 		setTimeout(() => {
-			var lettersContainer = document.getElementById("letters-container");
+			var lettersContainer = document.getElementById("title");
 			lettersContainer.classList.add("red");
 			setTimeout(() => {
 				letter.classList.remove("disappear");
 				setTimeout(() => {
 					lettersContainer.classList.remove("red");
-					setIsAnimating(false);
 				}, 100);
 			}, 300);
 		}, 100);
 	};
 
 	return (
-		<div className="content">
-			<div id="title">WHITTLE</div>
-			<div id="body">
-				<div id="letters-container">
-					{letters.map((letter, i) => {
-						var id = "letter-" + i;
-						return (
-							<Letter
-								key={id}
-								id={id}
-								index={i}
-								letter={letter}
-								onClick={onClick}
-							/>
-						);
-					})}
-				</div>
-			</div>
-			<div id="footer">
-				<div id="game-over-text">{gameState == 1 && "Nice work!"}</div>
-				<div id="restart-button">
-					{gameState != 0 && (
-						<img
-							className="restart"
-							src={restartImg}
-							onClick={restart}
+		<div id="content">
+			<div id="title" className="container">
+				{"WHITTLE".split("").map((letter, i) => {
+					var id = "title-letter-" + i;
+					return (
+						<Letter
+							key={id}
+							id={id}
+							index={i}
+							letter={letter}
+							onClick={onLetterClick}
 						/>
-					)}
-				</div>
+					);
+				})}
+			</div>
+			<div id="back-button-container">
+				<img
+					id="back-button"
+					src={backArrow}
+					onClick={onBackButtonClicked}
+				/>
+			</div>
+			<div id="body" className="container">
+				{gameState == "menu" ? (
+					<Menu
+						setGameState={setGameState}
+						setPrevGameState={setPrevGameState}
+						playerData={playerData}
+						dailyPuzzleId={getDailyPuzzleId()}
+						percentComplete={
+							playerData
+								? playerData.puzzleLog[getDailyPuzzleId()]
+										.percentFound
+								: null
+						}
+					/>
+				) : (
+					<LetterPuzzle
+						gameState={gameState}
+						allPossibleWords={allPossibleWords}
+						setGameState={setGameState}
+						setPrevGameState={setPrevGameState}
+						saveData={saveData}
+						data={
+							playerData
+								? playerData.puzzleLog[getDailyPuzzleId()]
+								: null
+						}
+						id={getDailyPuzzleId()}
+						startingPhrase={getDailyPuzzleStartingPhrase()}
+					/>
+				)}
 			</div>
 		</div>
 	);
