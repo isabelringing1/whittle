@@ -16,7 +16,7 @@ function Menu(props) {
 			return;
 		}
 		var dailyData = playerData.puzzleLog[dailyPuzzleId];
-		if (dailyData != null) {
+		if (dailyData != null && dailyData.percentFound > 0) {
 			setStatus("continue");
 		}
 	}, [playerData]);

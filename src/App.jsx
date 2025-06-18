@@ -22,6 +22,10 @@ function App() {
 		readDataAsync();
 		var playerData = loadData();
 		if (playerData != null) {
+			var id = getDailyPuzzleId();
+			if (!(id in playerData.puzzleLog)) {
+				playerData.puzzleLog[id] = {};
+			}
 			setPlayerData(playerData);
 		}
 	}, []);
@@ -113,6 +117,12 @@ function App() {
 		return dailyPuzzleDict[id].startingPhrase;
 	};
 
+	const getDailyPuzzlePercentFound = () => {
+		return playerData
+			? playerData.puzzleLog[getDailyPuzzleId()].percentFound
+			: 0;
+	};
+
 	const onBackButtonClicked = () => {
 		setPrevGameState(gameState);
 		setGameState("menu");
@@ -166,12 +176,7 @@ function App() {
 						setPrevGameState={setPrevGameState}
 						playerData={playerData}
 						dailyPuzzleId={getDailyPuzzleId()}
-						percentComplete={
-							playerData
-								? playerData.puzzleLog[getDailyPuzzleId()]
-										.percentFound
-								: null
-						}
+						percentComplete={getDailyPuzzlePercentFound()}
 					/>
 				) : (
 					<LetterPuzzle

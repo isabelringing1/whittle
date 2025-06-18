@@ -38,7 +38,6 @@ function LetterPuzzle(props) {
 		var content = document.getElementById("content");
 		content.addEventListener("click", (e) => {
 			if (e.target.classList.contains("container")) {
-				console.log(e.target);
 				tryHideTabs();
 			}
 		});
@@ -49,7 +48,6 @@ function LetterPuzzle(props) {
 			foundWords: foundWords,
 			percentFound: getPercentWordsFound(),
 		};
-		console.log("saving ", newDailyData);
 		saveData(newDailyData);
 	}, [foundWords]);
 
@@ -107,7 +105,6 @@ function LetterPuzzle(props) {
 	};
 
 	const generatePossibleWords = (phrase) => {
-		console.log("Phrase: ", phrase);
 		var validPhrases = [phrase];
 		var newPossibleWords = {};
 		var phrasesSeen = {};
@@ -138,7 +135,6 @@ function LetterPuzzle(props) {
 				}
 			}
 		}
-		console.log("possible words: ", newPossibleWords);
 		setPossibleWords(newPossibleWords);
 	};
 
@@ -271,7 +267,6 @@ function LetterPuzzle(props) {
 		newWordContainer.classList.add("new-word-anim");
 
 		if (!tabsShowing) {
-			console.log("hopping");
 			var tab2 = document.getElementById("tab-2");
 			if (tab2.classList.contains("hop")) {
 				tab2.classList.remove("hop");
