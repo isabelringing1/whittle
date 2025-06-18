@@ -33290,6 +33290,7 @@ satchels
 satellite
 satellites
 satin
+sating
 satiny
 satire
 satires

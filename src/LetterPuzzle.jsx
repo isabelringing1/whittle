@@ -271,6 +271,7 @@ function LetterPuzzle(props) {
 		newWordContainer.classList.add("new-word-anim");
 
 		if (!tabsShowing) {
+			console.log("hopping");
 			var tab2 = document.getElementById("tab-2");
 			if (tab2.classList.contains("hop")) {
 				tab2.classList.remove("hop");
@@ -293,14 +294,13 @@ function LetterPuzzle(props) {
 			tabs.classList.remove("down");
 			tabs.classList.remove("popIn");
 			tabs.classList.add("up");
-			console.log("showing tabs");
 			setTabsShowing(true);
 		}
 	};
 
 	const tryHideTabs = () => {
 		var tabs = document.getElementById("tabs");
-		if (!tabs.classList.contains("down")) {
+		if (tabs.classList.contains("up") && !tabs.classList.contains("down")) {
 			tabs.classList.remove("up");
 			tabs.classList.add("down");
 			setTabsShowing(false);
