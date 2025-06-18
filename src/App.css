@@ -264,6 +264,7 @@ button:disabled {
 	border-radius: 3vh;
 	display: flex;
 	border: 0.3vh solid white;
+	border-bottom-width: 0.45vh;
 	justify-content: center;
 	align-items: center;
 }
@@ -383,7 +384,7 @@ button:disabled {
 }
 
 #top-1 {
-	margin-left: -0.2vh;
+	margin-left: -0.3vh;
 }
 
 #tab-1 {
