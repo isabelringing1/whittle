@@ -16,6 +16,7 @@ function LetterPuzzle(props) {
 		data,
 		id,
 		startingPhrase,
+		getContinueClassName,
 	} = props;
 
 	const [letters, setLetters] = useState([]);
@@ -145,12 +146,17 @@ function LetterPuzzle(props) {
 		setMoves(moves + 1);
 		var potentiaPhrase = getPhrase(index);
 		var words = potentiaPhrase.split(" ");
+		var isCombo = letters[index] == " ";
 		if (areValidWords(words)) {
-			removeLetterAtIndex(index);
+			removeLetterAtIndex(index, isCombo);
 			var newFoundWords = { ...foundWords };
 			for (var i = 0; i < words.length; i++) {
 				if (!(words[i] in foundWords) && words[i].length > 0) {
-					showNewWord(words[i], i);
+					if (isCombo) {
+						showNewComboWord(words[i], i);
+					} else {
+						showNewWord(words[i], i);
+					}
 					newFoundWords[words[i]] = true;
 				}
 			}
@@ -179,7 +185,7 @@ function LetterPuzzle(props) {
 		return phrase;
 	};
 
-	const removeLetterAtIndex = (index) => {
+	const removeLetterAtIndex = (index, isCombo) => {
 		var letter = document.getElementById("letter-" + index);
 		if (letter.classList.contains("disappear")) {
 			return;
@@ -200,10 +206,12 @@ function LetterPuzzle(props) {
 			var lettersContainer = document.getElementById(
 				"letters-container-" + id
 			);
-			lettersContainer.classList.add("green");
+			lettersContainer.classList.add(isCombo ? "purple" : "green");
 			if (lettersLeft > 0) {
 				setTimeout(() => {
-					lettersContainer.classList.remove("green");
+					lettersContainer.classList.remove(
+						isCombo ? "purple" : "green"
+					);
 					setIsAnimating(false);
 				}, 300);
 			} else {
@@ -227,13 +235,15 @@ function LetterPuzzle(props) {
 				"letters-container-" + id
 			);
 			lettersContainer.classList.add("red");
+			lettersContainer.classList.add("error-shake");
 			setTimeout(() => {
 				letter.classList.remove("disappear");
 				setTimeout(() => {
 					lettersContainer.classList.remove("red");
+					lettersContainer.classList.remove("error-shake");
 					setIsAnimating(false);
 				}, 100);
-			}, 300);
+			}, 400);
 		}, 100);
 	};
 
@@ -256,10 +266,32 @@ function LetterPuzzle(props) {
 		return letterRemovalOrder.length > 0;
 	};
 
+	const showNewComboWord = (word, wordIndex) => {
+		var newWordContainer = document.getElementById(
+			"new-combo-word-container-" + id
+		);
+		if (newWordContainer.classList.contains("new-combo-word-anim")) {
+			newWordContainer.classList.remove("new-combo-word-anim");
+			newWordContainer.offsetHeight; /* trigger reflow */
+		}
+		newWordContainer.classList.add("new-combo-word-anim");
+
+		if (!tabsShowing) {
+			var tab2 = document.getElementById("tab-2");
+			if (tab2.classList.contains("hop")) {
+				tab2.classList.remove("hop");
+				tab2.offsetHeight; /* trigger reflow */
+			}
+			tab2.classList.add("hop");
+		}
+		showFireworks();
+	};
+
 	const showNewWord = (word, wordIndex) => {
 		var newWordContainer = document.getElementById(
 			"new-word-container-" + id
 		);
+
 		if (newWordContainer.classList.contains("new-word-anim")) {
 			newWordContainer.classList.remove("new-word-anim");
 			newWordContainer.offsetHeight; /* trigger reflow */
@@ -326,17 +358,48 @@ function LetterPuzzle(props) {
 		setGameState("menu");
 	};
 
+	const showFireworks = () => {
+		setTimeout(() => {
+			confetti({
+				startVelocity: 15,
+				spread: 230,
+				ticks: 60,
+				zIndex: 0,
+				gravity: 0.5,
+				particleCount: 40,
+				colors: ["#c23fff6c"],
+				origin: {
+					x: 0.5,
+					y: 0.35,
+				},
+				scalar: 0.5,
+			});
+		}, 450);
+	};
+
 	return (
 		<div className="letter-puzzle-container container">
 			{gameState == "win" && (
 				<div className="game-over-container">
 					<div> Nice work!</div>
 					<div className="game-over-subtitle">
-						You won in <b>{moves}</b> moves and found{" "}
-						<b>{getPercentWordsFound()}%</b> of all possible words.
+						You won in <b>{moves}</b> moves.
 					</div>
-					<button id="continue-button" onClick={continueGame}>
-						<div className="button-container">Keep Whittling</div>
+					<button
+						id="continue-button"
+						className={getContinueClassName()}
+						onClick={continueGame}
+					>
+						<div
+							className="button-container"
+							id="continue-button-container"
+						>
+							<div id="continue-button-title">Keep Whittling</div>
+
+							<div id="continue-button-subtitle">
+								({getPercentWordsFound()}% words found)
+							</div>
+						</div>
 					</button>
 					<button id="main-menu-button" onClick={goToMenu}>
 						<div className="button-container">Main Menu</div>
@@ -354,6 +417,12 @@ function LetterPuzzle(props) {
 						id={"new-word-container-" + id}
 					>
 						New Word!
+					</div>
+					<div
+						className="new-combo-word-container"
+						id={"new-combo-word-container-" + id}
+					>
+						New Combo Word!
 					</div>
 					{letters.map((letter, i) => {
 						var id = "letter-" + i;

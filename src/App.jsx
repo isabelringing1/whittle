@@ -146,6 +146,21 @@ function App() {
 		}, 100);
 	};
 
+	const getContinueClassName = () => {
+		var percentComplete = getDailyPuzzlePercentFound();
+		if (percentComplete == 0) {
+			return "not-started";
+		} else if (percentComplete > 0 && percentComplete < 50) {
+			return "continue-low";
+		} else if (percentComplete >= 50 && percentComplete < 80) {
+			return "continue-medium";
+		} else if (percentComplete >= 80 && percentComplete < 100) {
+			return "continue-high";
+		} else if (percentComplete >= 100) {
+			return "continue-complete";
+		}
+	};
+
 	return (
 		<div id="content">
 			<div id="title" className="container">
@@ -177,6 +192,7 @@ function App() {
 						playerData={playerData}
 						dailyPuzzleId={getDailyPuzzleId()}
 						percentComplete={getDailyPuzzlePercentFound()}
+						getStartButtonClassName={getContinueClassName}
 					/>
 				) : (
 					<LetterPuzzle
@@ -192,6 +208,7 @@ function App() {
 						}
 						id={getDailyPuzzleId()}
 						startingPhrase={getDailyPuzzleStartingPhrase()}
+						getContinueClassName={getContinueClassName}
 					/>
 				)}
 			</div>

@@ -7,6 +7,7 @@ function Menu(props) {
 		playerData,
 		dailyPuzzleId,
 		percentComplete,
+		getStartButtonClassName,
 	} = props;
 
 	const [status, setStatus] = useState("start"); //start, continue, finish
@@ -54,6 +55,7 @@ function Menu(props) {
 
 			<button
 				id="start-button"
+				className={getStartButtonClassName()}
 				onMouseUp={onStartButtonClicked}
 				onTouchEnd={onStartButtonClicked}
 			>
