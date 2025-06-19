@@ -34,15 +34,15 @@ function App() {
 		var title = document.getElementById("title");
 		var backButton = document.getElementById("back-button-container");
 		if (gameState == "play" && prevGameState == "menu") {
-			title.classList.remove("title-bounce-in");
-			backButton.classList.remove("back-button-bounce-out");
-			title.classList.add("title-bounce-out");
-			backButton.classList.add("back-button-bounce-in");
+			title.classList = "title-bounce-out";
+			backButton.classList = "back-button-bounce-in";
 		} else if (gameState == "menu" && prevGameState != "none") {
-			title.classList.remove("title-bounce-out");
-			backButton.classList.remove("back-button-bounce-in");
-			title.classList.add("title-bounce-in");
-			backButton.classList.add("back-button-bounce-out");
+			title.classList = "title-bounce-in";
+			backButton.classList = "back-button-bounce-out";
+		} else if (gameState == "win" && prevGameState == "play") {
+			backButton.classList = "back-button-bounce-out";
+		} else if (gameState == "play" && prevGameState == "win") {
+			backButton.classList = "back-button-bounce-in";
 		}
 	}, [gameState]);
 

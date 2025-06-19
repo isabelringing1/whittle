@@ -15,7 +15,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	margin-bottom: 40%;
+	margin-bottom: 30%;
 }
 
 button {
@@ -63,9 +63,9 @@ button:disabled {
 }
 
 .button-container {
-	width: 65vw;
+	width: 100%;
 	height: 7vh;
-	border-radius: 2.8vh;
+	border-radius: 2.3vh;
 	display: flex;
 	border: 0.3vh solid white;
 	justify-content: center;
@@ -287,7 +287,7 @@ button:disabled {
 	width: 100vw;
 	height: 40vh;
 	position: absolute;
-	bottom: -30vh;
+	bottom: -31vh;
 	pointer-events: none;
 }
 
@@ -317,39 +317,71 @@ button:disabled {
 	animation: hop 0.5s ease-in-out;
 }
 
+.popDownFromUp {
+	animation: popDownFromUp 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.popDownFromDown {
+	animation: popDownFromDown 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
 @keyframes popIn {
 	0% {
-		bottom: -35vh;
+		bottom: -40vh;
 	}
 	70% {
-		bottom: -29vh;
+		bottom: -30vh;
 	}
 	100% {
-		bottom: -30vh;
+		bottom: -31vh;
 	}
 }
 
 @keyframes bounceUp {
 	0% {
-		bottom: -30vh;
+		bottom: -31vh;
 	}
 	30% {
-		bottom: -32vh;
+		bottom: -33vh;
 	}
 	100% {
-		bottom: -3vh;
+		bottom: -8vh;
 	}
 }
 
 @keyframes bounceDown {
 	0% {
-		bottom: -3vh;
+		bottom: -8vh;
 	}
 	30% {
-		bottom: -1vh;
+		bottom: -6vh;
 	}
 	100% {
+		bottom: -31vh;
+	}
+}
+
+@keyframes popDownFromUp {
+	0% {
+		bottom: -8vh;
+	}
+	30% {
+		bottom: -6vh;
+	}
+	100% {
+		bottom: -40vh;
+	}
+}
+
+@keyframes popDownFromDown {
+	0% {
+		bottom: -31vh;
+	}
+	30% {
 		bottom: -30vh;
+	}
+	100% {
+		bottom: -40vh;
 	}
 }
 
@@ -449,13 +481,13 @@ button:disabled {
 }
 
 #continue-button {
-	width: 60vw;
+	width: 85vw;
 	margin-top: 3vh;
 	height: 7vh;
 }
 
 #main-menu-button {
-	width: 60vw;
+	width: 85vw;
 	margin-top: 2vh;
 	height: 7vh;
 }
@@ -534,7 +566,7 @@ button:disabled {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	font-size: 4vh;
+	font-size: 4.5vh;
 	margin-bottom: 20%;
 }
 
@@ -543,6 +575,14 @@ button:disabled {
 }
 
 #percent-complete-info {
-	padding-top: 1.5vh;
+	padding-top: 3vh;
 	font-weight: 300;
+	text-align: center;
+	width: 90%;
+	line-height: 0.8;
+}
+
+#start-button {
+	width: 85vw;
+	font-size: 5.7vh;
 }

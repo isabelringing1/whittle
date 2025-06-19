@@ -210,7 +210,7 @@ function LetterPuzzle(props) {
 				setPrevGameState("play");
 				setGameState("win");
 				setIsAnimating(false);
-				tryHideTabs();
+				tryHideTabsCompletely();
 			}
 		}, 100);
 	};
@@ -285,10 +285,8 @@ function LetterPuzzle(props) {
 
 	const tryShowTabs = () => {
 		var tabs = document.getElementById("tabs");
-		if (!tabs.classList.contains("up")) {
-			tabs.classList.remove("down");
-			tabs.classList.remove("popIn");
-			tabs.classList.add("up");
+		if (!tabsShowing) {
+			tabs.classList = "up";
 			setTabsShowing(true);
 		}
 	};
@@ -296,14 +294,31 @@ function LetterPuzzle(props) {
 	const tryHideTabs = () => {
 		var tabs = document.getElementById("tabs");
 		if (tabs.classList.contains("up") && !tabs.classList.contains("down")) {
-			tabs.classList.remove("up");
-			tabs.classList.add("down");
+			tabs.classList = "down";
 			setTabsShowing(false);
 		}
 	};
 
+	const tryHideTabsCompletely = () => {
+		var tabs = document.getElementById("tabs");
+		if (tabsShowing) {
+			tabs.classList = "popDownFromUp";
+		} else {
+			tabs.classList = "popDownFromDown";
+		}
+		setTabsShowing(false);
+	};
+
+	const tryPopInTabs = () => {
+		var tabs = document.getElementById("tabs");
+		tabs.classList = "popIn";
+		setTabsShowing(false);
+	};
+
 	const continueGame = () => {
+		setPrevGameState(gameState);
 		restart();
+		tryPopInTabs();
 	};
 
 	const goToMenu = () => {
