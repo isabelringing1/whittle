@@ -35,7 +35,7 @@ button {
 	width: 65vw;
 	height: 7vh;
 	border-radius: 2.2vh;
-	filter: drop-shadow(0px 0.5vh 0px rgb(0, 0, 0, 0.35));
+	filter: drop-shadow(0px 0.7vh 0px rgb(0, 0, 0, 0.45));
 }
 
 button:after {
@@ -325,7 +325,7 @@ button:disabled {
 	box-sizing: border-box;
 	margin-top: 7vh;
 	background-color: rgb(53, 57, 61);
-	filter: drop-shadow(0px -0.5vh 0px rgb(0, 0, 0, 0.35));
+	filter: drop-shadow(0px -0.65vh 0px rgb(0, 0, 0, 0.45));
 }
 
 .popIn {
@@ -396,7 +396,7 @@ button:disabled {
 		bottom: -6vh;
 	}
 	100% {
-		bottom: -40vh;
+		bottom: -41vh;
 	}
 }
 
@@ -408,7 +408,7 @@ button:disabled {
 		bottom: -30vh;
 	}
 	100% {
-		bottom: -40vh;
+		bottom: -41vh;
 	}
 }
 

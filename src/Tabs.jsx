@@ -64,20 +64,23 @@ function Tabs(props) {
 				wordsSortedByLength.push([]);
 			}
 			if (word in foundWords) {
-				wordsSortedByLength[word.length - 1].push(word);
+				wordsSortedByLength[word.length - 1].push(word.toLowerCase());
 			} else if (wantBlanks) {
-				wordsSortedByLength[word.length - 1].push("BLANK");
+				wordsSortedByLength[word.length - 1].push(word.toUpperCase());
 			}
 		}
 
 		for (var i = 0; i < wordsSortedByLength.length; i++) {
 			wordsSortedByLength[i].sort((a, b) => {
-				if (a == "BLANK") return a;
-				return a.length - b.length;
+				return a.localeCompare(b);
 			});
 		}
 
 		return wordsSortedByLength.reverse();
+	};
+
+	const isWordUppercase = (word) => {
+		return word[0] == word[0].toUpperCase();
 	};
 
 	return (
@@ -135,7 +138,7 @@ function Tabs(props) {
 						return (
 							<div key={"word-list-" + i}>
 								{wordList.map((word, j) => {
-									return word == "BLANK" ? (
+									return isWordUppercase(word) ? (
 										<span
 											className="blank-word"
 											key={"word-" + i + "-" + j}

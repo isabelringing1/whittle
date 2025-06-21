@@ -5,6 +5,7 @@ import Tabs from "./Tabs";
 
 import backArrow2 from "/images/back_arrow_2.png";
 import restartImg from "/images/restart.png";
+import GameOver from "./GameOver";
 
 function LetterPuzzle(props) {
 	const {
@@ -25,6 +26,8 @@ function LetterPuzzle(props) {
 	const [moves, setMoves] = useState(0);
 	const [possibleWords, setPossibleWords] = useState({});
 	const [foundWords, setFoundWords] = useState({});
+	const [solved, setSolved] = useState(false);
+	const [gameOverShowState, setGameOverShowState] = useState("hide"); // win, complete, win_and_complete
 
 	const [tabsShowing, setTabsShowing] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
@@ -48,13 +51,15 @@ function LetterPuzzle(props) {
 		var newDailyData = {
 			foundWords: foundWords,
 			percentFound: getPercentWordsFound(),
+			solved: solved,
 		};
 		saveData(newDailyData);
-	}, [foundWords]);
+	}, [foundWords, solved]);
 
 	useEffect(() => {
 		if (data && data.foundWords) {
 			setFoundWords(data.foundWords);
+			setSolved(data.solved);
 		}
 	}, []);
 
@@ -146,9 +151,9 @@ function LetterPuzzle(props) {
 		setMoves(moves + 1);
 		var potentiaPhrase = getPhrase(index);
 		var words = potentiaPhrase.split(" ");
-		var isCombo = letters[index] == " ";
+		var isCombo = letters[index] == " " && isInMiddleOfVisibleWord(index);
+		var foundNewWord = false;
 		if (areValidWords(words)) {
-			removeLetterAtIndex(index, isCombo);
 			var newFoundWords = { ...foundWords };
 			for (var i = 0; i < words.length; i++) {
 				if (!(words[i] in foundWords) && words[i].length > 0) {
@@ -157,13 +162,45 @@ function LetterPuzzle(props) {
 					} else {
 						showNewWord(words[i], i);
 					}
-					newFoundWords[words[i]] = true;
+					if (!(words[i] in newFoundWords)) {
+						newFoundWords[words[i]] = true;
+						foundNewWord = true;
+					}
 				}
 			}
 			setFoundWords(newFoundWords);
+			var completion = false;
+			if (foundNewWord || !solved) {
+				var newPercent = Math.floor(
+					(100 * Object.keys(newFoundWords).length) /
+						Object.entries(possibleWords).length
+				);
+				if (newPercent >= 100) {
+					completion = true;
+				}
+			}
+			removeLetterAtIndex(index, isCombo, completion);
 		} else {
 			failRemoveLetterAtIndex(index);
 		}
+	};
+
+	const isInMiddleOfVisibleWord = (index) => {
+		var letterShowingBefore = false;
+		for (var i = index - 1; i >= 0; i--) {
+			// check that at least one letter before is showing
+			if (letterStates[i] && letters[i] != " ") {
+				letterShowingBefore = true;
+			}
+		}
+		var letterShowingAfter = false;
+		for (var i = index + 1; i < letterStates.length; i++) {
+			// check that at least one letter after is showing
+			if (letterStates[i] && letters[i] != " ") {
+				letterShowingAfter = true;
+			}
+		}
+		return letterShowingBefore && letterShowingAfter;
 	};
 
 	const areValidWords = (words) => {
@@ -185,7 +222,7 @@ function LetterPuzzle(props) {
 		return phrase;
 	};
 
-	const removeLetterAtIndex = (index, isCombo) => {
+	const removeLetterAtIndex = (index, isCombo, completion) => {
 		var letter = document.getElementById("letter-" + index);
 		if (letter.classList.contains("disappear")) {
 			return;
@@ -214,11 +251,19 @@ function LetterPuzzle(props) {
 					);
 					setIsAnimating(false);
 				}, 300);
-			} else {
-				setPrevGameState("play");
-				setGameState("win");
-				setIsAnimating(false);
-				tryHideTabsCompletely();
+			}
+
+			if (lettersLeft == 0) {
+				if (completion && !solved) {
+					showGameOverScreen("win_and_complete");
+				} else {
+					showGameOverScreen("win");
+				}
+				setSolved(true);
+			}
+			if (solved && completion) {
+				// won previously
+				showGameOverScreen("complete");
 			}
 		}, 100);
 	};
@@ -351,11 +396,13 @@ function LetterPuzzle(props) {
 		setPrevGameState(gameState);
 		restart();
 		tryPopInTabs();
+		setGameOverShowState("hide");
 	};
 
 	const goToMenu = () => {
 		setPrevGameState(gameState);
 		setGameState("menu");
+		setGameOverShowState("hide");
 	};
 
 	const showFireworks = () => {
@@ -377,34 +424,26 @@ function LetterPuzzle(props) {
 		}, 450);
 	};
 
+	const showGameOverScreen = (state) => {
+		setGameOverShowState(state);
+		setPrevGameState("play");
+		setGameState("win");
+		setIsAnimating(false);
+		tryHideTabsCompletely();
+	};
+
 	return (
 		<div className="letter-puzzle-container container">
-			{gameState == "win" && (
-				<div className="game-over-container">
-					<div> Nice work!</div>
-					<div className="game-over-subtitle">
-						You won in <b>{moves}</b> moves.
-					</div>
-					<button
-						id="continue-button"
-						className={getContinueClassName()}
-						onClick={continueGame}
-					>
-						<div
-							className="button-container"
-							id="continue-button-container"
-						>
-							<div id="continue-button-title">Keep Whittling</div>
-
-							<div id="continue-button-subtitle">
-								({getPercentWordsFound()}% words found)
-							</div>
-						</div>
-					</button>
-					<button id="main-menu-button" onClick={goToMenu}>
-						<div className="button-container">Main Menu</div>
-					</button>
-				</div>
+			{gameOverShowState != "hide" && (
+				<GameOver
+					gameOverShowState={gameOverShowState}
+					moves={moves}
+					getContinueClassName={getContinueClassName}
+					continueGame={continueGame}
+					percent={getPercentWordsFound()}
+					goToMenu={goToMenu}
+					solved={solved}
+				/>
 			)}
 
 			{gameState == "play" && (
