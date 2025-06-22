@@ -41,8 +41,8 @@ function GameOver(props) {
 
 	const copyStats = () => {
 		navigator.share({
-			title: "Beat me at today's Whittle: " + moves.join(""),
-			url: window.location.href,
+			title: "Whittle",
+			text: moves.join(""),
 		});
 	};
 

@@ -585,8 +585,7 @@ button:disabled {
 
 .found-words-container {
 	margin: 3vh;
-	font-size: 3vh;
-	font-family: "DM Serif Display", serif;
+	font-size: 4.8vh;
 	letter-spacing: 0.1rem;
 	pointer-events: all;
 	height: 53%;
@@ -598,7 +597,7 @@ button:disabled {
 }
 
 .word-list {
-	line-height: 1.1;
+	line-height: 0.7;
 	padding-bottom: 1.4vh;
 }
 
