@@ -41,8 +41,7 @@ function GameOver(props) {
 
 	const copyStats = () => {
 		navigator.share({
-			title: "Whittle",
-			text: moves.join(""),
+			text: "Beat me at Whittle:" + moves.join(""),
 		});
 	};
 
