@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 function GameOver(props) {
 	const {
 		gameOverShowState,
@@ -8,6 +6,7 @@ function GameOver(props) {
 		continueGame,
 		percent,
 		goToMenu,
+		isPerfect,
 	} = props;
 
 	var title;
@@ -18,6 +17,9 @@ function GameOver(props) {
 		subtitle = (
 			<span>
 				You won in <b>{moves.length}</b> moves.
+				{isPerfect && (
+					<div className="green">That's a perfect score!</div>
+				)}
 			</span>
 		);
 	} else if (gameOverShowState == "complete") {
@@ -35,6 +37,9 @@ function GameOver(props) {
 				You won in <b>{moves}</b> moves and found{" "}
 				<span className="green">every single word</span> in today's
 				puzzle. Great work!
+				{isPerfect && (
+					<div className="green">That's a perfect score!</div>
+				)}
 			</span>
 		);
 	}
@@ -42,6 +47,7 @@ function GameOver(props) {
 	const copyStats = () => {
 		navigator.share({
 			text: "Beat me at Whittle:" + moves.join(""),
+			url: window.location.href,
 		});
 	};
 

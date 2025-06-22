@@ -468,6 +468,7 @@ function LetterPuzzle(props) {
 					continueGame={continueGame}
 					percent={getPercentWordsFound()}
 					goToMenu={goToMenu}
+					isPerfect={startingPhrase.length == moves.length}
 				/>
 			)}
 
