@@ -8,7 +8,6 @@ function GameOver(props) {
 		continueGame,
 		percent,
 		goToMenu,
-		solved,
 	} = props;
 
 	var title;
@@ -18,7 +17,7 @@ function GameOver(props) {
 		title = "Nice work!";
 		subtitle = (
 			<span>
-				You won in <b>{moves}</b> moves.
+				You won in <b>{moves.length}</b> moves.
 			</span>
 		);
 	} else if (gameOverShowState == "complete") {
@@ -40,6 +39,13 @@ function GameOver(props) {
 		);
 	}
 
+	const copyStats = () => {
+		navigator.share({
+			title: "Beat me at today's Whittle: " + moves.join(""),
+			url: window.location.href,
+		});
+	};
+
 	return (
 		<div className="game-over-container">
 			<div>{title}</div>
@@ -60,6 +66,12 @@ function GameOver(props) {
 							({percent}% words found)
 						</div>
 					)}
+				</div>
+			</button>
+
+			<button id="share-button" onClick={copyStats}>
+				<div className="button-container" id="share-button-container">
+					Share
 				</div>
 			</button>
 

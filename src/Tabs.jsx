@@ -9,6 +9,7 @@ function Tabs(props) {
 		foundWords,
 		possibleWords,
 		currentPhrase,
+		solved,
 	} = props;
 
 	const [currentTab, setCurrentTab] = useState(0);
@@ -134,9 +135,13 @@ function Tabs(props) {
 				></div>
 
 				<div className="found-words-container">
-					{getFoundWordsSortedByLength().map((wordList, i) => {
+					{getFoundWordsSortedByLength(solved).map((wordList, i) => {
 						return (
-							<div key={"word-list-" + i}>
+							<div
+								key={"word-list-" + i}
+								id={"word-list-" + i}
+								className="word-list"
+							>
 								{wordList.map((word, j) => {
 									return isWordUppercase(word) ? (
 										<span

@@ -545,6 +545,12 @@ button:disabled {
 	height: 7vh;
 }
 
+#share-button {
+	width: 85vw;
+	margin-top: 2vh;
+	height: 7vh;
+}
+
 .continue-low:after {
 	background-color: #ff6063;
 }
@@ -589,6 +595,11 @@ button:disabled {
 
 .found-word {
 	animation: greenGlow 1s ease-in-out forwards;
+}
+
+.word-list {
+	line-height: 1.1;
+	padding-bottom: 1.4vh;
 }
 
 .blank-word {
@@ -674,7 +685,7 @@ button:disabled {
 }
 
 .tutorial-container {
-	z-index: 1;
+	z-index: 3;
 	width: 100vw;
 	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.25);

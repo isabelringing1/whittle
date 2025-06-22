@@ -23,7 +23,7 @@ function LetterPuzzle(props) {
 	const [letters, setLetters] = useState([]);
 	const [letterStates, setLetterStates] = useState([]);
 	const [letterRemovalOrder, setLetterRemovalOrder] = useState([]);
-	const [moves, setMoves] = useState(0);
+	const [moves, setMoves] = useState([]);
 	const [possibleWords, setPossibleWords] = useState({});
 	const [foundWords, setFoundWords] = useState({});
 	const [solved, setSolved] = useState(false);
@@ -148,7 +148,7 @@ function LetterPuzzle(props) {
 		if (isAnimating || gameState != "play") {
 			return;
 		}
-		setMoves(moves + 1);
+
 		var potentiaPhrase = getPhrase(index);
 		var words = potentiaPhrase.split(" ");
 		var isCombo = letters[index] == " " && isInMiddleOfVisibleWord(index);
@@ -180,9 +180,23 @@ function LetterPuzzle(props) {
 				}
 			}
 			removeLetterAtIndex(index, isCombo, completion);
+			addToMoves(isCombo ? "combo" : "success");
 		} else {
 			failRemoveLetterAtIndex(index);
+			addToMoves("fail");
 		}
+	};
+
+	const addToMoves = (moveType) => {
+		var newMoves = [...moves];
+		if (moveType == "combo") {
+			newMoves.push("🟣");
+		} else if (moveType == "success") {
+			newMoves.push("🟢");
+		} else if (moveType == "fail") {
+			newMoves.push("🔴");
+		}
+		setMoves(newMoves);
 	};
 
 	const isInMiddleOfVisibleWord = (index) => {
@@ -454,7 +468,6 @@ function LetterPuzzle(props) {
 					continueGame={continueGame}
 					percent={getPercentWordsFound()}
 					goToMenu={goToMenu}
-					solved={solved}
 				/>
 			)}
 
@@ -528,6 +541,7 @@ function LetterPuzzle(props) {
 					foundWords={foundWords}
 					possibleWords={possibleWords}
 					currentPhrase={getPhrase(-1)}
+					solved={solved}
 				/>
 			</div>
 		</div>
