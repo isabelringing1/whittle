@@ -7,6 +7,7 @@ import "./App.css";
 import Letter from "./Letter";
 import LetterPuzzle from "./LetterPuzzle";
 import Menu from "./Menu";
+import Tutorial from "./Tutorial";
 
 function App() {
 	const [allPossibleWords, setAllPossibleWords] = useState({});
@@ -17,6 +18,7 @@ function App() {
 	const [prevGameState, setPrevGameState] = useState("none"); // none, menu, play, win
 
 	const [playerData, setPlayerData] = useState(null);
+	const [showTutorial, setShowTutorial] = useState(false);
 
 	useEffect(() => {
 		readDataAsync();
@@ -32,7 +34,7 @@ function App() {
 
 	useEffect(() => {
 		var title = document.getElementById("title");
-		var backButton = document.getElementById("back-button-container");
+		var backButton = document.getElementById("top-bar-container");
 		if (gameState == "play" && prevGameState == "menu") {
 			title.classList = "title-bounce-out";
 			backButton.classList = "back-button-bounce-in";
@@ -177,14 +179,24 @@ function App() {
 					);
 				})}
 			</div>
-			<div id="back-button-container">
+			<div id="top-bar-container">
 				<img
 					id="back-button"
 					src={backArrow}
 					onClick={onBackButtonClicked}
 				/>
+				<div
+					className="tutorial-button tutorial-button-top-bar"
+					onClick={() => {
+						setShowTutorial(true);
+					}}
+				>
+					<span className="tutorial-button-text">?</span>
+				</div>
 			</div>
 			<div id="body" className="container">
+				{showTutorial && <Tutorial setShowTutorial={setShowTutorial} />}
+
 				{gameState == "menu" ? (
 					<Menu
 						setGameState={setGameState}
@@ -193,6 +205,7 @@ function App() {
 						dailyPuzzleId={getDailyPuzzleId()}
 						percentComplete={getDailyPuzzlePercentFound()}
 						getStartButtonClassName={getContinueClassName}
+						setShowTutorial={setShowTutorial}
 					/>
 				) : (
 					<LetterPuzzle

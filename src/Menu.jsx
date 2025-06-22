@@ -8,6 +8,7 @@ function Menu(props) {
 		dailyPuzzleId,
 		percentComplete,
 		getStartButtonClassName,
+		setShowTutorial,
 	} = props;
 
 	const [status, setStatus] = useState("start"); //start, continue, finish
@@ -68,6 +69,15 @@ function Menu(props) {
 					You've found <b>{percentComplete}%</b> of all words
 				</div>
 			)}
+
+			<div
+				className="tutorial-button tutorial-button-menu"
+				onClick={() => {
+					setShowTutorial(true);
+				}}
+			>
+				<span className="tutorial-button-text">?</span>
+			</div>
 		</div>
 	);
 }

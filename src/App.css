@@ -128,15 +128,15 @@ button:disabled {
 	}
 }
 
-#back-button-container {
+#top-bar-container {
 	position: absolute;
 	top: -6vh;
-	left: 3vh;
-	width: 3vh;
+	width: 100vw;
 }
 
 #back-button {
-	width: 100%;
+	margin-left: 3vh;
+	width: 3vh;
 }
 
 .back-button-bounce-out {
@@ -258,10 +258,6 @@ button:disabled {
 	padding: 0;
 	transform: scaleX(0);
 	width: 0;
-}
-
-.letter:hover {
-	opacity: 0.8;
 }
 
 #button-container {
@@ -675,4 +671,107 @@ button:disabled {
 	width: 85vw;
 	font-size: 6vh;
 	font-weight: 400;
+}
+
+.tutorial-container {
+	z-index: 1;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.25);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+}
+
+.tutorial-page {
+	width: 77vw;
+	height: 55vh;
+	background-color: rgb(53, 57, 61);
+	border: solid white 0.35vh;
+	border-radius: 3vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+	padding: 2.5vh;
+}
+
+.hidden {
+	display: none;
+}
+
+.tutorial-title {
+	font-size: 7vh;
+	text-align: center;
+}
+
+.tutorial-text {
+	font-size: 4.5vh;
+	font-weight: 300;
+	line-height: 0.8;
+	text-align: center;
+}
+
+.tutorial-letter-container {
+	height: 23vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 300;
+	font-size: 10vh;
+	transition: color 0.3s;
+}
+
+#tutorial-progress-container {
+	height: 5vh;
+	width: 8vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: end;
+	position: absolute;
+	bottom: 24vh;
+}
+
+.tutorial-progress-circle {
+	background-color: gray;
+	border-radius: 10vh;
+	width: 3.5vw;
+	height: 3.5vw;
+}
+
+.filled {
+	background-color: white;
+}
+
+.tutorial-button {
+	background-color: #485766;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 5vh;
+	height: 5vh;
+	border-radius: 10vh;
+}
+
+.tutorial-button:active {
+	background-color: #394652;
+	color: rgb(210, 210, 210);
+}
+
+.tutorial-button-menu {
+	position: absolute;
+	bottom: 2vh;
+}
+
+.tutorial-button-text {
+	padding-top: 0.6vh;
+	font-size: 5vh;
+}
+
+.tutorial-button-top-bar {
+	position: absolute;
+	right: 3vh;
+	top: 0;
 }

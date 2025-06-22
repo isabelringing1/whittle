@@ -329,7 +329,7 @@ function LetterPuzzle(props) {
 			}
 			tab2.classList.add("hop");
 		}
-		showFireworks();
+		showFireworks(true);
 	};
 
 	const showNewWord = (word, wordIndex) => {
@@ -405,16 +405,20 @@ function LetterPuzzle(props) {
 		setGameOverShowState("hide");
 	};
 
-	const showFireworks = () => {
+	const showFireworks = (show_purple) => {
+		var args = {};
+		if (show_purple) {
+			args.colors = ["#c23fff6c"];
+		}
 		setTimeout(() => {
 			confetti({
+				...args,
 				startVelocity: 15,
 				spread: 230,
 				ticks: 60,
 				zIndex: 0,
 				gravity: 0.5,
 				particleCount: 40,
-				colors: ["#c23fff6c"],
 				origin: {
 					x: 0.5,
 					y: 0.35,
@@ -425,11 +429,19 @@ function LetterPuzzle(props) {
 	};
 
 	const showGameOverScreen = (state) => {
-		setGameOverShowState(state);
-		setPrevGameState("play");
-		setGameState("win");
-		setIsAnimating(false);
-		tryHideTabsCompletely();
+		var delay = 0;
+		if (state == "complete" || state == "win_and_complete") {
+			showFireworks();
+			delay = 1000;
+		}
+
+		setTimeout(() => {
+			setPrevGameState("play");
+			setGameState("win");
+			setIsAnimating(false);
+			tryHideTabsCompletely();
+			setGameOverShowState(state);
+		}, delay);
 	};
 
 	return (

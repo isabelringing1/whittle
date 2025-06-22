@@ -44,24 +44,24 @@ function GameOver(props) {
 		<div className="game-over-container">
 			<div>{title}</div>
 			<div className="game-over-subtitle">{subtitle}</div>
-			{percent < 100 && (
-				<button
-					id="continue-button"
-					className={getContinueClassName()}
-					onClick={continueGame}
-				>
-					<div
-						className="button-container"
-						id="continue-button-container"
-					>
-						<div id="continue-button-title">Keep Whittling</div>
 
+			<button
+				id="continue-button"
+				className={getContinueClassName()}
+				onClick={continueGame}
+			>
+				<div
+					className="button-container"
+					id="continue-button-container"
+				>
+					<div id="continue-button-title">Keep Whittling</div>
+					{percent < 100 && (
 						<div id="continue-button-subtitle">
 							({percent}% words found)
 						</div>
-					</div>
-				</button>
-			)}
+					)}
+				</div>
+			</button>
 
 			<button id="main-menu-button" onClick={goToMenu}>
 				<div className="button-container">Main Menu</div>
