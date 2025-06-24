@@ -556,7 +556,9 @@ function LetterPuzzle(props) {
 		for (var i = 0; i < letters.length; i++) {
 			if (letters[i] == " ") {
 				var letter = document.getElementById("letter-" + i);
-				letter.classList.add("preview");
+				if (letter) {
+					letter.classList.add("preview");
+				}
 			}
 		}
 	};
@@ -565,7 +567,9 @@ function LetterPuzzle(props) {
 		for (var i = 0; i < letters.length; i++) {
 			if (letters[i] == " ") {
 				var letter = document.getElementById("letter-" + i);
-				letter.classList.remove("preview");
+				if (letter) {
+					letter.classList.remove("preview");
+				}
 			}
 		}
 	};

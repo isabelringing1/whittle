@@ -80,7 +80,8 @@ function GameOver(props) {
 
 			<button id="share-button" onClick={copyStats}>
 				<div className="button-container" id="share-button-container">
-					Share
+					{isPerfect && <span className="share-star">⭐️</span>}
+					Share {isPerfect && <span className="share-star">⭐️</span>}
 				</div>
 			</button>
 
