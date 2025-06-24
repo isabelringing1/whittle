@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 function Letter(props) {
-	const { letter, id, index, onClick, noninteractable } = props;
+	const { letter, id, index, onClick } = props;
 
 	const [letterClass, setLetterClass] = useState("letter");
 
@@ -11,32 +11,19 @@ function Letter(props) {
 
 	const setDefaultLetterClass = () => {
 		var cn = letter == " " ? "letter space" : "letter";
+
 		setLetterClass(cn);
-	};
-
-	const onMouseDown = () => {
-		if (noninteractable) {
-			return;
-		}
-		setLetterClass(letterClass + " held");
-	};
-
-	const onMouseUp = () => {
-		if (noninteractable) {
-			return;
-		}
-		setDefaultLetterClass();
 	};
 
 	return (
 		<div
 			className={letterClass}
 			id={id}
-			onClick={(e) => onClick(index)}
-			onMouseDown={onMouseDown}
-			onTouchStart={onMouseDown}
-			onMouseUp={onMouseUp}
-			onTouchEnd={onMouseUp}
+			onClick={(e) => {
+				if (onClick != null) {
+					onClick(index);
+				}
+			}}
 		>
 			{letter}
 		</div>

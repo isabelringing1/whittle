@@ -28,6 +28,7 @@ function LetterPuzzle(props) {
 	const [foundWords, setFoundWords] = useState({});
 	const [solved, setSolved] = useState(false);
 	const [gameOverShowState, setGameOverShowState] = useState("hide"); // win, complete, win_and_complete
+	const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
 	const [tabsShowing, setTabsShowing] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
@@ -458,8 +459,124 @@ function LetterPuzzle(props) {
 		}, delay);
 	};
 
+	const onTouchStart = (e) => {
+		if (!e.target.classList.contains("letter")) {
+			return;
+		}
+		var idArray = e.target.id.split("-");
+		var index = parseInt(idArray[idArray.length - 1]);
+		if (index != highlightedIndex) {
+			if (highlightedIndex != -1) {
+				document
+					.getElementById("letter-" + highlightedIndex)
+					.classList.remove("held");
+			}
+
+			document.getElementById("letter-" + index).classList.add("held");
+			setHighlightedIndex(index);
+		}
+	};
+
+	const onTouchMove = (e) => {
+		var highlightedLetter = document.elementFromPoint(
+			e.touches[0].clientX,
+			e.touches[0].clientY
+		);
+		if (!highlightedLetter.classList.contains("letter")) {
+			if (highlightedIndex != -1) {
+				document
+					.getElementById("letter-" + highlightedIndex)
+					.classList.remove("held");
+				setHighlightedIndex(-1);
+			}
+			return;
+		}
+		var idArray = highlightedLetter.id.split("-");
+		var index = parseInt(idArray[idArray.length - 1]);
+
+		if (index != highlightedIndex) {
+			if (highlightedIndex != -1) {
+				document
+					.getElementById("letter-" + highlightedIndex)
+					.classList.remove("held");
+			}
+			document.getElementById("letter-" + index).classList.add("held");
+			setHighlightedIndex(index);
+		}
+	};
+
+	const onMouseMove = (e) => {
+		if (highlightedIndex == -1 || !e.target.classList.contains("letter")) {
+			if (highlightedIndex != -1) {
+				document
+					.getElementById("letter-" + highlightedIndex)
+					.classList.remove("held");
+			}
+			setHighlightedIndex(-1);
+			return;
+		}
+		var idArray = e.target.id.split("-");
+		var index = parseInt(idArray[idArray.length - 1]);
+
+		if (index != highlightedIndex) {
+			if (highlightedIndex != -1) {
+				document
+					.getElementById("letter-" + highlightedIndex)
+					.classList.remove("held");
+			}
+			document.getElementById("letter-" + index).classList.add("held");
+			setHighlightedIndex(index);
+		}
+	};
+
+	const onTouchEnd = (e) => {
+		var highlightedLetter = document.getElementById(
+			"letter-" + highlightedIndex
+		);
+		if (
+			!highlightedLetter ||
+			!highlightedLetter.classList.contains("letter")
+		) {
+			return;
+		}
+
+		highlightedLetter.classList.remove("held");
+		setHighlightedIndex(-1);
+		onLetterClick(highlightedIndex);
+	};
+
+	const onContainerTouchStart = (e) => {
+		if (
+			e.target.classList.contains("letter") ||
+			e.target.closest(".puzzle-button") != null
+		) {
+			return;
+		}
+		for (var i = 0; i < letters.length; i++) {
+			if (letters[i] == " ") {
+				var letter = document.getElementById("letter-" + i);
+				letter.classList.add("preview");
+			}
+		}
+	};
+
+	const onContainerTouchEnd = (e) => {
+		for (var i = 0; i < letters.length; i++) {
+			if (letters[i] == " ") {
+				var letter = document.getElementById("letter-" + i);
+				letter.classList.remove("preview");
+			}
+		}
+	};
+
 	return (
-		<div className="letter-puzzle-container container">
+		<div
+			className="letter-puzzle-container container"
+			onMouseDown={onContainerTouchStart}
+			onTouchStart={onContainerTouchStart}
+			onMouseUp={onContainerTouchEnd}
+			onTouchEnd={onContainerTouchEnd}
+		>
 			{gameOverShowState != "hide" && (
 				<GameOver
 					gameOverShowState={gameOverShowState}
@@ -476,6 +593,12 @@ function LetterPuzzle(props) {
 				<div
 					id={"letters-container-" + id}
 					className="letters-container container"
+					onTouchStart={onTouchStart}
+					onTouchMove={onTouchMove}
+					onTouchEnd={onTouchEnd}
+					onMouseDown={onTouchStart}
+					onMouseMove={onMouseMove}
+					onMouseUp={onTouchEnd}
 				>
 					<div
 						className="new-word-container"
@@ -495,9 +618,8 @@ function LetterPuzzle(props) {
 							<Letter
 								key={id}
 								id={id}
-								index={i}
 								letter={letter}
-								onClick={onLetterClick}
+								index={i}
 							/>
 						);
 					})}

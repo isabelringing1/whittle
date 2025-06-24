@@ -54,7 +54,7 @@ button:after {
 }
 
 button:active {
-	border-width: 0.2vh 0 0;
+	border-width: 0.4vh 0 0;
 	background: none;
 }
 
@@ -195,7 +195,6 @@ button:disabled {
 	height: 6.5vh;
 	font-size: 10vh;
 	transition: color 0.3s;
-	padding-bottom: 5vh;
 }
 
 .green {
@@ -246,12 +245,16 @@ button:disabled {
 	}
 }
 
+.preview {
+	background-color: rgba(255, 255, 255, 0.064);
+}
+
 .held {
 	background-color: rgba(255, 255, 255, 0.22);
 }
 
 .space {
-	padding: 0 2.6vw;
+	padding: 0 2.8vw;
 }
 
 .disappear {
@@ -266,6 +269,7 @@ button:disabled {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	padding-top: 5vh;
 }
 
 .puzzle-button {

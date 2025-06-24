@@ -45,8 +45,12 @@ function GameOver(props) {
 	}
 
 	const copyStats = () => {
+		var moveString = moves.join("");
+		if (isPerfect) {
+			moveString = "⭐️" + moveString + "⭐️";
+		}
 		navigator.share({
-			text: "Beat me at Whittle:" + moves.join(""),
+			text: "Beat me at Whittle:" + moveString,
 			url: window.location.href,
 		});
 	};
