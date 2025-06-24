@@ -548,7 +548,8 @@ function LetterPuzzle(props) {
 	const onContainerTouchStart = (e) => {
 		if (
 			e.target.classList.contains("letter") ||
-			e.target.closest(".puzzle-button") != null
+			e.target.closest(".puzzle-button") != null ||
+			e.target.closest("#tabs") != null
 		) {
 			return;
 		}

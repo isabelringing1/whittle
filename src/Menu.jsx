@@ -9,6 +9,7 @@ function Menu(props) {
 		percentComplete,
 		getStartButtonClassName,
 		setShowTutorial,
+		dailyPuzzleDict,
 	} = props;
 
 	const [status, setStatus] = useState("start"); //start, continue, finish
@@ -52,6 +53,11 @@ function Menu(props) {
 
 	return (
 		<div id="main-menu">
+			{dailyPuzzleDict[dailyPuzzleId] && (
+				<div id="puzzle-no">
+					Whittle #{dailyPuzzleDict[dailyPuzzleId].number}
+				</div>
+			)}
 			<div id="date">{getDateString()}</div>
 
 			<button

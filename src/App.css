@@ -789,3 +789,7 @@ button:disabled {
 	right: 3vh;
 	top: 0;
 }
+
+#puzzle-no {
+	line-height: 0.5;
+}

@@ -34,7 +34,7 @@ function GameOver(props) {
 		title = "Amazing!";
 		subtitle = (
 			<span>
-				You won in <b>{moves}</b> moves and found{" "}
+				You won in <b>{moves.length}</b> moves and found{" "}
 				<span className="green">every single word</span> in today's
 				puzzle. Great work!
 				{isPerfect && (

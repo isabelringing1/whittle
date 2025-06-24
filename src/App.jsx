@@ -97,9 +97,13 @@ function App() {
 			var newDailyPuzzleDict = {};
 			for (var i = 0; i < dailyPuzzles.length; i++) {
 				var tokens = dailyPuzzles[i].split(",");
-				newDailyPuzzleDict[tokens[0]] = { startingPhrase: tokens[1] };
+				newDailyPuzzleDict[tokens[0]] = {
+					startingPhrase: tokens[1],
+					number: i + 1,
+				};
 			}
 			setDailyPuzzleDict(newDailyPuzzleDict);
+			console.log(newDailyPuzzleDict);
 		} catch (error) {
 			console.error("Error loading data:", error);
 		}
@@ -206,6 +210,7 @@ function App() {
 						percentComplete={getDailyPuzzlePercentFound()}
 						getStartButtonClassName={getContinueClassName}
 						setShowTutorial={setShowTutorial}
+						dailyPuzzleDict={dailyPuzzleDict}
 					/>
 				) : (
 					<LetterPuzzle
