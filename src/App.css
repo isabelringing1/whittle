@@ -661,7 +661,9 @@ button:disabled {
 	letter-spacing: 0.1rem;
 	pointer-events: all;
 	height: 53%;
-	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	scrollbar-color: auto rgb(0, 0, 0, 0);
 }
 
 .found-word {
@@ -700,8 +702,20 @@ button:disabled {
 	letter-spacing: 0.15rem;
 	pointer-events: all;
 	height: 52%;
-	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	scrollbar-color: auto rgb(0, 0, 0, 0);
 	font-family: "DM Serif Display", serif;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+	background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.3);
 }
 
 .definition {

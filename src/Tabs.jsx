@@ -5,6 +5,7 @@ import Definition from "./Definition";
 function Tabs(props) {
 	const {
 		tryShowTabs,
+		tryHideTabs,
 		tabsShowing,
 		foundWords,
 		possibleWords,
@@ -35,6 +36,8 @@ function Tabs(props) {
 	const onTabClicked = (tab) => {
 		if (!tabsShowing) {
 			tryShowTabs();
+		} else if (currentTab == tab) {
+			tryHideTabs();
 		}
 		setCurrentTab(tab);
 	};

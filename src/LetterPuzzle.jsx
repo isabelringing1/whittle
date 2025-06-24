@@ -7,6 +7,11 @@ import backArrow2 from "/images/back_arrow_2.png";
 import restartImg from "/images/restart.png";
 import GameOver from "./GameOver";
 
+import {
+	reportFoundEveryWord,
+	reportWonTodaysPuzzle,
+} from "../public/analytics";
+
 function LetterPuzzle(props) {
 	const {
 		gameState,
@@ -42,7 +47,10 @@ function LetterPuzzle(props) {
 		startGameFromPhrase(startingPhrase);
 		var content = document.getElementById("content");
 		content.addEventListener("click", (e) => {
-			if (e.target.classList.contains("container")) {
+			if (
+				e.target.classList.contains("container") &&
+				!e.target.classList.contains("letters-container")
+			) {
 				tryHideTabs();
 			}
 		});
@@ -444,6 +452,13 @@ function LetterPuzzle(props) {
 	};
 
 	const showGameOverScreen = (state) => {
+		if (!solved) {
+			reportWonTodaysPuzzle(id);
+		}
+		if (state != "win") {
+			reportFoundEveryWord(id);
+		}
+
 		var delay = 0;
 		if (state == "complete" || state == "win_and_complete") {
 			showFireworks();
@@ -665,6 +680,7 @@ function LetterPuzzle(props) {
 			<div id="footer">
 				<Tabs
 					tryShowTabs={tryShowTabs}
+					tryHideTabs={tryHideTabs}
 					tabsShowing={tabsShowing}
 					foundWords={foundWords}
 					possibleWords={possibleWords}
