@@ -4087,6 +4087,8 @@ bossily
 bossiness
 bossing
 bossy
+bot
+bots
 botanical
 botanist
 botanists
