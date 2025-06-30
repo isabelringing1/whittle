@@ -1,7 +1,7 @@
-function reportWonTodaysPuzzle(puzzleId) {
+function reportWonTodaysPuzzle(puzzleId, isDaily) {
 	gtag("event", "level_end", {
 		level_name: puzzleId,
-		success: true,
+		success: isDaily,
 	});
 }
 
