@@ -230,23 +230,30 @@ function Archive(props) {
 					</div>
 				</div>
 			)}
-			<img
-				src={arrow}
-				id="left-arrow"
-				className={"arrow " + (canClickBackArrow() ? "" : "disabled")}
-				onClick={onBackArrowClicked}
-			/>
-			<img
-				src={arrow}
-				id="right-arrow"
-				className={
-					"arrow " + (canClickForwardArrow() ? "" : "disabled")
-				}
-				onClick={onForwardArrowClicked}
-			/>
+
 			<div id="calendar">
-				<div id="month-name">
-					{getCurrentMonthName()} {getCurrentYear()}
+				<div id="calendar-header">
+					<img
+						src={arrow}
+						id="left-arrow"
+						className={
+							"arrow " + (canClickBackArrow() ? "" : "disabled")
+						}
+						onClick={onBackArrowClicked}
+					/>
+
+					<div id="month-name">
+						{getCurrentMonthName()} {getCurrentYear()}
+					</div>
+					<img
+						src={arrow}
+						id="right-arrow"
+						className={
+							"arrow " +
+							(canClickForwardArrow() ? "" : "disabled")
+						}
+						onClick={onForwardArrowClicked}
+					/>
 				</div>
 				<div id="days-array">
 					{currentDate &&

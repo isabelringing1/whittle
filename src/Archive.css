@@ -5,11 +5,41 @@
 	justify-content: center;
 	align-items: center;
 	font-size: 4.5vh;
+	padding-bottom: 10%;
 }
 
 #calendar {
-	width: 88vw;
-	height: 50vh;
+	width: 87vw;
+	height: 48vh;
+}
+
+@media (min-width: 530px) {
+	#archive {
+		padding-bottom: 0%;
+	}
+
+	#calendar {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 65vh !important;
+	}
+
+	#days-array {
+		width: 50vh !important;
+	}
+
+	#calendar-header {
+		width: 50vh !important;
+	}
+
+	#selected-day-menu {
+		width: 450px !important;
+	}
+
+	#start-button-archive {
+		width: 450px !important;
+	}
 }
 
 #month-name {
@@ -24,7 +54,7 @@
 	grid-column-gap: 2%;
 	height: 100vw;
 	width: 100%;
-	padding-top: 1.5vh;
+	padding-top: 3vh;
 }
 
 .day-container {
@@ -61,19 +91,24 @@
 	align-self: stretch;
 }
 
+#calendar-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
 #left-arrow {
-	left: 0px;
 }
 
 #right-arrow {
-	right: 0px;
 	transform: scaleX(-1);
 }
 
 .arrow {
-	position: absolute;
-	width: 4vw;
-	padding-bottom: 7vh;
+	width: 2vh;
+	height: 3vh;
 }
 
 .disabled {
