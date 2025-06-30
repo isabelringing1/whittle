@@ -464,9 +464,9 @@ function LetterPuzzle(props) {
 
 	const showGameOverScreen = (state) => {
 		if (!solved) {
-			reportWonTodaysPuzzle(id);
+			reportWonTodaysPuzzle(id, !isArchivePuzzle);
 		}
-		if (state != "win") {
+		if (state != "win" && !isArchivePuzzle) {
 			reportFoundEveryWord(id);
 		}
 
