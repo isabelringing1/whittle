@@ -627,12 +627,20 @@ button:disabled {
 	background-color: #ff6063;
 }
 
+.archive-low {
+	background-color: #ff6063 !important;
+}
+
 .continue-low {
 	color: #35393d;
 }
 
 .continue-medium:after {
-	background-color: #c6d14a;
+	background-color: #d1df3d;
+}
+
+.archive-medium {
+	background-color: #d1df3d !important;
 }
 
 .continue-medium {
@@ -643,12 +651,20 @@ button:disabled {
 	background-color: #47beff;
 }
 
+.archive-high {
+	background-color: #47beff !important;
+}
+
 .continue-high {
 	color: #35393d;
 }
 
 .continue-complete:after {
 	background-color: #66ff58;
+}
+
+.archive-complete {
+	background-color: #66ff58 !important;
 }
 
 .continue-complete {
@@ -751,7 +767,7 @@ button:disabled {
 	align-items: center;
 	flex-direction: column;
 	font-size: 4.5vh;
-	margin-bottom: 20%;
+	margin-bottom: -5%;
 }
 
 #date {
@@ -882,4 +898,17 @@ button:disabled {
 .share-star {
 	padding: 0 5px;
 	font-size: 3vh;
+}
+
+#menu-small-buttons-container {
+	width: 100%;
+	height: 10vh;
+	display: flex;
+	justify-content: space-around;
+	padding-top: 5vh;
+}
+
+.calendar-button-img {
+	height: 3.8vh;
+	margin-bottom: 5%;
 }

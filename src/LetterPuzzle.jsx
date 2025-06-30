@@ -15,6 +15,7 @@ import {
 function LetterPuzzle(props) {
 	const {
 		gameState,
+		prevGameState,
 		setGameState,
 		setPrevGameState,
 		allPossibleWords,
@@ -22,7 +23,7 @@ function LetterPuzzle(props) {
 		data,
 		id,
 		startingPhrase,
-		getContinueClassName,
+		isArchivePuzzle,
 	} = props;
 
 	const [letters, setLetters] = useState([]);
@@ -32,7 +33,7 @@ function LetterPuzzle(props) {
 	const [possibleWords, setPossibleWords] = useState({});
 	const [foundWords, setFoundWords] = useState({});
 	const [solved, setSolved] = useState(false);
-	const [gameOverShowState, setGameOverShowState] = useState("hide"); // win, complete, win_and_complete
+	const [gameOverShowState, setGameOverShowState] = useState("hide"); // hide, win, complete, win_and_complete
 	const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
 	const [tabsShowing, setTabsShowing] = useState(false);
@@ -57,12 +58,14 @@ function LetterPuzzle(props) {
 	}, [allPossibleWords]);
 
 	useEffect(() => {
-		var newDailyData = {
+		var percent = getPercentWordsFound();
+		var newData = {
 			foundWords: foundWords,
-			percentFound: getPercentWordsFound(),
+			percentFound: percent,
 			solved: solved,
+			completedToday: !isArchivePuzzle && percent >= 100,
 		};
-		saveData(newDailyData);
+		saveData(newData);
 	}, [foundWords, solved]);
 
 	useEffect(() => {
@@ -100,8 +103,6 @@ function LetterPuzzle(props) {
 
 	const startGameFromPhrase = (phrase) => {
 		setCurrentPhrase(phrase);
-		setPrevGameState(gameState);
-		setGameState("play");
 		var newLetters = [];
 		var newLetterStates = [];
 		for (var i = 0; i < phrase.length; i++) {
@@ -393,7 +394,11 @@ function LetterPuzzle(props) {
 
 	const tryHideTabs = () => {
 		var tabs = document.getElementById("tabs");
-		if (tabs.classList.contains("up") && !tabs.classList.contains("down")) {
+		if (
+			tabs != null &&
+			tabs.classList.contains("up") &&
+			!tabs.classList.contains("down")
+		) {
 			tabs.classList = "down";
 			setTabsShowing(false);
 		}
@@ -425,6 +430,12 @@ function LetterPuzzle(props) {
 	const goToMenu = () => {
 		setPrevGameState(gameState);
 		setGameState("menu");
+		setGameOverShowState("hide");
+	};
+
+	const goToArchive = () => {
+		setPrevGameState(gameState);
+		setGameState("archive");
 		setGameOverShowState("hide");
 	};
 
@@ -601,11 +612,12 @@ function LetterPuzzle(props) {
 				<GameOver
 					gameOverShowState={gameOverShowState}
 					moves={moves}
-					getContinueClassName={getContinueClassName}
 					continueGame={continueGame}
 					percent={getPercentWordsFound()}
 					goToMenu={goToMenu}
 					isPerfect={startingPhrase.length == moves.length}
+					isArchivePuzzle={isArchivePuzzle}
+					goToArchive={goToArchive}
 				/>
 			)}
 

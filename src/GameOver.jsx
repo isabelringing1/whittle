@@ -1,12 +1,15 @@
+import { getStatusClassName } from "../public/util";
+
 function GameOver(props) {
 	const {
 		gameOverShowState,
 		moves,
-		getContinueClassName,
 		continueGame,
 		percent,
 		goToMenu,
 		isPerfect,
+		isArchivePuzzle,
+		goToArchive,
 	} = props;
 
 	var title;
@@ -62,7 +65,7 @@ function GameOver(props) {
 
 			<button
 				id="continue-button"
-				className={getContinueClassName()}
+				className={"continue-" + getStatusClassName(percent)}
 				onClick={continueGame}
 			>
 				<div
@@ -78,16 +81,30 @@ function GameOver(props) {
 				</div>
 			</button>
 
-			<button id="share-button" onClick={copyStats}>
-				<div className="button-container" id="share-button-container">
-					{isPerfect && <span className="share-star">⭐️</span>}
-					Share {isPerfect && <span className="share-star">⭐️</span>}
-				</div>
-			</button>
+			{!isArchivePuzzle && (
+				<button id="share-button" onClick={copyStats}>
+					<div
+						className="button-container"
+						id="share-button-container"
+					>
+						{isPerfect && <span className="share-star">⭐️</span>}
+						Share{" "}
+						{isPerfect && <span className="share-star">⭐️</span>}
+					</div>
+				</button>
+			)}
 
-			<button id="main-menu-button" onClick={goToMenu}>
-				<div className="button-container">Main Menu</div>
-			</button>
+			{!isArchivePuzzle && (
+				<button id="main-menu-button" onClick={goToMenu}>
+					<div className="button-container">Main Menu</div>
+				</button>
+			)}
+
+			{isArchivePuzzle && (
+				<button id="main-menu-button" onClick={goToArchive}>
+					<div className="button-container">Back to Archive</div>
+				</button>
+			)}
 		</div>
 	);
 }

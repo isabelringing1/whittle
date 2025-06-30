@@ -8,14 +8,19 @@ import Letter from "./Letter";
 import LetterPuzzle from "./LetterPuzzle";
 import Menu from "./Menu";
 import Tutorial from "./Tutorial";
+import Archive from "./Archive";
+
+import { getDateString, getStatusClassName } from "../public/util";
 
 function App() {
 	const [allPossibleWords, setAllPossibleWords] = useState({});
 
 	const [dailyPuzzleDict, setDailyPuzzleDict] = useState({});
 
-	const [gameState, setGameState] = useState("menu"); // menu, play, win
-	const [prevGameState, setPrevGameState] = useState("none"); // none, menu, play, win
+	const [gameState, setGameState] = useState("menu"); // menu, archive, play, win
+	const [prevGameState, setPrevGameState] = useState("none"); // none, menu, archive, play, win
+	const [currentPuzzleId, setCurrentPuzzleId] = useState("");
+	const [isArchivePuzzle, setIsArchivePuzzle] = useState(false);
 
 	const [playerData, setPlayerData] = useState(null);
 	const [showTutorial, setShowTutorial] = useState(false);
@@ -35,7 +40,10 @@ function App() {
 	useEffect(() => {
 		var title = document.getElementById("title");
 		var backButton = document.getElementById("top-bar-container");
-		if (gameState == "play" && prevGameState == "menu") {
+		if (
+			(gameState == "play" || gameState == "archive") &&
+			(prevGameState == "menu" || prevGameState == "archive")
+		) {
 			title.classList = "title-bounce-out";
 			backButton.classList = "back-button-bounce-in";
 		} else if (gameState == "menu" && prevGameState != "none") {
@@ -45,12 +53,17 @@ function App() {
 			backButton.classList = "back-button-bounce-out";
 		} else if (gameState == "play" && prevGameState == "win") {
 			backButton.classList = "back-button-bounce-in";
+		} else if (gameState == "archive" && prevGameState == "win") {
+			backButton.classList = "back-button-bounce-in";
+		}
+
+		if (gameState == "menu") {
+			setCurrentPuzzleId(getDailyPuzzleId());
+			setIsArchivePuzzle(false);
 		}
 	}, [gameState]);
 
-	useEffect;
-
-	function saveData(dailyData) {
+	function saveData(puzzleData) {
 		var newPlayerData = {
 			puzzleLog: {},
 		};
@@ -60,7 +73,7 @@ function App() {
 			};
 		}
 
-		newPlayerData.puzzleLog[getDailyPuzzleId()] = dailyData;
+		newPlayerData.puzzleLog[currentPuzzleId] = puzzleData;
 		var saveString = JSON.stringify(newPlayerData);
 		localStorage.setItem("whittle", window.btoa(saveString));
 		setPlayerData(newPlayerData);
@@ -103,35 +116,33 @@ function App() {
 				};
 			}
 			setDailyPuzzleDict(newDailyPuzzleDict);
-			console.log(newDailyPuzzleDict);
 		} catch (error) {
 			console.error("Error loading data:", error);
 		}
 	};
 
 	const getDailyPuzzleId = () => {
-		var date = new Date();
-		const month = date.getMonth();
-		const day = date.getDate();
-		const year = date.getFullYear();
-		var id = month + "/" + day + "/" + year;
-		return id;
+		return getDateString();
 	};
 
-	const getDailyPuzzleStartingPhrase = () => {
-		var id = getDailyPuzzleId();
-		return dailyPuzzleDict[id].startingPhrase;
+	const getCurrentPuzzleStartingPhrase = () => {
+		return dailyPuzzleDict[currentPuzzleId].startingPhrase;
 	};
 
-	const getDailyPuzzlePercentFound = () => {
+	const getCurrentPuzzlePercentFound = () => {
 		return playerData
-			? playerData.puzzleLog[getDailyPuzzleId()].percentFound
+			? playerData.puzzleLog[currentPuzzleId].percentFound
 			: 0;
 	};
 
 	const onBackButtonClicked = () => {
+		if (gameState == "archive") {
+			setPrevGameState("archive");
+			setGameState("menu");
+			return;
+		}
 		setPrevGameState(gameState);
-		setGameState("menu");
+		setGameState(isArchivePuzzle ? "archive" : "menu");
 	};
 
 	const onLetterClick = (index) => {
@@ -152,19 +163,9 @@ function App() {
 		}, 100);
 	};
 
-	const getContinueClassName = () => {
-		var percentComplete = getDailyPuzzlePercentFound();
-		if (percentComplete == 0) {
-			return "not-started";
-		} else if (percentComplete > 0 && percentComplete < 50) {
-			return "continue-low";
-		} else if (percentComplete >= 50 && percentComplete < 80) {
-			return "continue-medium";
-		} else if (percentComplete >= 80 && percentComplete < 100) {
-			return "continue-high";
-		} else if (percentComplete >= 100) {
-			return "continue-complete";
-		}
+	const getCurrentPuzzleStatusClassName = () => {
+		var percentComplete = getCurrentPuzzlePercentFound();
+		return "continue-" + getStatusClassName(percentComplete);
 	};
 
 	return (
@@ -200,33 +201,50 @@ function App() {
 			</div>
 			<div id="body" className="container">
 				{showTutorial && <Tutorial setShowTutorial={setShowTutorial} />}
-
-				{gameState == "menu" ? (
+				{gameState == "menu" && (
 					<Menu
 						setGameState={setGameState}
 						setPrevGameState={setPrevGameState}
 						playerData={playerData}
 						dailyPuzzleId={getDailyPuzzleId()}
-						percentComplete={getDailyPuzzlePercentFound()}
-						getStartButtonClassName={getContinueClassName}
+						percentComplete={getCurrentPuzzlePercentFound()}
 						setShowTutorial={setShowTutorial}
 						dailyPuzzleDict={dailyPuzzleDict}
 					/>
-				) : (
+				)}
+				{gameState == "archive" && (
+					<Archive
+						dailyPuzzleDict={dailyPuzzleDict}
+						puzzleLog={
+							playerData != null ? playerData.puzzleLog : {}
+						}
+						setPrevGameState={setPrevGameState}
+						setGameState={setGameState}
+						setCurrentPuzzleId={setCurrentPuzzleId}
+						setIsArchivePuzzle={setIsArchivePuzzle}
+						dailyPuzzleId={getDailyPuzzleId()}
+						saveData={saveData}
+					/>
+				)}
+				{(gameState == "play" || gameState == "win") && (
 					<LetterPuzzle
 						gameState={gameState}
+						prevGameState={prevGameState}
 						allPossibleWords={allPossibleWords}
 						setGameState={setGameState}
 						setPrevGameState={setPrevGameState}
 						saveData={saveData}
 						data={
 							playerData
-								? playerData.puzzleLog[getDailyPuzzleId()]
+								? playerData.puzzleLog[currentPuzzleId]
 								: null
 						}
-						id={getDailyPuzzleId()}
-						startingPhrase={getDailyPuzzleStartingPhrase()}
-						getContinueClassName={getContinueClassName}
+						id={currentPuzzleId}
+						startingPhrase={getCurrentPuzzleStartingPhrase()}
+						getCurrentPuzzleStatusClassName={
+							getCurrentPuzzleStatusClassName
+						}
+						isArchivePuzzle={isArchivePuzzle}
 					/>
 				)}
 			</div>

@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 
+import { getDateStringFormatted, getStatusClassName } from "../public/util";
+
+import calendar from "/images/calendar.png";
+
 function Menu(props) {
 	const {
 		setGameState,
@@ -7,7 +11,6 @@ function Menu(props) {
 		playerData,
 		dailyPuzzleId,
 		percentComplete,
-		getStartButtonClassName,
 		setShowTutorial,
 		dailyPuzzleDict,
 	} = props;
@@ -29,26 +32,9 @@ function Menu(props) {
 		setGameState("play");
 	};
 
-	const getDateString = () => {
-		var date = new Date();
-		const month = date.toLocaleString("default", { month: "long" });
-		const day = date.getDate();
-		const year = date.getFullYear();
-		return month + " " + day + nth(day) + ", " + year;
-	};
-
-	const nth = (d) => {
-		if (d > 3 && d < 21) return "th";
-		switch (d % 10) {
-			case 1:
-				return "st";
-			case 2:
-				return "nd";
-			case 3:
-				return "rd";
-			default:
-				return "th";
-		}
+	const goToArchive = () => {
+		setPrevGameState("menu");
+		setGameState("archive");
 	};
 
 	return (
@@ -58,11 +44,14 @@ function Menu(props) {
 					Whittle #{dailyPuzzleDict[dailyPuzzleId].number}
 				</div>
 			)}
-			<div id="date">{getDateString()}</div>
+			<div id="date">{getDateStringFormatted()}</div>
 
 			<button
 				id="start-button"
-				className={getStartButtonClassName()}
+				className={
+					"continue-" +
+					getStatusClassName(percentComplete, status != "start")
+				}
 				onMouseUp={onStartButtonClicked}
 				onTouchEnd={onStartButtonClicked}
 			>
@@ -75,6 +64,14 @@ function Menu(props) {
 					You've found <b>{percentComplete}%</b> of all words
 				</div>
 			)}
+
+			<div id="menu-small-buttons-container">
+				<button className="puzzle-button" onClick={goToArchive}>
+					<div className="puzzle-button-img-container">
+						<img src={calendar} className="calendar-button-img" />
+					</div>
+				</button>
+			</div>
 
 			<div
 				className="tutorial-button tutorial-button-menu"
