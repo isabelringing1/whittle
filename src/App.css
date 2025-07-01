@@ -468,7 +468,7 @@ button:disabled {
 		bottom: -6dvh;
 	}
 	100% {
-		bottom: -41dvh;
+		bottom: -45dvh;
 	}
 }
 
@@ -480,7 +480,7 @@ button:disabled {
 		bottom: -30dvh;
 	}
 	100% {
-		bottom: -41dvh;
+		bottom: -45dvh;
 	}
 }
 
@@ -796,7 +796,8 @@ button:disabled {
 .tutorial-container {
 	z-index: 3;
 	width: 100vw;
-	height: 100vh;
+	height: 100svh;
+	top: 0svh;
 	background-color: rgba(0, 0, 0, 0.25);
 	display: flex;
 	justify-content: center;
@@ -806,7 +807,7 @@ button:disabled {
 
 .tutorial-page {
 	width: 77vw;
-	height: 55vh;
+	height: 55svh;
 	background-color: rgb(53, 57, 61);
 	border: solid white 0.35vh;
 	border-radius: 3vh;
@@ -814,7 +815,7 @@ button:disabled {
 	flex-direction: column;
 	justify-content: start;
 	align-items: center;
-	padding: 2.5vh;
+	padding: 2.5svh;
 }
 
 .hidden {
@@ -827,14 +828,14 @@ button:disabled {
 }
 
 .tutorial-text {
-	font-size: 4.5vh;
+	font-size: 4.8svh;
 	font-weight: 300;
 	line-height: 0.8;
 	text-align: center;
 }
 
 .tutorial-letter-container {
-	height: 23vh;
+	height: 23svh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -851,7 +852,7 @@ button:disabled {
 	justify-content: space-between;
 	align-items: end;
 	position: absolute;
-	bottom: 24vh;
+	top: 70svh;
 }
 
 .tutorial-progress-circle {
@@ -882,7 +883,7 @@ button:disabled {
 
 .tutorial-button-menu {
 	position: absolute;
-	bottom: 2vh;
+	top: 92svh;
 }
 
 .tutorial-button-text {
