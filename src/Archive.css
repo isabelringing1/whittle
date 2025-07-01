@@ -202,6 +202,24 @@
 }
 
 .gold-border {
-	border: 0.4vh solid #fdcd20;
-	box-sizing: border-box;
+	position: relative;
+}
+
+.gold-border::before {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border: solid 0.4vh #0000;
+	border-radius: 6%;
+	background: linear-gradient(
+			to bottom left,
+			#fdcd20 17%,
+			#fefcf0 38%,
+			#fdcd20 64%,
+			#894d04 100%
+		)
+		border-box;
+	--lyr: conic-gradient(red 0 0);
+	mask: var(--lyr) padding-box exclude, var(--lyr);
+	content: "";
 }

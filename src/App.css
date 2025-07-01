@@ -6,7 +6,6 @@ body {
 	color: white;
 	font-family: "Dongle", sans-serif;
 	overflow: hidden;
-	position: fixed;
 }
 
 .letter-puzzle-container {
@@ -379,7 +378,7 @@ button:disabled {
 	width: 100%;
 	height: 40vh;
 	position: absolute;
-	bottom: -31vh;
+	bottom: -31dvh;
 	pointer-events: none;
 	will-change: transform;
 }
@@ -390,7 +389,7 @@ button:disabled {
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
-	margin-top: 7vh;
+	margin-top: 7dvh;
 	background-color: rgb(53, 57, 61);
 	filter: drop-shadow(0px -0.65vh 0px rgb(0, 0, 0, 0.45));
 	will-change: transform;
@@ -422,73 +421,73 @@ button:disabled {
 
 @keyframes popIn {
 	0% {
-		bottom: -40vh;
+		bottom: -40dvh;
 	}
 	70% {
-		bottom: -30vh;
+		bottom: -30dvh;
 	}
 	100% {
-		bottom: -31vh;
+		bottom: -31dvh;
 	}
 }
 
 @keyframes bounceUp {
 	0% {
-		bottom: -31vh;
+		bottom: -31dvh;
 	}
 	30% {
-		bottom: -33vh;
+		bottom: -33dvh;
 	}
 	100% {
-		bottom: -8vh;
+		bottom: -8dvh;
 	}
 }
 
 @keyframes bounceDown {
 	0% {
-		bottom: -8vh;
+		bottom: -8dvh;
 	}
 	30% {
-		bottom: -6vh;
+		bottom: -6dvh;
 	}
 	100% {
-		bottom: -31vh;
+		bottom: -31dvh;
 	}
 }
 
 @keyframes popDownFromUp {
 	0% {
-		bottom: -8vh;
+		bottom: -8dvh;
 	}
 	30% {
-		bottom: -6vh;
+		bottom: -6dvh;
 	}
 	100% {
-		bottom: -41vh;
+		bottom: -41dvh;
 	}
 }
 
 @keyframes popDownFromDown {
 	0% {
-		bottom: -31vh;
+		bottom: -31dvh;
 	}
 	30% {
-		bottom: -30vh;
+		bottom: -30dvh;
 	}
 	100% {
-		bottom: -41vh;
+		bottom: -41dvh;
 	}
 }
 
 @keyframes hop {
 	30% {
-		margin-top: 7vh;
+		margin-top: 7dvh;
 	}
 	55% {
-		margin-top: 6.5vh;
+		margin-top: 6.5dvh;
 	}
 	100% {
-		margin-top: 7vh;
+		margin-top: 7dvh;
 	}
 }
 
@@ -637,11 +636,11 @@ button:disabled {
 }
 
 .continue-medium:after {
-	background-color: #d1df3d;
+	background-color: #e5ea16;
 }
 
 .archive-medium {
-	background-color: #d1df3d !important;
+	background-color: #e5ea16 !important;
 }
 
 .continue-medium {
