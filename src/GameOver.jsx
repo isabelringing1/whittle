@@ -1,4 +1,4 @@
-import { getStatusClassName } from "../public/util";
+import { getStatusClassName, copyStats } from "../public/util";
 
 function GameOver(props) {
 	const {
@@ -47,17 +47,6 @@ function GameOver(props) {
 		);
 	}
 
-	const copyStats = () => {
-		var moveString = moves.join("");
-		if (isPerfect) {
-			moveString = "⭐️" + moveString + "⭐️";
-		}
-		navigator.share({
-			text: "Beat me at Whittle:" + moveString,
-			url: window.location.href,
-		});
-	};
-
 	return (
 		<div className="game-over-container">
 			<div>{title}</div>
@@ -82,7 +71,10 @@ function GameOver(props) {
 			</button>
 
 			{!isArchivePuzzle && (
-				<button id="share-button" onClick={copyStats}>
+				<button
+					id="share-button"
+					onClick={() => copyStats(moves, isPerfect)}
+				>
 					<div
 						className="button-container"
 						id="share-button-container"

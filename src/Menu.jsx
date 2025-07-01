@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 
-import { getDateStringFormatted, getStatusClassName } from "../public/util";
+import {
+	getDateStringFormatted,
+	getStatusClassName,
+	copyStats,
+} from "../public/util";
 
 import calendar from "/images/calendar.png";
+import share from "/images/share.png";
 
 function Menu(props) {
 	const {
@@ -35,6 +40,21 @@ function Menu(props) {
 	const goToArchive = () => {
 		setPrevGameState("menu");
 		setGameState("archive");
+	};
+
+	const shouldShowShareButton = () => {
+		return (
+			playerData &&
+			playerData.puzzleLog[dailyPuzzleId] &&
+			playerData.puzzleLog[dailyPuzzleId].bestMoves
+		);
+	};
+
+	const onShareButtonClicked = () => {
+		var isPerfect =
+			playerData.puzzleLog[dailyPuzzleId].bestMoves.length ==
+			dailyPuzzleDict[dailyPuzzleId].startingPhrase.length;
+		copyStats(playerData.puzzleLog[dailyPuzzleId].bestMoves, isPerfect);
 	};
 
 	return (
@@ -71,6 +91,17 @@ function Menu(props) {
 						<img src={calendar} className="calendar-button-img" />
 					</div>
 				</button>
+
+				{shouldShowShareButton() && (
+					<button
+						className="puzzle-button"
+						onClick={onShareButtonClicked}
+					>
+						<div className="puzzle-button-img-container">
+							<img src={share} className="share-button-img" />
+						</div>
+					</button>
+				)}
 			</div>
 
 			<div

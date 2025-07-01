@@ -46,4 +46,24 @@ const nth = (d) => {
     }
 };
 
-export {getDateString, getDateStringFormatted, getStatusClassName}
+const copyStats = (moves, isPerfect) => {
+    var moveString = "";
+    for (var i = 0; i < moves.length; i++) {
+        if (moves[i] == "combo") {
+            moveString += "🟣";
+        } else if (moves[i] == "success") {
+            moveString += "🟢";
+        } else if (moves[i] == "fail") {
+            moveString += "🔴";
+        }
+    }
+    if (isPerfect) {
+        moveString = "⭐️" + moveString + "⭐️";
+    }
+    navigator.share({
+        text: "Beat me at Whittle:" + moveString,
+        url: window.location.href,
+    });
+};
+
+export {getDateString, getDateStringFormatted, getStatusClassName, copyStats}

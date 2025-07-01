@@ -64,9 +64,19 @@ function LetterPuzzle(props) {
 			percentFound: percent,
 			solved: solved,
 			completedToday: !isArchivePuzzle && percent >= 100,
+			bestMoves: data.bestMoves,
 		};
+		if (!isArchivePuzzle && gameState != "play") {
+			if (
+				data.bestMoves == undefined ||
+				data.bestMoves.length >= moves.length
+			) {
+				newData.bestMoves = moves;
+			}
+		}
+		//console.log("Saving ", newData);
 		saveData(newData);
-	}, [foundWords, solved]);
+	}, [foundWords, solved, gameState]);
 
 	useEffect(() => {
 		if (data && data.foundWords) {
@@ -133,6 +143,7 @@ function LetterPuzzle(props) {
 			var phrase = validPhrases[validPhrases.length - 1];
 			validPhrases.pop();
 			for (var i = 0; i < phrase.length; i++) {
+				var removedSpace = phrase[i] == " ";
 				var newPhrase = phrase.slice(0, i) + phrase.slice(i + 1);
 				var words = newPhrase.split(" ");
 				if (areValidWords(words)) {
@@ -142,6 +153,9 @@ function LetterPuzzle(props) {
 							words[j].length > 0
 						) {
 							newPossibleWords[words[j]] = true;
+							if (removedSpace) {
+								//console.log("new combo word ", words[j]);
+							}
 						}
 					}
 					if (!(newPhrase in phrasesSeen)) {
@@ -199,14 +213,16 @@ function LetterPuzzle(props) {
 
 	const addToMoves = (moveType) => {
 		var newMoves = [...moves];
+		newMoves.push(moveType);
+		setMoves(newMoves);
+		/*
 		if (moveType == "combo") {
 			newMoves.push("🟣");
 		} else if (moveType == "success") {
 			newMoves.push("🟢");
 		} else if (moveType == "fail") {
 			newMoves.push("🔴");
-		}
-		setMoves(newMoves);
+		}*/
 	};
 
 	const isInMiddleOfVisibleWord = (index) => {

@@ -143,6 +143,10 @@ button:disabled {
 	#main-menu {
 		margin-bottom: 5% !important;
 	}
+
+	#menu-small-buttons-container {
+		width: 25% !important;
+	}
 }
 
 #title {
@@ -902,7 +906,7 @@ button:disabled {
 }
 
 #menu-small-buttons-container {
-	width: 100%;
+	width: 80%;
 	height: 10vh;
 	display: flex;
 	justify-content: space-around;
@@ -910,6 +914,11 @@ button:disabled {
 }
 
 .calendar-button-img {
+	height: 3.8vh;
+	margin-bottom: 5%;
+}
+
+.share-button-img {
 	height: 3.8vh;
 	margin-bottom: 5%;
 }
