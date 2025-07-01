@@ -6,6 +6,7 @@ body {
 	color: white;
 	font-family: "Dongle", sans-serif;
 	overflow: hidden;
+	position: fixed;
 }
 
 .letter-puzzle-container {
@@ -246,7 +247,7 @@ button:disabled {
 	height: 15vh;
 	width: 100vw;
 	position: absolute;
-	bottom: 0;
+	top: 86svh;
 	display: flex;
 	justify-content: center;
 }
