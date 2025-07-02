@@ -2,7 +2,12 @@ import { useRef, useEffect, useState } from "react";
 import { generatePossibleWords } from "../public/util.js";
 
 function Debug(props) {
-	const { allPossibleWords } = props;
+	const {
+		allPossibleWords,
+		setCurrentDebugPuzzlePhrase,
+		setGameState,
+		setPrevGameState,
+	} = props;
 
 	const devMode = false;
 
@@ -50,9 +55,15 @@ function Debug(props) {
 		});
 	};
 
+	const testPhrase = (phrase) => {
+		setCurrentDebugPuzzlePhrase(phrase);
+		setGameState("play");
+		setPrevGameState("menu");
+	};
+
 	return devMode && showDebug ? (
 		<div className="debug-menu">
-			<div className="cheats debug-column">
+			<div className="debug-column">
 				<input
 					type="string"
 					ref={testPhraseRef}
@@ -60,11 +71,21 @@ function Debug(props) {
 				/>
 				<button
 					id="test-phrase-button"
+					className="debug-button"
 					onClick={() => {
 						printInfo(testPhraseRef.current.value);
 					}}
 				>
 					Get Info
+				</button>
+				<button
+					id="test-phrase-button"
+					className="debug-button"
+					onClick={() => {
+						testPhrase(testPhraseRef.current.value);
+					}}
+				>
+					Test
 				</button>
 			</div>
 		</div>

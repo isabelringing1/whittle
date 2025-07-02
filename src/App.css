@@ -948,3 +948,7 @@ button:disabled {
 	margin-bottom: 2vh;
 	font-size: 3vh;
 }
+
+.debug-button {
+	margin-bottom: 2vh;
+}

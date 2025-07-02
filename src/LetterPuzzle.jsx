@@ -26,6 +26,7 @@ function LetterPuzzle(props) {
 		id,
 		startingPhrase,
 		isArchivePuzzle,
+		isDebug,
 	} = props;
 
 	const [letters, setLetters] = useState([]);
@@ -60,6 +61,9 @@ function LetterPuzzle(props) {
 	}, [allPossibleWords]);
 
 	useEffect(() => {
+		if (isDebug) {
+			return;
+		}
 		var percent = getPercentWordsFound();
 		var newData = {
 			foundWords: foundWords,

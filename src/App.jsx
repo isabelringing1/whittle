@@ -25,6 +25,8 @@ function App() {
 
 	const [playerData, setPlayerData] = useState(null);
 	const [showTutorial, setShowTutorial] = useState(false);
+	const [currentDebugPuzzlePhrase, setCurrentDebugPuzzlePhrase] =
+		useState(null);
 
 	useEffect(() => {
 		readDataAsync();
@@ -61,6 +63,7 @@ function App() {
 		if (gameState == "menu") {
 			setCurrentPuzzleId(getDailyPuzzleId());
 			setIsArchivePuzzle(false);
+			setCurrentDebugPuzzlePhrase(null);
 		}
 	}, [gameState]);
 
@@ -127,6 +130,9 @@ function App() {
 	};
 
 	const getCurrentPuzzleStartingPhrase = () => {
+		if (currentDebugPuzzlePhrase != null) {
+			return currentDebugPuzzlePhrase;
+		}
 		return dailyPuzzleDict[currentPuzzleId].startingPhrase;
 	};
 
@@ -201,7 +207,12 @@ function App() {
 				</div>
 			</div>
 			<div id="body" className="container">
-				<Debug allPossibleWords={allPossibleWords} />
+				<Debug
+					allPossibleWords={allPossibleWords}
+					setCurrentDebugPuzzlePhrase={setCurrentDebugPuzzlePhrase}
+					setGameState={setGameState}
+					setPrevGameState={setPrevGameState}
+				/>
 				{showTutorial && <Tutorial setShowTutorial={setShowTutorial} />}
 				{gameState == "menu" && (
 					<Menu
@@ -225,7 +236,9 @@ function App() {
 						setCurrentPuzzleId={setCurrentPuzzleId}
 						setIsArchivePuzzle={setIsArchivePuzzle}
 						dailyPuzzleId={getDailyPuzzleId()}
-						saveData={saveData}
+						setCurrentDebugPuzzlePhrase={
+							setCurrentDebugPuzzlePhrase
+						}
 					/>
 				)}
 				{(gameState == "play" || gameState == "win") && (
@@ -237,7 +250,7 @@ function App() {
 						setPrevGameState={setPrevGameState}
 						saveData={saveData}
 						data={
-							playerData
+							playerData && currentDebugPuzzlePhrase == null
 								? playerData.puzzleLog[currentPuzzleId]
 								: null
 						}
@@ -247,6 +260,7 @@ function App() {
 							getCurrentPuzzleStatusClassName
 						}
 						isArchivePuzzle={isArchivePuzzle}
+						isDebug={currentDebugPuzzlePhrase != null}
 					/>
 				)}
 			</div>

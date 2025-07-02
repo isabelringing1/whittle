@@ -21,7 +21,7 @@ function Archive(props) {
 		setCurrentPuzzleId,
 		setIsArchivePuzzle,
 		dailyPuzzleId,
-		saveData,
+		setCurrentDebugPuzzlePhrase,
 	} = props;
 
 	const [currentDate, setCurrentDate] = useState(null); //month day year
@@ -56,6 +56,7 @@ function Archive(props) {
 	useEffect(() => {
 		if (selectedDate != null) {
 			setCurrentPuzzleId(getDateString(selectedDate));
+			setCurrentDebugPuzzlePhrase(null);
 			setIsArchivePuzzle(getDateString(selectedDate) != dailyPuzzleId);
 		}
 	}, [selectedDate]);
