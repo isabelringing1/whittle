@@ -9,6 +9,7 @@ import LetterPuzzle from "./LetterPuzzle";
 import Menu from "./Menu";
 import Tutorial from "./Tutorial";
 import Archive from "./Archive";
+import Debug from "./Debug";
 
 import { getDateString, getStatusClassName } from "../public/util";
 
@@ -200,6 +201,7 @@ function App() {
 				</div>
 			</div>
 			<div id="body" className="container">
+				<Debug allPossibleWords={allPossibleWords} />
 				{showTutorial && <Tutorial setShowTutorial={setShowTutorial} />}
 				{gameState == "menu" && (
 					<Menu

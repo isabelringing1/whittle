@@ -12,6 +12,8 @@ import {
 	reportWonTodaysPuzzle,
 } from "../public/analytics";
 
+import { generatePossibleWords, areValidWords } from "../public/util.js";
+
 function LetterPuzzle(props) {
 	const {
 		gameState,
@@ -64,7 +66,7 @@ function LetterPuzzle(props) {
 			percentFound: percent,
 			solved: solved,
 			completedToday: !isArchivePuzzle && percent >= 100,
-			bestMoves: data.bestMoves,
+			bestMoves: data ? data.bestMoves : [],
 		};
 		if (!isArchivePuzzle && gameState != "play") {
 			if (
@@ -121,51 +123,14 @@ function LetterPuzzle(props) {
 		}
 		setLetters(newLetters);
 		setLetterStates(newLetterStates);
-		generatePossibleWords(phrase);
+		var newPossibleWords = generatePossibleWords(phrase, allPossibleWords);
+		setPossibleWords(newPossibleWords);
 		var words = phrase.split(" ");
 		var newFoundWords = {};
 		for (var i = 0; i < words.length; i++) {
 			newFoundWords[words[i]] = true;
 		}
 		setFoundWords(newFoundWords);
-	};
-
-	const generatePossibleWords = (phrase) => {
-		var validPhrases = [phrase];
-		var newPossibleWords = {};
-		var phrasesSeen = {};
-		var words = phrase.split(" ");
-		for (var i = 0; i < words.length; i++) {
-			newPossibleWords[words[i]] = true;
-		}
-
-		while (validPhrases.length > 0) {
-			var phrase = validPhrases[validPhrases.length - 1];
-			validPhrases.pop();
-			for (var i = 0; i < phrase.length; i++) {
-				var removedSpace = phrase[i] == " ";
-				var newPhrase = phrase.slice(0, i) + phrase.slice(i + 1);
-				var words = newPhrase.split(" ");
-				if (areValidWords(words)) {
-					for (var j = 0; j < words.length; j++) {
-						if (
-							!(words[j] in newPossibleWords) &&
-							words[j].length > 0
-						) {
-							newPossibleWords[words[j]] = true;
-							if (removedSpace) {
-								//console.log("new combo word ", words[j]);
-							}
-						}
-					}
-					if (!(newPhrase in phrasesSeen)) {
-						validPhrases.push(newPhrase);
-						phrasesSeen[newPhrase] = true;
-					}
-				}
-			}
-		}
-		setPossibleWords(newPossibleWords);
 	};
 
 	const onLetterClick = (index) => {
@@ -177,7 +142,7 @@ function LetterPuzzle(props) {
 		var words = potentiaPhrase.split(" ");
 		var isCombo = letters[index] == " " && isInMiddleOfVisibleWord(index);
 		var foundNewWord = false;
-		if (areValidWords(words)) {
+		if (areValidWords(words, allPossibleWords)) {
 			var newFoundWords = { ...foundWords };
 			for (var i = 0; i < words.length; i++) {
 				if (!(words[i] in foundWords) && words[i].length > 0) {
@@ -241,15 +206,6 @@ function LetterPuzzle(props) {
 			}
 		}
 		return letterShowingBefore && letterShowingAfter;
-	};
-
-	const areValidWords = (words) => {
-		for (var i = 0; i < words.length; i++) {
-			if (!(words[i] in allPossibleWords) && words[i].length > 0) {
-				return false;
-			}
-		}
-		return true;
 	};
 
 	const getPhrase = (potential_removal_index = -1) => {
