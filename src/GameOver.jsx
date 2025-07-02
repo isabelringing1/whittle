@@ -10,6 +10,7 @@ function GameOver(props) {
 		isPerfect,
 		isArchivePuzzle,
 		goToArchive,
+		isNewBestScore,
 	} = props;
 
 	var title;
@@ -51,6 +52,9 @@ function GameOver(props) {
 		<div className="game-over-container">
 			<div>{title}</div>
 			<div className="game-over-subtitle">{subtitle}</div>
+			{isNewBestScore && (
+				<div className="game-over-subtitle green">New best score!</div>
+			)}
 
 			<button
 				id="continue-button"

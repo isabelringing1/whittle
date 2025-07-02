@@ -41,6 +41,7 @@ function LetterPuzzle(props) {
 
 	const [tabsShowing, setTabsShowing] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
+	const [isNewBestScore, setIsNewBestScore] = useState(false);
 
 	const [currentPhrase, setCurrentPhrase] = useState("");
 
@@ -75,9 +76,12 @@ function LetterPuzzle(props) {
 		if (!isArchivePuzzle && gameState != "play") {
 			if (
 				data.bestMoves == undefined ||
-				data.bestMoves.length >= moves.length
+				data.bestMoves.length > moves.length
 			) {
 				newData.bestMoves = moves;
+				if (data.bestMoves != undefined) {
+					setIsNewBestScore(true);
+				}
 			}
 		}
 		//console.log("Saving ", newData);
@@ -95,6 +99,8 @@ function LetterPuzzle(props) {
 		setPrevGameState(gameState);
 		setLetterRemovalOrder([]);
 		setGameState("play");
+		setMoves([]);
+		setIsNewBestScore(false);
 		var newLetterStates = [];
 		for (var i = 0; i < currentPhrase.length; i++) {
 			newLetterStates.push(true);
@@ -127,6 +133,7 @@ function LetterPuzzle(props) {
 		}
 		setLetters(newLetters);
 		setLetterStates(newLetterStates);
+		setIsNewBestScore(false);
 		var newPossibleWords = generatePossibleWords(phrase, allPossibleWords);
 		setPossibleWords(newPossibleWords);
 		var words = phrase.split(" ");
@@ -184,14 +191,6 @@ function LetterPuzzle(props) {
 		var newMoves = [...moves];
 		newMoves.push(moveType);
 		setMoves(newMoves);
-		/*
-		if (moveType == "combo") {
-			newMoves.push("🟣");
-		} else if (moveType == "success") {
-			newMoves.push("🟢");
-		} else if (moveType == "fail") {
-			newMoves.push("🔴");
-		}*/
 	};
 
 	const isInMiddleOfVisibleWord = (index) => {
@@ -594,6 +593,7 @@ function LetterPuzzle(props) {
 					isPerfect={startingPhrase.length == moves.length}
 					isArchivePuzzle={isArchivePuzzle}
 					goToArchive={goToArchive}
+					isNewBestScore={isNewBestScore}
 				/>
 			)}
 
