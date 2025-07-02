@@ -3,7 +3,6 @@ i
 hi
 ma
 id
-mi
 if
 ab
 ad
@@ -16,14 +15,9 @@ an
 as
 at
 ax
-ay
-fa
 bi
-gi
 pa
 xi
-la
-ti
 ha
 pi
 li
@@ -35,7 +29,6 @@ ex
 go
 he
 hi
-hm
 lo
 me
 my
@@ -2671,7 +2664,6 @@ banging
 bangle
 bangles
 bangs
-bani
 banish
 banished
 banishes

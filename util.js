@@ -66,4 +66,54 @@ const copyStats = (moves, isPerfect) => {
     });
 };
 
-export {getDateString, getDateStringFormatted, getStatusClassName, copyStats}
+const generatePossibleWords = (phrase, allPossibleWords, flagCombos = false) => {
+    var validPhrases = [phrase];
+    var newPossibleWords = {};
+    var phrasesSeen = {};
+    var words = phrase.split(" ");
+    for (var i = 0; i < words.length; i++) {
+        newPossibleWords[words[i]] = true;
+    }
+
+    while (validPhrases.length > 0) {
+        var phrase = validPhrases[validPhrases.length - 1];
+        validPhrases.pop();
+        for (var i = 0; i < phrase.length; i++) {
+            var removedSpace = phrase[i] == " ";
+            var newPhrase = phrase.slice(0, i) + phrase.slice(i + 1);
+            var words = newPhrase.split(" ");
+            if (areValidWords(words, allPossibleWords)) {
+                for (var j = 0; j < words.length; j++) {
+                    if (
+                        !(words[j] in newPossibleWords) &&
+                        words[j].length > 0
+                    ) {
+                        
+                        if (removedSpace && flagCombos) {
+                            newPossibleWords["*" +words[j]] = true;
+                        }
+                        else {
+                            newPossibleWords[words[j]] = true;
+                        }
+                    }
+                }
+                if (!(newPhrase in phrasesSeen)) {
+                    validPhrases.push(newPhrase);
+                    phrasesSeen[newPhrase] = true;
+                }
+            }
+        }
+    }
+    return newPossibleWords;
+};
+
+const areValidWords = (words, allPossibleWords) => {
+    for (var i = 0; i < words.length; i++) {
+        if (!(words[i] in allPossibleWords) && words[i].length > 0) {
+            return false;
+        }
+    }
+    return true;
+};
+
+export {getDateString, getDateStringFormatted, getStatusClassName, copyStats, generatePossibleWords, areValidWords }
