@@ -99,7 +99,7 @@ function LetterPuzzle(props) {
 		setPrevGameState(gameState);
 		setLetterRemovalOrder([]);
 		setGameState("play");
-		setMoves([]);
+
 		setIsNewBestScore(false);
 		var newLetterStates = [];
 		for (var i = 0; i < currentPhrase.length; i++) {
@@ -398,6 +398,7 @@ function LetterPuzzle(props) {
 	const continueGame = () => {
 		setPrevGameState(gameState);
 		restart();
+		setMoves([]);
 		tryPopInTabs();
 		setGameOverShowState("hide");
 	};
