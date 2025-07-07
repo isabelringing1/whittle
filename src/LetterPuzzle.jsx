@@ -563,7 +563,8 @@ function LetterPuzzle(props) {
 		if (
 			e.targetTouches != null &&
 			!e.target.classList.contains("letter") &&
-			e.target.closest(".puzzle-button") == null
+			e.target.closest(".puzzle-button") == null &&
+			e.target.closest(".scrollable") == null
 		) {
 			touchStart.current = e.targetTouches[0].clientY;
 		}
@@ -606,7 +607,10 @@ function LetterPuzzle(props) {
 	};
 
 	const onContainerTouchMove = (e) => {
-		if (e.targetTouches != null) {
+		if (
+			e.targetTouches != null &&
+			e.target.closest(".scrollable") == null
+		) {
 			touchEnd.current = e.targetTouches[0].clientY;
 		}
 	};

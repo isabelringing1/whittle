@@ -100,7 +100,7 @@ function Tabs(props) {
 					id="top-1"
 					onClick={() => onTabClicked(0)}
 				></div>
-				<div className="definitions-container">
+				<div className="definitions-container scrollable">
 					{currentPhrase &&
 						definitionsState &&
 						currentPhrase.split(" ").map((word, i) => {
@@ -135,7 +135,7 @@ function Tabs(props) {
 					onClick={() => onTabClicked(1)}
 				></div>
 
-				<div className="found-words-container">
+				<div className="found-words-container scrollable">
 					{getFoundWordsSortedByLength(solved).map((wordList, i) => {
 						return (
 							<div
