@@ -11,6 +11,7 @@ function GameOver(props) {
 		isArchivePuzzle,
 		goToArchive,
 		isNewBestScore,
+		number,
 	} = props;
 
 	var title;
@@ -77,7 +78,7 @@ function GameOver(props) {
 			{!isArchivePuzzle && (
 				<button
 					id="share-button"
-					onClick={() => copyStats(moves, isPerfect)}
+					onClick={() => copyStats(moves, isPerfect, number)}
 				>
 					<div
 						className="button-container"

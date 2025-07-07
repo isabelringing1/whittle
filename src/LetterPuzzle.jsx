@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Letter from "./Letter";
 import Tabs from "./Tabs";
@@ -27,6 +27,7 @@ function LetterPuzzle(props) {
 		startingPhrase,
 		isArchivePuzzle,
 		isDebug,
+		number,
 	} = props;
 
 	const [letters, setLetters] = useState([]);
@@ -40,10 +41,16 @@ function LetterPuzzle(props) {
 	const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
 	const [tabsShowing, setTabsShowing] = useState(false);
+	const [tabsAnimating, setTabsAnimating] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
 	const [isNewBestScore, setIsNewBestScore] = useState(false);
 
 	const [currentPhrase, setCurrentPhrase] = useState("");
+
+	const touchStart = useRef(null);
+	const touchEnd = useRef(null);
+
+	const minSwipeDistance = 50;
 
 	useEffect(() => {
 		if (Object.keys(allPossibleWords).length == 0) {
@@ -361,21 +368,25 @@ function LetterPuzzle(props) {
 
 	const tryShowTabs = () => {
 		var tabs = document.getElementById("tabs");
-		if (!tabsShowing) {
+		if (!tabsShowing && !tabsAnimating) {
+			setTabsAnimating(true);
 			tabs.classList = "up";
 			setTabsShowing(true);
+			setTimeout(() => {
+				setTabsAnimating(false);
+			}, 800);
 		}
 	};
 
 	const tryHideTabs = () => {
 		var tabs = document.getElementById("tabs");
-		if (
-			tabs != null &&
-			tabs.classList.contains("up") &&
-			!tabs.classList.contains("down")
-		) {
-			tabs.classList = "down";
+		if (tabs != null && tabsShowing && !tabsAnimating) {
+			setTabsAnimating(true);
 			setTabsShowing(false);
+			tabs.classList = "down";
+			setTimeout(() => {
+				setTabsAnimating(false);
+			}, 800);
 		}
 	};
 
@@ -548,6 +559,14 @@ function LetterPuzzle(props) {
 	};
 
 	const onContainerTouchStart = (e) => {
+		touchEnd.current = null;
+		if (
+			e.targetTouches != null &&
+			!e.target.classList.contains("letter") &&
+			e.target.closest(".puzzle-button") == null
+		) {
+			touchStart.current = e.targetTouches[0].clientY;
+		}
 		if (
 			e.target.classList.contains("letter") ||
 			e.target.closest(".puzzle-button") != null ||
@@ -574,6 +593,22 @@ function LetterPuzzle(props) {
 				}
 			}
 		}
+
+		if (!touchStart.current || !touchEnd.current) return;
+		const distance = touchStart.current - touchEnd.current;
+		const isUpSwipe = distance > minSwipeDistance;
+		const isDownSwipe = distance < -minSwipeDistance;
+		if (isUpSwipe) {
+			tryShowTabs();
+		} else if (isDownSwipe) {
+			tryHideTabs();
+		}
+	};
+
+	const onContainerTouchMove = (e) => {
+		if (e.targetTouches != null) {
+			touchEnd.current = e.targetTouches[0].clientY;
+		}
 	};
 
 	return (
@@ -583,6 +618,7 @@ function LetterPuzzle(props) {
 			onTouchStart={onContainerTouchStart}
 			onMouseUp={onContainerTouchEnd}
 			onTouchEnd={onContainerTouchEnd}
+			onTouchMove={onContainerTouchMove}
 		>
 			{gameOverShowState != "hide" && (
 				<GameOver
@@ -595,6 +631,7 @@ function LetterPuzzle(props) {
 					isArchivePuzzle={isArchivePuzzle}
 					goToArchive={goToArchive}
 					isNewBestScore={isNewBestScore}
+					number={number}
 				/>
 			)}
 

@@ -46,7 +46,7 @@ const nth = (d) => {
     }
 };
 
-const copyStats = (moves, isPerfect) => {
+const copyStats = (moves, isPerfect, number) => {
     var moveString = "";
     for (var i = 0; i < moves.length; i++) {
         if (moves[i] == "combo") {
@@ -61,7 +61,7 @@ const copyStats = (moves, isPerfect) => {
         moveString = "⭐️" + moveString + "⭐️";
     }
     navigator.share({
-        text: "Beat me at Whittle:" + moveString,
+        text: "Whittle #" + number + ": " + moveString,
         url: window.location.href,
     });
 };

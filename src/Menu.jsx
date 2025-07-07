@@ -54,7 +54,11 @@ function Menu(props) {
 		var isPerfect =
 			playerData.puzzleLog[dailyPuzzleId].bestMoves.length ==
 			dailyPuzzleDict[dailyPuzzleId].startingPhrase.length;
-		copyStats(playerData.puzzleLog[dailyPuzzleId].bestMoves, isPerfect);
+		copyStats(
+			playerData.puzzleLog[dailyPuzzleId].bestMoves,
+			isPerfect,
+			dailyPuzzleDict[dailyPuzzleId].number
+		);
 	};
 
 	return (

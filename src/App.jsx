@@ -161,6 +161,9 @@ function App() {
 		setTimeout(() => {
 			var lettersContainer = document.getElementById("title");
 			lettersContainer.classList.add("red");
+			lettersContainer.classList.remove("error-shake");
+			lettersContainer.offsetHeight;
+			lettersContainer.classList.add("error-shake");
 			setTimeout(() => {
 				letter.classList.remove("disappear");
 				setTimeout(() => {
@@ -261,6 +264,7 @@ function App() {
 						}
 						isArchivePuzzle={isArchivePuzzle}
 						isDebug={currentDebugPuzzlePhrase != null}
+						number={dailyPuzzleDict[currentPuzzleId].number}
 					/>
 				)}
 			</div>
