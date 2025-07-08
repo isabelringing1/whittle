@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import puzzles from "/data/puzzles.txt";
 import wordData from "/data/wl.txt";
 import backArrow from "/images/back_arrow.png";
@@ -28,6 +28,8 @@ function App() {
 	const [currentDebugPuzzlePhrase, setCurrentDebugPuzzlePhrase] =
 		useState(null);
 
+	const isNewPuzzleRef = useRef(null);
+
 	useEffect(() => {
 		readDataAsync();
 		var playerData = loadData();
@@ -41,6 +43,12 @@ function App() {
 	}, []);
 
 	useEffect(() => {
+		if (currentPuzzleId != null) {
+			setNewPuzzleRef();
+		}
+	}, [currentPuzzleId]);
+
+	useEffect(() => {
 		var title = document.getElementById("title");
 		var backButton = document.getElementById("top-bar-container");
 		if (
@@ -52,12 +60,16 @@ function App() {
 		} else if (gameState == "menu" && prevGameState != "none") {
 			title.classList = "title-bounce-in";
 			backButton.classList = "back-button-bounce-out";
+			setNewPuzzleRef();
 		} else if (gameState == "win" && prevGameState == "play") {
 			backButton.classList = "back-button-bounce-out";
 		} else if (gameState == "play" && prevGameState == "win") {
 			backButton.classList = "back-button-bounce-in";
 		} else if (gameState == "archive" && prevGameState == "win") {
 			backButton.classList = "back-button-bounce-in";
+			setNewPuzzleRef();
+		} else if (gameState == "archive") {
+			setNewPuzzleRef();
 		}
 
 		if (gameState == "menu") {
@@ -66,6 +78,10 @@ function App() {
 			setCurrentDebugPuzzlePhrase(null);
 		}
 	}, [gameState]);
+
+	function setNewPuzzleRef() {
+		isNewPuzzleRef.current = getCurrentPuzzlePercentFound() <= 0;
+	}
 
 	function saveData(puzzleData) {
 		var newPlayerData = {
@@ -137,7 +153,7 @@ function App() {
 	};
 
 	const getCurrentPuzzlePercentFound = () => {
-		return playerData
+		return playerData && playerData.puzzleLog[currentPuzzleId]
 			? playerData.puzzleLog[currentPuzzleId].percentFound
 			: 0;
 	};
@@ -154,7 +170,11 @@ function App() {
 
 	const onLetterClick = (index) => {
 		var letter = document.getElementById("title-letter-" + index);
-		if (letter.classList.contains("disappear")) {
+		var title = document.getElementById("title");
+		if (
+			letter.classList.contains("disappear") ||
+			title.classList.contains("title-bounce-out")
+		) {
 			return;
 		}
 		letter.classList.add("disappear");
@@ -176,6 +196,12 @@ function App() {
 	const getCurrentPuzzleStatusClassName = () => {
 		var percentComplete = getCurrentPuzzlePercentFound();
 		return "continue-" + getStatusClassName(percentComplete);
+	};
+
+	const getCurrentPuzzleData = () => {
+		return playerData && currentDebugPuzzlePhrase == null
+			? playerData.puzzleLog[currentPuzzleId]
+			: null;
 	};
 
 	return (
@@ -252,11 +278,7 @@ function App() {
 						setGameState={setGameState}
 						setPrevGameState={setPrevGameState}
 						saveData={saveData}
-						data={
-							playerData && currentDebugPuzzlePhrase == null
-								? playerData.puzzleLog[currentPuzzleId]
-								: null
-						}
+						data={getCurrentPuzzleData()}
 						id={currentPuzzleId}
 						startingPhrase={getCurrentPuzzleStartingPhrase()}
 						getCurrentPuzzleStatusClassName={
@@ -265,6 +287,7 @@ function App() {
 						isArchivePuzzle={isArchivePuzzle}
 						isDebug={currentDebugPuzzlePhrase != null}
 						number={dailyPuzzleDict[currentPuzzleId].number}
+						isNewPuzzleRef={isNewPuzzleRef}
 					/>
 				)}
 			</div>

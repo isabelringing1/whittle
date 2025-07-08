@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 function Letter(props) {
-	const { letter, id, index, onClick } = props;
+	const { letter, id, index, onClick, totalLetters, isNewPuzzle } = props;
 
 	const [letterClass, setLetterClass] = useState("letter");
 
@@ -11,6 +11,13 @@ function Letter(props) {
 
 	const setDefaultLetterClass = () => {
 		var cn = letter == " " ? "letter space" : "letter";
+		if (isNewPuzzle) {
+			if (index <= totalLetters / 2) {
+				cn += " new-shake-2";
+			} else {
+				cn += " new-shake";
+			}
+		}
 
 		setLetterClass(cn);
 	};

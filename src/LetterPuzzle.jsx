@@ -28,6 +28,7 @@ function LetterPuzzle(props) {
 		isArchivePuzzle,
 		isDebug,
 		number,
+		isNewPuzzleRef,
 	} = props;
 
 	const [letters, setLetters] = useState([]);
@@ -40,13 +41,13 @@ function LetterPuzzle(props) {
 	const [gameOverShowState, setGameOverShowState] = useState("hide"); // hide, win, complete, win_and_complete
 	const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
-	const [tabsShowing, setTabsShowing] = useState(false);
 	const [tabsAnimating, setTabsAnimating] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
 	const [isNewBestScore, setIsNewBestScore] = useState(false);
 
 	const [currentPhrase, setCurrentPhrase] = useState("");
 
+	const tabsShowing = useRef(false);
 	const touchStart = useRef(null);
 	const touchEnd = useRef(null);
 
@@ -327,7 +328,7 @@ function LetterPuzzle(props) {
 		}
 		newWordContainer.classList.add("new-combo-word-anim");
 
-		if (!tabsShowing) {
+		if (!tabsShowing.current) {
 			var tab2 = document.getElementById("tab-2");
 			if (tab2.classList.contains("hop")) {
 				tab2.classList.remove("hop");
@@ -349,7 +350,7 @@ function LetterPuzzle(props) {
 		}
 		newWordContainer.classList.add("new-word-anim");
 
-		if (!tabsShowing) {
+		if (!tabsShowing.current) {
 			var tab2 = document.getElementById("tab-2");
 			if (tab2.classList.contains("hop")) {
 				tab2.classList.remove("hop");
@@ -368,10 +369,10 @@ function LetterPuzzle(props) {
 
 	const tryShowTabs = () => {
 		var tabs = document.getElementById("tabs");
-		if (!tabsShowing && !tabsAnimating) {
+		if (!tabsShowing.current && !tabsAnimating) {
 			setTabsAnimating(true);
 			tabs.classList = "up";
-			setTabsShowing(true);
+			tabsShowing.current = true;
 			setTimeout(() => {
 				setTabsAnimating(false);
 			}, 800);
@@ -380,9 +381,9 @@ function LetterPuzzle(props) {
 
 	const tryHideTabs = () => {
 		var tabs = document.getElementById("tabs");
-		if (tabs != null && tabsShowing && !tabsAnimating) {
+		if (tabs != null && tabsShowing.current && !tabsAnimating) {
 			setTabsAnimating(true);
-			setTabsShowing(false);
+			tabsShowing.current = false;
 			tabs.classList = "down";
 			setTimeout(() => {
 				setTabsAnimating(false);
@@ -392,18 +393,18 @@ function LetterPuzzle(props) {
 
 	const tryHideTabsCompletely = () => {
 		var tabs = document.getElementById("tabs");
-		if (tabsShowing) {
+		if (tabsShowing.current) {
 			tabs.classList = "popDownFromUp";
 		} else {
 			tabs.classList = "popDownFromDown";
 		}
-		setTabsShowing(false);
+		tabsShowing.current = false;
 	};
 
 	const tryPopInTabs = () => {
 		var tabs = document.getElementById("tabs");
 		tabs.classList = "popIn";
-		setTabsShowing(false);
+		tabsShowing.current = false;
 	};
 
 	const continueGame = () => {
@@ -670,6 +671,8 @@ function LetterPuzzle(props) {
 								id={id}
 								letter={letter}
 								index={i}
+								totalLetters={letters.length}
+								isNewPuzzle={isNewPuzzleRef.current}
 							/>
 						);
 					})}
@@ -711,7 +714,7 @@ function LetterPuzzle(props) {
 				<Tabs
 					tryShowTabs={tryShowTabs}
 					tryHideTabs={tryHideTabs}
-					tabsShowing={tabsShowing}
+					tabsShowing={tabsShowing.current}
 					foundWords={foundWords}
 					possibleWords={possibleWords}
 					currentPhrase={getPhrase(-1)}
