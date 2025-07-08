@@ -60,7 +60,6 @@ function App() {
 		} else if (gameState == "menu" && prevGameState != "none") {
 			title.classList = "title-bounce-in";
 			backButton.classList = "back-button-bounce-out";
-			setNewPuzzleRef();
 		} else if (gameState == "win" && prevGameState == "play") {
 			backButton.classList = "back-button-bounce-out";
 		} else if (gameState == "play" && prevGameState == "win") {
@@ -153,7 +152,9 @@ function App() {
 	};
 
 	const getCurrentPuzzlePercentFound = () => {
-		return playerData && playerData.puzzleLog[currentPuzzleId]
+		return playerData &&
+			playerData.puzzleLog[currentPuzzleId] &&
+			playerData.puzzleLog[currentPuzzleId].percentFound != undefined
 			? playerData.puzzleLog[currentPuzzleId].percentFound
 			: 0;
 	};
