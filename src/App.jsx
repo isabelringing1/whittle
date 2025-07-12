@@ -301,18 +301,20 @@ function App() {
 					/>
 				)}
 			</div>
-			<button
-				className="debug-button"
-				style={{
-					position: "absolute",
-					bottom: 0,
-					opacity: 0,
-					width: "10vw",
-				}}
-				onClick={() => {
-					setShowDebug(!showDebug);
-				}}
-			></button>
+			{false && (
+				<button
+					className="debug-button"
+					style={{
+						position: "absolute",
+						top: "90svh",
+						opacity: 0,
+						width: "10vw",
+					}}
+					onClick={() => {
+						setShowDebug(!showDebug);
+					}}
+				></button>
+			)}
 		</div>
 	);
 }
