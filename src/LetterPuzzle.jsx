@@ -74,11 +74,14 @@ function LetterPuzzle(props) {
 			return;
 		}
 		var percent = getPercentWordsFound();
+		var completedToday =
+			data.completedToday || (!isArchivePuzzle && percent >= 100);
+
 		var newData = {
 			foundWords: foundWords,
 			percentFound: percent,
 			solved: solved,
-			completedToday: !isArchivePuzzle && percent >= 100,
+			completedToday: completedToday,
 			bestMoves: data ? data.bestMoves : [],
 		};
 		if (!isArchivePuzzle && gameState != "play") {

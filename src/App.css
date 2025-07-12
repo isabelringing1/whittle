@@ -929,17 +929,21 @@ button:disabled {
 	height: 100svh;
 	position: absolute;
 	pointer-events: none;
+	z-index: 10;
 }
 
 .debug-column {
 	pointer-events: all;
-	z-index: 10;
-	background-color: rgb(0, 0, 0, 0.2);
+	background-color: rgb(0, 0, 0, 0.4);
 	width: 100vw;
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
 	padding: 3vh;
+}
+
+.debug-section {
+	padding-bottom: 4vh;
 }
 
 .debug-input {
@@ -951,6 +955,7 @@ button:disabled {
 
 .debug-button {
 	margin-bottom: 2vh;
+	max-width: 300px;
 }
 
 .new-shake {

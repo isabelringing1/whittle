@@ -27,6 +27,7 @@ function App() {
 	const [showTutorial, setShowTutorial] = useState(false);
 	const [currentDebugPuzzlePhrase, setCurrentDebugPuzzlePhrase] =
 		useState(null);
+	const [showDebug, setShowDebug] = useState(false);
 
 	const isNewPuzzleRef = useRef(null);
 
@@ -148,6 +149,9 @@ function App() {
 		if (currentDebugPuzzlePhrase != null) {
 			return currentDebugPuzzlePhrase;
 		}
+		if (!dailyPuzzleDict || !dailyPuzzleDict[currentPuzzleId]) {
+			return "";
+		}
 		return dailyPuzzleDict[currentPuzzleId].startingPhrase;
 	};
 
@@ -242,6 +246,11 @@ function App() {
 					setCurrentDebugPuzzlePhrase={setCurrentDebugPuzzlePhrase}
 					setGameState={setGameState}
 					setPrevGameState={setPrevGameState}
+					gameState={gameState}
+					saveData={saveData}
+					startingPhrase={getCurrentPuzzleStartingPhrase()}
+					setShowDebug={setShowDebug}
+					showDebug={showDebug}
 				/>
 				{showTutorial && <Tutorial setShowTutorial={setShowTutorial} />}
 				{gameState == "menu" && (
@@ -292,6 +301,18 @@ function App() {
 					/>
 				)}
 			</div>
+			<button
+				className="debug-button"
+				style={{
+					position: "absolute",
+					bottom: 0,
+					opacity: 0,
+					width: "10vw",
+				}}
+				onClick={() => {
+					setShowDebug(!showDebug);
+				}}
+			></button>
 		</div>
 	);
 }
