@@ -14,10 +14,11 @@ function Debug(props) {
 		setShowDebug,
 	} = props;
 
-	const devMode = true;
+	const devMode = false;
 
 	const testPhraseRef = useRef();
 	const saveDataRef = useRef();
+	const fileRef = useRef();
 
 	useEffect(() => {
 		document.addEventListener("keydown", (event) => {
@@ -58,6 +59,44 @@ function Debug(props) {
 			});
 			console.log("combos: ", combos);
 		});
+	};
+
+	const generateAllInfo = (e) => {
+		var reader = new FileReader();
+		var file = e.target.files[0];
+		console.log(file);
+		reader.onload = function (progressEvent) {
+			// Entire file
+			const text = this.result;
+			// By lines
+			var lines = text.split("\n");
+			var output = "";
+			for (var line = 0; line < lines.length; line++) {
+				var possibleWords = generatePossibleWords(
+					lines[line],
+					allPossibleWords,
+					true
+				);
+				var combos = [];
+				Object.keys(possibleWords).forEach((word, i) => {
+					if (word[0] == "*") {
+						combos.push(word.slice(1));
+					}
+				});
+				output +=
+					lines[line] +
+					"/" +
+					combos +
+					"/" +
+					Object.keys(possibleWords).length +
+					"/" +
+					Object.keys(possibleWords) +
+					"\n";
+			}
+			console.log(output);
+			navigator.clipboard.writeText(output);
+		};
+		reader.readAsText(file);
 	};
 
 	const testPhrase = (phrase) => {
@@ -152,14 +191,14 @@ function Debug(props) {
 				{gameState == "play" && (
 					<div className="debug-section">
 						<button
-							id="test-phrase-button"
+							id="solve-puzzle-button"
 							className="debug-button"
 							onClick={() => solvePuzzle(false)}
 						>
 							Solve Puzzle
 						</button>
 						<button
-							id="test-phrase-button"
+							id="solve-puzzle-today-button"
 							className="debug-button"
 							onClick={() => solvePuzzle(true)}
 						>
@@ -167,6 +206,15 @@ function Debug(props) {
 						</button>
 					</div>
 				)}
+				<div className="debug-section">
+					<input
+						type="file"
+						name="file"
+						id="file"
+						ref={fileRef}
+						onChange={generateAllInfo}
+					/>
+				</div>
 			</div>
 		</div>
 	) : null;

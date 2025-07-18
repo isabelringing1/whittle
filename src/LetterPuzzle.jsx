@@ -75,7 +75,8 @@ function LetterPuzzle(props) {
 		}
 		var percent = getPercentWordsFound();
 		var completedToday =
-			data.completedToday || (!isArchivePuzzle && percent >= 100);
+			(data && data.completedToday) ||
+			(!isArchivePuzzle && percent >= 100);
 
 		var newData = {
 			foundWords: foundWords,
@@ -263,7 +264,8 @@ function LetterPuzzle(props) {
 				}, 300);
 			}
 
-			if (lettersLeft == 0) {
+			var onlySpaces = checkForOnlySpaces(newLetterStates);
+			if (lettersLeft == 0 || onlySpaces) {
 				if (completion && !solved) {
 					showGameOverScreen("win_and_complete");
 				} else {
@@ -276,6 +278,16 @@ function LetterPuzzle(props) {
 				showGameOverScreen("complete");
 			}
 		}, 100);
+	};
+
+	const checkForOnlySpaces = (letterStates) => {
+		var onlyVisibleSpaces = letterStates.filter((e) => e).length > 0;
+		for (var i = 0; i < letterStates.length; i++) {
+			if (letterStates[i] == true && letters[i] != " ") {
+				onlyVisibleSpaces = false;
+			}
+		}
+		return onlyVisibleSpaces;
 	};
 
 	const failRemoveLetterAtIndex = (index) => {
@@ -635,7 +647,7 @@ function LetterPuzzle(props) {
 					continueGame={continueGame}
 					percent={getPercentWordsFound()}
 					goToMenu={goToMenu}
-					isPerfect={startingPhrase.length == moves.length}
+					isPerfect={startingPhrase.length >= moves.length}
 					isArchivePuzzle={isArchivePuzzle}
 					goToArchive={goToArchive}
 					isNewBestScore={isNewBestScore}

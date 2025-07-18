@@ -52,7 +52,7 @@ function Menu(props) {
 
 	const onShareButtonClicked = () => {
 		var isPerfect =
-			playerData.puzzleLog[dailyPuzzleId].bestMoves.length ==
+			playerData.puzzleLog[dailyPuzzleId].bestMoves.length <=
 			dailyPuzzleDict[dailyPuzzleId].startingPhrase.length;
 		copyStats(
 			playerData.puzzleLog[dailyPuzzleId].bestMoves,
