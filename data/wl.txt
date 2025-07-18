@@ -18621,8 +18621,6 @@ howled
 howling
 howls
 hows
-hr
-hrs
 hub
 hubbub
 hubbubs
@@ -22116,7 +22114,6 @@ lightnings
 lights
 lightweight
 lightweights
-lii
 likable
 like
 liked
@@ -43235,7 +43232,6 @@ yowl
 yowled
 yowling
 yowls
-yrs
 yuck
 yuckier
 yuckiest
