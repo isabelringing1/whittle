@@ -2055,8 +2055,6 @@ assistants
 assisted
 assisting
 assists
-assn
-assoc
 associate
 associated
 associates
@@ -2067,7 +2065,6 @@ associative
 assorted
 assortment
 assortments
-asst
 assume
 assumed
 assumes
@@ -2857,6 +2854,8 @@ bated
 bath
 bathe
 bathed
+bather
+bathers
 bathes
 bathing
 bathrobe
@@ -30673,6 +30672,8 @@ raster
 rat
 rate
 rated
+rater
+raters
 rates
 rather
 ratification
