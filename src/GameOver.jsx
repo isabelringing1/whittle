@@ -4,6 +4,7 @@ function GameOver(props) {
 	const {
 		gameOverShowState,
 		moves,
+		bestMoves,
 		continueGame,
 		percent,
 		goToMenu,
@@ -78,7 +79,16 @@ function GameOver(props) {
 			{!isArchivePuzzle && (
 				<button
 					id="share-button"
-					onClick={() => copyStats(moves, isPerfect, number)}
+					onClick={() => {
+						if (
+							gameOverShowState == "complete" &&
+							bestMoves != undefined
+						) {
+							copyStats(bestMoves, isPerfect, number);
+						} else {
+							copyStats(moves, isPerfect, number);
+						}
+					}}
 				>
 					<div
 						className="button-container"

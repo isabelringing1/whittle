@@ -83,12 +83,12 @@ function LetterPuzzle(props) {
 			percentFound: percent,
 			solved: solved,
 			completedToday: completedToday,
-			bestMoves: data ? data.bestMoves : [],
+			bestMoves: data ? data.bestMoves : undefined,
 		};
 		if (!isArchivePuzzle && gameState != "play") {
 			if (
-				data.bestMoves == undefined ||
-				data.bestMoves.length > moves.length
+				(!data.bestMoves || data.bestMoves.length > moves.length) &&
+				gameOverShowState != "complete"
 			) {
 				newData.bestMoves = moves;
 				if (data.bestMoves != undefined) {
@@ -644,10 +644,18 @@ function LetterPuzzle(props) {
 				<GameOver
 					gameOverShowState={gameOverShowState}
 					moves={moves}
+					bestMoves={data ? data.bestMoves : undefined}
 					continueGame={continueGame}
 					percent={getPercentWordsFound()}
 					goToMenu={goToMenu}
-					isPerfect={startingPhrase.length >= moves.length}
+					isPerfect={
+						(gameOverShowState != "complete" &&
+							startingPhrase.length >= moves.length) ||
+						(gameOverShowState == "complete" &&
+							data &&
+							data.bestMoves &&
+							startingPhrase.length >= data.bestMoves.length)
+					}
 					isArchivePuzzle={isArchivePuzzle}
 					goToArchive={goToArchive}
 					isNewBestScore={isNewBestScore}

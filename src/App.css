@@ -147,6 +147,11 @@ button:disabled {
 	#menu-small-buttons-container {
 		width: 25% !important;
 	}
+
+	.letter:hover {
+		cursor: pointer;
+		background-color: rgba(255, 255, 255, 0.22);
+	}
 }
 
 #title {

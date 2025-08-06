@@ -204,9 +204,32 @@ function App() {
 	};
 
 	const getCurrentPuzzleData = () => {
+		if (puzzleSwitchDetected()) {
+			return null;
+		}
 		return playerData && currentDebugPuzzlePhrase == null
 			? playerData.puzzleLog[currentPuzzleId]
 			: null;
+	};
+
+	const puzzleSwitchDetected = () => {
+		if (!playerData || !dailyPuzzleDict || !puzzleData) {
+			return false;
+		}
+		var words = dailyPuzzleDict[currentPuzzleId].startingPhrase.split(" ");
+
+		var puzzleData = playerData.puzzleLog[currentPuzzleId];
+		if (!puzzleData || Object.keys(puzzleData.foundWords).length === 0) {
+			return false; // hasn't started
+		}
+		for (var i = 0; i < words.length; i++) {
+			if (!playerData.puzzleLog[currentPuzzleId].foundWords[words[i]]) {
+				console.log("Puzzle switch detected");
+				return true;
+			}
+		}
+
+		return false;
 	};
 
 	return (
@@ -301,7 +324,7 @@ function App() {
 					/>
 				)}
 			</div>
-			{false && (
+			{true && (
 				<button
 					className="debug-button"
 					style={{
