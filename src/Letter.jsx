@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 
 function Letter(props) {
-	const { letter, id, index, onClick, totalLetters, isNewPuzzle } = props;
+	const {
+		letter,
+		id,
+		index,
+		onClick,
+		totalLetters,
+		isNewPuzzle,
+		isTutorialLetter,
+	} = props;
 
 	const [letterClass, setLetterClass] = useState("letter");
 
@@ -17,6 +25,9 @@ function Letter(props) {
 			} else {
 				cn += " new-shake";
 			}
+		}
+		if (isTutorialLetter) {
+			cn += " tutorial-letter";
 		}
 
 		setLetterClass(cn);

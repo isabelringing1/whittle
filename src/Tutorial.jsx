@@ -258,6 +258,7 @@ function Tutorial(props) {
 					{firstTutorialPhrase.split("").map((letter, i) => {
 						return (
 							<Letter
+								isTutorialLetter={true}
 								key={"tutorial-letter-0-" + i}
 								id={"tutorial-letter-0-" + i}
 								index={i}
@@ -290,6 +291,7 @@ function Tutorial(props) {
 					{secondTutorialPhrase.split("").map((letter, i) => {
 						return (
 							<Letter
+								isTutorialLetter={true}
 								key={"tutorial-letter-1-" + i}
 								id={"tutorial-letter-1-" + i}
 								index={i}
@@ -319,6 +321,7 @@ function Tutorial(props) {
 					{thirdTutorialPhrase.split("").map((letter, i) => {
 						return (
 							<Letter
+								isTutorialLetter={true}
 								key={"tutorial-letter-2-" + i}
 								id={"tutorial-letter-2-" + i}
 								index={i}

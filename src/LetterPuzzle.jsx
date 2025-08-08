@@ -2,10 +2,12 @@ import { useState, useEffect, useRef } from "react";
 
 import Letter from "./Letter";
 import Tabs from "./Tabs";
+import GameOver from "./GameOver";
+import Dialog from "./Dialog";
 
 import backArrow2 from "/images/back_arrow_2.png";
 import restartImg from "/images/restart.png";
-import GameOver from "./GameOver";
+import lightbulb from "/images/lightbulb.png";
 
 import {
 	reportFoundEveryWord,
@@ -40,12 +42,16 @@ function LetterPuzzle(props) {
 	const [solved, setSolved] = useState(false);
 	const [gameOverShowState, setGameOverShowState] = useState("hide"); // hide, win, complete, win_and_complete
 	const [highlightedIndex, setHighlightedIndex] = useState(-1);
+	const [showHintsButton, setShowHintsButton] = useState(false);
+	const [hints, setHints] = useState(false);
+	const [hintAnimInterval, setHintAnimInterval] = useState(true);
 
 	const [tabsAnimating, setTabsAnimating] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
 	const [isNewBestScore, setIsNewBestScore] = useState(false);
 
 	const [currentPhrase, setCurrentPhrase] = useState("");
+	const [dialogState, setDialogState] = useState("none"); // none, hint
 
 	const tabsShowing = useRef(false);
 	const touchStart = useRef(null);
@@ -84,6 +90,7 @@ function LetterPuzzle(props) {
 			solved: solved,
 			completedToday: completedToday,
 			bestMoves: data ? data.bestMoves : undefined,
+			hints: hints,
 		};
 		if (!isArchivePuzzle && gameState != "play") {
 			if (
@@ -96,14 +103,22 @@ function LetterPuzzle(props) {
 				}
 			}
 		}
-		//console.log("Saving ", newData);
+		console.log("Saving ", newData);
 		saveData(newData);
-	}, [foundWords, solved, gameState]);
+	}, [foundWords, solved, gameState, hints]);
+
+	useEffect(() => {
+		var limit = startingPhrase.length * 3;
+		if (moves.length > 5 && !showHintsButton && !hints) {
+			setShowHintsButton(true);
+		}
+	}, [moves]);
 
 	useEffect(() => {
 		if (data && data.foundWords) {
 			setFoundWords(data.foundWords);
 			setSolved(data.solved);
+			setHints(data.hints);
 		}
 	}, []);
 
@@ -366,12 +381,7 @@ function LetterPuzzle(props) {
 		newWordContainer.classList.add("new-word-anim");
 
 		if (!tabsShowing.current) {
-			var tab2 = document.getElementById("tab-2");
-			if (tab2.classList.contains("hop")) {
-				tab2.classList.remove("hop");
-				tab2.offsetHeight; /* trigger reflow */
-			}
-			tab2.classList.add("hop");
+			hopWordlistTab();
 		}
 	};
 
@@ -631,6 +641,15 @@ function LetterPuzzle(props) {
 		}
 	};
 
+	const hopWordlistTab = () => {
+		var tab2 = document.getElementById("tab-2");
+		if (tab2.classList.contains("hop")) {
+			tab2.classList.remove("hop");
+			tab2.offsetHeight; /* trigger reflow */
+		}
+		tab2.classList.add("hop");
+	};
+
 	return (
 		<div
 			className="letter-puzzle-container container"
@@ -703,35 +722,60 @@ function LetterPuzzle(props) {
 			)}
 			{gameState == "play" && (
 				<div id="button-container" className="container">
-					{gameState == "play" && (
-						<button
-							className="restart puzzle-button"
-							onClick={restart}
-							disabled={!canRestart()}
-						>
-							<div className="puzzle-button-img-container">
-								<img
-									src={restartImg}
-									className="restart-button-img"
-								/>
-							</div>
-						</button>
-					)}
-					{gameState == "play" && (
-						<button
-							className="undo puzzle-button"
-							onClick={undo}
-							disabled={!canUndo()}
-						>
-							<div className="puzzle-button-img-container">
-								<img
-									src={backArrow2}
-									className="undo-button-img"
-								/>
-							</div>
-						</button>
-					)}
+					<button
+						className="restart puzzle-button"
+						onClick={restart}
+						disabled={!canRestart()}
+					>
+						<div className="puzzle-button-img-container">
+							<img
+								src={restartImg}
+								className="restart-button-img"
+							/>
+						</div>
+					</button>
+					<button
+						className="undo puzzle-button"
+						onClick={undo}
+						disabled={!canUndo()}
+					>
+						<div className="puzzle-button-img-container">
+							<img src={backArrow2} className="undo-button-img" />
+						</div>
+					</button>
 				</div>
+			)}
+
+			{gameState == "play" && (showHintsButton || hints) && !solved && (
+				<div
+					className={
+						"small-circle-button hint-button-top-bar" +
+						(hints ? " hints-button-pressed" : "")
+					}
+					onClick={() => {
+						if (!hints) {
+							setDialogState("hint");
+						}
+					}}
+				>
+					<img src={lightbulb} className="hint-button-icon" />
+				</div>
+			)}
+			{dialogState != "none" && (
+				<Dialog
+					dialogState={dialogState}
+					setDialogState={setDialogState}
+					buttonActions={[
+						() => {
+							setHints(true);
+							setDialogState("none");
+							hopWordlistTab();
+							var interval = setInterval(hopWordlistTab, 2000);
+							setHintAnimInterval(interval);
+						},
+						() => setDialogState("none"),
+					]}
+				/>
 			)}
 			<div id="footer">
 				<Tabs
@@ -742,6 +786,9 @@ function LetterPuzzle(props) {
 					possibleWords={possibleWords}
 					currentPhrase={getPhrase(-1)}
 					solved={solved}
+					hints={hints}
+					hintAnimInterval={hintAnimInterval}
+					setHintAnimInterval={setHintAnimInterval}
 				/>
 			</div>
 		</div>

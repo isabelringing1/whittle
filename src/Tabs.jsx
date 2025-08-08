@@ -11,6 +11,9 @@ function Tabs(props) {
 		possibleWords,
 		currentPhrase,
 		solved,
+		hints,
+		hintAnimInterval,
+		setHintAnimInterval,
 	} = props;
 
 	const [currentTab, setCurrentTab] = useState(0);
@@ -38,6 +41,10 @@ function Tabs(props) {
 			tryShowTabs();
 		}
 		setCurrentTab(tab);
+		if (hintAnimInterval != null) {
+			clearInterval(hintAnimInterval);
+			setHintAnimInterval(null);
+		}
 	};
 
 	const getDefinition = (word) => {
@@ -136,37 +143,39 @@ function Tabs(props) {
 				></div>
 
 				<div className="found-words-container scrollable">
-					{getFoundWordsSortedByLength(solved).map((wordList, i) => {
-						return (
-							<div
-								key={"word-list-" + i}
-								id={"word-list-" + i}
-								className="word-list"
-							>
-								{wordList.map((word, j) => {
-									return isWordUppercase(word) ? (
-										<span
-											className="blank-word"
-											key={"word-" + i + "-" + j}
-										>
-											{" "}
-										</span>
-									) : (
-										<span
-											className="found-word"
-											key={"word-" + i + "-" + j}
-										>
-											{word}
-											{j == wordList.length - 1
-												? ""
-												: ", "}
-										</span>
-									);
-								})}
-								{}
-							</div>
-						);
-					})}
+					{getFoundWordsSortedByLength(solved || hints).map(
+						(wordList, i) => {
+							return (
+								<div
+									key={"word-list-" + i}
+									id={"word-list-" + i}
+									className="word-list"
+								>
+									{wordList.map((word, j) => {
+										return isWordUppercase(word) ? (
+											<span
+												className="blank-word"
+												key={"word-" + i + "-" + j}
+											>
+												{" "}
+											</span>
+										) : (
+											<span
+												className="found-word"
+												key={"word-" + i + "-" + j}
+											>
+												{word}
+												{j == wordList.length - 1
+													? ""
+													: ", "}
+											</span>
+										);
+									})}
+									{}
+								</div>
+							);
+						}
+					)}
 				</div>
 			</div>
 		</div>

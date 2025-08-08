@@ -9,6 +9,8 @@ function Debug(props) {
 		setPrevGameState,
 		gameState,
 		saveData,
+		playerData,
+		setPlayerData,
 		startingPhrase,
 		showDebug,
 		setShowDebug,
@@ -19,6 +21,9 @@ function Debug(props) {
 	const testPhraseRef = useRef();
 	const saveDataRef = useRef();
 	const fileRef = useRef();
+
+	const [betaCheckmark, setBetaCheckmark] = useState(false);
+	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
 		document.addEventListener("keydown", (event) => {
@@ -33,8 +38,32 @@ function Debug(props) {
 		});
 	}, []);
 
+	useEffect(() => {
+		if (!loaded && playerData) {
+			console.log(playerData.betaTester);
+			setBetaCheckmark(playerData.betaTester ?? false);
+			setLoaded(true);
+		}
+	}, [playerData]);
+
 	const toggleShowDebug = () => {
 		setShowDebug((prevShowDebug) => !prevShowDebug);
+	};
+
+	const onBetaTesterCheckboxChange = () => {
+		if (playerData == null) {
+			return;
+		}
+		setBetaCheckmark(!betaCheckmark);
+		var newPlayerData = {
+			...playerData,
+		};
+		newPlayerData.betaTester = !betaCheckmark;
+		var saveString = JSON.stringify(newPlayerData);
+		localStorage.setItem("whittle", window.btoa(saveString));
+		console.log("beta is " + !betaCheckmark);
+		console.log(newPlayerData);
+		setPlayerData(newPlayerData);
 	};
 
 	const printInfo = (phrases) => {
@@ -127,6 +156,16 @@ function Debug(props) {
 			<div className="debug-column">
 				<div className="debug-section">
 					<input
+						type="checkbox"
+						checked={betaCheckmark}
+						disabled={!playerData}
+						className="debug-checkbox"
+						onChange={onBetaTesterCheckboxChange}
+					/>{" "}
+					Beta Tester
+				</div>
+				<div className="debug-section">
+					<input
 						type="string"
 						ref={testPhraseRef}
 						className="debug-input"
@@ -206,7 +245,9 @@ function Debug(props) {
 						</button>
 					</div>
 				)}
-				<div className="debug-section">
+				{/* <div className="debug-section">
+					CSV generator
+					<br />
 					<input
 						type="file"
 						name="file"
@@ -214,7 +255,7 @@ function Debug(props) {
 						ref={fileRef}
 						onChange={generateAllInfo}
 					/>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	) : null;

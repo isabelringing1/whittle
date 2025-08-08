@@ -111,6 +111,10 @@ button:disabled {
 		width: 450px !important;
 	}
 
+	.dialog-page {
+		width: 450px !important;
+	}
+
 	.tutorial-progress-circle {
 		width: 2vh !important;
 		height: 2vh !important;
@@ -148,9 +152,14 @@ button:disabled {
 		width: 25% !important;
 	}
 
-	.letter:hover {
+	.letter:hover:not(.tutorial-letter) {
 		cursor: pointer;
 		background-color: rgba(255, 255, 255, 0.22);
+	}
+
+	.small-circle-button:hover:not(.hints-button-pressed) {
+		background-color: #394652;
+		color: rgb(210, 210, 210);
 	}
 }
 
@@ -871,7 +880,7 @@ button:disabled {
 	background-color: white;
 }
 
-.tutorial-button {
+.small-circle-button {
 	background-color: #485766;
 	display: flex;
 	justify-content: center;
@@ -881,7 +890,7 @@ button:disabled {
 	border-radius: 10vh;
 }
 
-.tutorial-button:active {
+.small-circle-button:active:not(.hints-button-pressed) {
 	background-color: #394652;
 	color: rgb(210, 210, 210);
 }
@@ -889,6 +898,13 @@ button:disabled {
 .tutorial-button-menu {
 	position: absolute;
 	top: 92svh;
+	margin-right: 10vh;
+}
+
+.info-button-menu {
+	position: absolute;
+	top: 92svh;
+	margin-left: 10vh;
 }
 
 .tutorial-button-text {
@@ -900,6 +916,20 @@ button:disabled {
 	position: absolute;
 	right: 3vh;
 	top: 0;
+}
+
+.hint-button-top-bar {
+	position: absolute;
+	right: 3vh;
+	top: 15vh;
+}
+
+.hint-button-icon {
+	height: 2.7vh;
+}
+
+.hints-button-pressed {
+	filter: brightness(0.6);
 }
 
 #puzzle-no {
@@ -935,6 +965,7 @@ button:disabled {
 	position: absolute;
 	pointer-events: none;
 	z-index: 10;
+	font-size: 5vh;
 }
 
 .debug-column {
@@ -956,6 +987,11 @@ button:disabled {
 	height: 4vh;
 	margin-bottom: 2vh;
 	font-size: 3vh;
+}
+
+.debug-checkbox {
+	height: 3vh;
+	width: 3vh;
 }
 
 .debug-button {
@@ -1023,4 +1059,73 @@ button:disabled {
 		transform: scale(1) rotate(0deg);
 		margin-bottom: 0px;
 	}
+}
+
+.dialog-container {
+	z-index: 3;
+	width: 100vw;
+	height: 100svh;
+	top: 0svh;
+	background-color: rgba(0, 0, 0, 0.25);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+}
+
+.dialog-page {
+	z-index: 4;
+	width: 77vw;
+	background-color: rgb(53, 57, 61);
+	border: solid white 0.35vh;
+	border-radius: 3vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+	padding: 2.5svh;
+}
+
+.dialog-title {
+	font-size: 6.5vh;
+	text-align: center;
+	line-height: 1;
+}
+
+.dialog-text {
+	font-size: 4.4svh;
+	font-weight: 300;
+	line-height: 0.8;
+	text-align: center;
+	padding-bottom: 0.5vh;
+}
+
+.dialog-info {
+	width: 100%;
+	font-size: 3.5svh;
+	text-align: left;
+}
+
+.dialog-buttons-container {
+	padding: 2vh 0 2vh;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.dialog-button {
+	width: 10vh;
+	pointer-events: all;
+	height: 7vh;
+}
+
+.dialog-button-text-container {
+	width: 100%;
+	height: 100%;
+	border-radius: 2.2vh;
+	display: flex;
+	border: 0.3vh solid white;
+	border-bottom-width: 0.45vh;
+	justify-content: center;
+	align-items: center;
 }

@@ -16,6 +16,7 @@ function Archive(props) {
 	const {
 		dailyPuzzleDict,
 		puzzleLog,
+		playerData,
 		setPrevGameState,
 		setGameState,
 		setCurrentPuzzleId,
@@ -169,6 +170,16 @@ function Archive(props) {
 		return currentDate[2];
 	};
 
+	const isBetaTester = () => {
+		return playerData && playerData.betaTester;
+	};
+
+	const getTomorrowDate = () => {
+		const newDate = new Date();
+		newDate.setHours(newDate.getHours() + 24);
+		return newDate;
+	};
+
 	return (
 		<div id="archive">
 			{selectedDate && (
@@ -278,10 +289,12 @@ function Archive(props) {
 											getDateString(date) == dailyPuzzleId
 										}
 										hasPuzzle={
-											date <= Date.now() &&
-											dailyPuzzleDict[
-												getDateString(date)
-											] != null
+											date <= Date.now() ||
+											(isBetaTester() &&
+												date <= getTomorrowDate() &&
+												dailyPuzzleDict[
+													getDateString(date)
+												] != null)
 										}
 									/>
 								);

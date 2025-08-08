@@ -255,7 +255,7 @@ function App() {
 					onClick={onBackButtonClicked}
 				/>
 				<div
-					className="tutorial-button tutorial-button-top-bar"
+					className="small-circle-button tutorial-button-top-bar"
 					onClick={() => {
 						setShowTutorial(true);
 					}}
@@ -271,10 +271,13 @@ function App() {
 					setPrevGameState={setPrevGameState}
 					gameState={gameState}
 					saveData={saveData}
+					playerData={playerData}
+					setPlayerData={setPlayerData}
 					startingPhrase={getCurrentPuzzleStartingPhrase()}
 					setShowDebug={setShowDebug}
 					showDebug={showDebug}
 				/>
+
 				{showTutorial && <Tutorial setShowTutorial={setShowTutorial} />}
 				{gameState == "menu" && (
 					<Menu
@@ -293,6 +296,7 @@ function App() {
 						puzzleLog={
 							playerData != null ? playerData.puzzleLog : {}
 						}
+						playerData={playerData}
 						setPrevGameState={setPrevGameState}
 						setGameState={setGameState}
 						setCurrentPuzzleId={setCurrentPuzzleId}
