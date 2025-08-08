@@ -6566,7 +6566,6 @@ cliff
 cliffhanger
 cliffhangers
 cliffs
-clii
 climactic
 climate
 climates
@@ -18988,7 +18987,6 @@ ignores
 ignoring
 iguana
 iguanas
-iii
 ilk
 ill
 illegal
@@ -23179,7 +23177,6 @@ marveling
 marvelous
 marvels
 mas
-masc
 mascara
 mascaraed
 mascaraing
@@ -41710,8 +41707,6 @@ vigils
 vigor
 vigorous
 vigorously
-vii
-viii
 vile
 viler
 vilest
