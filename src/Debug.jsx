@@ -40,7 +40,6 @@ function Debug(props) {
 
 	useEffect(() => {
 		if (!loaded && playerData) {
-			console.log(playerData.betaTester);
 			setBetaCheckmark(playerData.betaTester ?? false);
 			setLoaded(true);
 		}

@@ -109,7 +109,7 @@ function Menu(props) {
 			</div>
 
 			<div
-				className="tutorial-button tutorial-button-menu"
+				className="small-circle-button tutorial-button-menu"
 				onClick={() => {
 					setShowTutorial(true);
 				}}

@@ -36,12 +36,19 @@ function Tabs(props) {
 		});
 	}, [currentPhrase]);
 
+	useEffect(() => {
+		if (hintAnimInterval && tabsShowing && currentTab == 1) {
+			clearInterval(hintAnimInterval);
+			setHintAnimInterval(null); // only bump once if it's actually showing
+		}
+	}, [hintAnimInterval]);
+
 	const onTabClicked = (tab) => {
 		if (!tabsShowing) {
 			tryShowTabs();
 		}
 		setCurrentTab(tab);
-		if (hintAnimInterval != null) {
+		if (tab == 1 && hintAnimInterval != null) {
 			clearInterval(hintAnimInterval);
 			setHintAnimInterval(null);
 		}

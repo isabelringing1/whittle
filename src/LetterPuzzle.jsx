@@ -103,13 +103,12 @@ function LetterPuzzle(props) {
 				}
 			}
 		}
-		console.log("Saving ", newData);
 		saveData(newData);
 	}, [foundWords, solved, gameState, hints]);
 
 	useEffect(() => {
 		var limit = startingPhrase.length * 3;
-		if (moves.length > 5 && !showHintsButton && !hints) {
+		if (moves.length > limit && !showHintsButton && !hints && !solved) {
 			setShowHintsButton(true);
 		}
 	}, [moves]);
