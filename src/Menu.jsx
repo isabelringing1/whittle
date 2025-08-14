@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Dialog from "./Dialog";
 
@@ -6,6 +6,7 @@ import {
 	getDateStringFormatted,
 	getStatusClassName,
 	copyStats,
+	getMovesLength,
 } from "../public/util";
 
 import calendar from "/images/calendar.png";
@@ -20,10 +21,13 @@ function Menu(props) {
 		percentComplete,
 		setShowTutorial,
 		dailyPuzzleDict,
+		setPlayerData,
 	} = props;
 
 	const [status, setStatus] = useState("start"); //start, continue, finish
 	const [dialogState, setDialogState] = useState("none"); // none, info
+
+	const debugTimerRef = useRef(null);
 
 	useEffect(() => {
 		if (playerData == null) {
@@ -117,6 +121,19 @@ function Menu(props) {
 					setDialogState={setDialogState}
 					buttonActions={[
 						() => {
+							if (dialogState == "beta") {
+								var newPlayerData = {
+									...playerData,
+								};
+								newPlayerData.betaTester = true;
+								var saveString = JSON.stringify(newPlayerData);
+								localStorage.setItem(
+									"whittle",
+									window.btoa(saveString)
+								);
+								console.log(newPlayerData);
+								setPlayerData(newPlayerData);
+							}
 							setDialogState("none");
 						},
 						() => setDialogState("none"),
@@ -136,6 +153,14 @@ function Menu(props) {
 				className="small-circle-button info-button-menu"
 				onClick={() => {
 					setDialogState("info");
+				}}
+				onTouchStart={() => {
+					debugTimerRef.current = setTimeout(() => {
+						setDialogState("beta");
+					}, 10000);
+				}}
+				onTouchEnd={() => {
+					debugTimerRef.current = null;
 				}}
 			>
 				<span className="tutorial-button-text">i</span>

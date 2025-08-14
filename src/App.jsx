@@ -288,6 +288,7 @@ function App() {
 						percentComplete={getCurrentPuzzlePercentFound()}
 						setShowTutorial={setShowTutorial}
 						dailyPuzzleDict={dailyPuzzleDict}
+						setPlayerData={setPlayerData}
 					/>
 				)}
 				{gameState == "archive" && (

@@ -21,6 +21,10 @@ function Dialog(props) {
 				"Thanks for playing!",
 			]);
 			setDialogButtons(["Close"]);
+		} else if (dialogState == "beta") {
+			setDialogTitle("Enable Beta?");
+			setDialogDesc(["You'll be able to play tomorrow's puzzle."]);
+			setDialogButtons(["Yes"]);
 		}
 	}, [dialogState]);
 
