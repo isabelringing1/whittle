@@ -28334,6 +28334,7 @@ pleat
 pleated
 pleating
 pleats
+pled
 pledge
 pledged
 pledges
