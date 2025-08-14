@@ -35,7 +35,7 @@ function App() {
 	useEffect(() => {
 		readDataAsync();
 		var playerData = loadData();
-		if (playerData != null) {
+		if (playerData != null && playerData.puzzleLog != null) {
 			var id = getDailyPuzzleId();
 			if (!(id in playerData.puzzleLog)) {
 				playerData.puzzleLog[id] = {};
