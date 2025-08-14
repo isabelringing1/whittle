@@ -900,6 +900,9 @@ button:disabled {
 	height: 5vh;
 	border-radius: 10vh;
 	cursor: pointer;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
 }
 
 .small-circle-button:active:not(.hints-button-pressed) {

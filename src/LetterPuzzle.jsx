@@ -12,6 +12,7 @@ import lightbulb from "/images/lightbulb.png";
 import {
 	reportFoundEveryWord,
 	reportWonTodaysPuzzle,
+	reportHint,
 } from "../public/analytics";
 
 import {
@@ -778,6 +779,7 @@ function LetterPuzzle(props) {
 					buttonActions={[
 						() => {
 							setHints(true);
+							reportHint(id);
 							addToMoves("hint");
 							setDialogState("none");
 							hopWordlistTab();
