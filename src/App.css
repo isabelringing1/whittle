@@ -9,6 +9,14 @@ body {
 	position: fixed;
 }
 
+p {
+	margin: 0.5vh 0;
+}
+
+a {
+	color: white;
+}
+
 .letter-puzzle-container {
 	width: 100%;
 	height: 100%;
@@ -902,6 +910,7 @@ button:disabled {
 .tutorial-button-menu {
 	position: absolute;
 	top: 92svh;
+	margin-right: 10vh;
 }
 
 .info-button-menu {
@@ -1078,7 +1087,7 @@ button:disabled {
 
 .dialog-page {
 	z-index: 4;
-	width: 77vw;
+	width: 70vw;
 	background-color: rgb(53, 57, 61);
 	border: solid white 0.35vh;
 	border-radius: 3vh;
@@ -1105,7 +1114,7 @@ button:disabled {
 
 .dialog-info {
 	width: 100%;
-	font-size: 3.5svh;
+	font-size: 4.4svh;
 	text-align: left;
 }
 

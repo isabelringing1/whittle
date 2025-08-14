@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Markdown from "react-markdown";
 
 function Dialog(props) {
 	const { dialogState, setDialogState, buttonActions } = props;
@@ -12,11 +13,12 @@ function Dialog(props) {
 			setDialogTitle("Turn On Hints?");
 			setDialogButtons(["Yes", "No"]);
 		} else if (dialogState == "info") {
-			//setDialogTitle("Info");
+			setDialogTitle("Credits");
 			setDialogDesc([
-				"Credits",
-				"Made by Isabel Lee",
-				"with help from Keaton Mueller",
+				"Made by [Isabel Lee](https://isabellee.me)",
+				"(with help from Keaton Mueller)",
+				"Want to report a bug or request a feature? Submit your feedback [here](https://forms.gle/BbLJJp59pQcp9gE3A).",
+				"Thanks for playing!",
 			]);
 			setDialogButtons(["Close"]);
 		}
@@ -39,7 +41,7 @@ function Dialog(props) {
 							className={"dialog-text dialog-" + dialogState}
 							key={"dialog-text-" + i}
 						>
-							{text}
+							<Markdown>{text}</Markdown>
 						</div>
 					);
 				})}

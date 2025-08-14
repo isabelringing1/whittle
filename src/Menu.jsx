@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import Dialog from "./Dialog";
+
 import {
 	getDateStringFormatted,
 	getStatusClassName,
@@ -21,6 +23,7 @@ function Menu(props) {
 	} = props;
 
 	const [status, setStatus] = useState("start"); //start, continue, finish
+	const [dialogState, setDialogState] = useState("none"); // none, info
 
 	useEffect(() => {
 		if (playerData == null) {
@@ -108,6 +111,19 @@ function Menu(props) {
 				)}
 			</div>
 
+			{dialogState != "none" && (
+				<Dialog
+					dialogState={dialogState}
+					setDialogState={setDialogState}
+					buttonActions={[
+						() => {
+							setDialogState("none");
+						},
+						() => setDialogState("none"),
+					]}
+				/>
+			)}
+
 			<div
 				className="small-circle-button tutorial-button-menu"
 				onClick={() => {
@@ -115,6 +131,14 @@ function Menu(props) {
 				}}
 			>
 				<span className="tutorial-button-text">?</span>
+			</div>
+			<div
+				className="small-circle-button info-button-menu"
+				onClick={() => {
+					setDialogState("info");
+				}}
+			>
+				<span className="tutorial-button-text">i</span>
 			</div>
 		</div>
 	);
