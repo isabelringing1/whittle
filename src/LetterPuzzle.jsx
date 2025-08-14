@@ -14,7 +14,11 @@ import {
 	reportWonTodaysPuzzle,
 } from "../public/analytics";
 
-import { generatePossibleWords, areValidWords } from "../public/util.js";
+import {
+	generatePossibleWords,
+	areValidWords,
+	getMovesLength,
+} from "../public/util.js";
 
 function LetterPuzzle(props) {
 	const {
@@ -94,7 +98,8 @@ function LetterPuzzle(props) {
 		};
 		if (!isArchivePuzzle && gameState != "play") {
 			if (
-				(!data.bestMoves || data.bestMoves.length > moves.length) &&
+				(!data.bestMoves ||
+					getMovesLength(data.bestMoves) > getMovesLength(moves)) &&
 				gameOverShowState != "complete"
 			) {
 				newData.bestMoves = moves;
@@ -108,7 +113,12 @@ function LetterPuzzle(props) {
 
 	useEffect(() => {
 		var limit = startingPhrase.length * 3;
-		if (moves.length > limit && !showHintsButton && !hints && !solved) {
+		if (
+			getMovesLength(moves) > limit &&
+			!showHintsButton &&
+			!hints &&
+			!solved
+		) {
 			setShowHintsButton(true);
 		}
 	}, [moves]);
@@ -668,11 +678,12 @@ function LetterPuzzle(props) {
 					goToMenu={goToMenu}
 					isPerfect={
 						(gameOverShowState != "complete" &&
-							startingPhrase.length >= moves.length) ||
+							startingPhrase.length >= getMovesLength(moves)) ||
 						(gameOverShowState == "complete" &&
 							data &&
 							data.bestMoves &&
-							startingPhrase.length >= data.bestMoves.length)
+							startingPhrase.length >=
+								getMovesLength(data.bestMoves))
 					}
 					isArchivePuzzle={isArchivePuzzle}
 					goToArchive={goToArchive}
@@ -767,6 +778,7 @@ function LetterPuzzle(props) {
 					buttonActions={[
 						() => {
 							setHints(true);
+							addToMoves("hint");
 							setDialogState("none");
 							hopWordlistTab();
 							var interval = setInterval(hopWordlistTab, 2000);

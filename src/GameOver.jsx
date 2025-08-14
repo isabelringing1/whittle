@@ -1,4 +1,4 @@
-import { getStatusClassName, copyStats } from "../public/util";
+import { getStatusClassName, copyStats, getMovesLength } from "../public/util";
 
 function GameOver(props) {
 	const {
@@ -22,7 +22,7 @@ function GameOver(props) {
 		title = "Nice work!";
 		subtitle = (
 			<span>
-				You won in <b>{moves.length}</b> moves.
+				You won in <b>{getMovesLength(moves)}</b> moves.
 				{isPerfect && (
 					<div className="green">That's a perfect score!</div>
 				)}
@@ -40,7 +40,7 @@ function GameOver(props) {
 		title = "Amazing!";
 		subtitle = (
 			<span>
-				You won in <b>{moves.length}</b> moves and found{" "}
+				You won in <b>{getMovesLength(moves)}</b> moves and found{" "}
 				<span className="green">every single word</span> in today's
 				puzzle. Great work!
 				{isPerfect && (
