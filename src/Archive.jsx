@@ -21,6 +21,7 @@ function Archive(props) {
 		setGameState,
 		setCurrentPuzzleId,
 		setIsArchivePuzzle,
+		setIsTomorrowsPuzzle,
 		dailyPuzzleId,
 		setCurrentDebugPuzzlePhrase,
 	} = props;
@@ -59,6 +60,7 @@ function Archive(props) {
 			setCurrentPuzzleId(getDateString(selectedDate));
 			setCurrentDebugPuzzlePhrase(null);
 			setIsArchivePuzzle(getDateString(selectedDate) != dailyPuzzleId);
+			setIsTomorrowsPuzzle(selectedDate >= new Date());
 		}
 	}, [selectedDate]);
 

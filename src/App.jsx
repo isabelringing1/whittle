@@ -22,6 +22,7 @@ function App() {
 	const [prevGameState, setPrevGameState] = useState("none"); // none, menu, archive, play, win
 	const [currentPuzzleId, setCurrentPuzzleId] = useState("");
 	const [isArchivePuzzle, setIsArchivePuzzle] = useState(false);
+	const [isTomorrowsPuzzle, setIsTomorrowsPuzzle] = useState(false);
 
 	const [playerData, setPlayerData] = useState(null);
 	const [showTutorial, setShowTutorial] = useState(false);
@@ -75,6 +76,7 @@ function App() {
 		if (gameState == "menu") {
 			setCurrentPuzzleId(getDailyPuzzleId());
 			setIsArchivePuzzle(false);
+			setIsTomorrowsPuzzle(false);
 			setCurrentDebugPuzzlePhrase(null);
 		}
 	}, [gameState]);
@@ -302,6 +304,7 @@ function App() {
 						setGameState={setGameState}
 						setCurrentPuzzleId={setCurrentPuzzleId}
 						setIsArchivePuzzle={setIsArchivePuzzle}
+						setIsTomorrowsPuzzle={setIsTomorrowsPuzzle}
 						dailyPuzzleId={getDailyPuzzleId()}
 						setCurrentDebugPuzzlePhrase={
 							setCurrentDebugPuzzlePhrase
@@ -323,6 +326,7 @@ function App() {
 							getCurrentPuzzleStatusClassName
 						}
 						isArchivePuzzle={isArchivePuzzle}
+						isTomorrowsPuzzle={isTomorrowsPuzzle}
 						isDebug={currentDebugPuzzlePhrase != null}
 						number={dailyPuzzleDict[currentPuzzleId].number}
 						isNewPuzzleRef={isNewPuzzleRef}

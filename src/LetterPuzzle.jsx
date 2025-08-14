@@ -33,6 +33,7 @@ function LetterPuzzle(props) {
 		id,
 		startingPhrase,
 		isArchivePuzzle,
+		isTomorrowsPuzzle,
 		isDebug,
 		number,
 		isNewPuzzleRef,
@@ -87,7 +88,7 @@ function LetterPuzzle(props) {
 		var percent = getPercentWordsFound();
 		var completedToday =
 			(data && data.completedToday) ||
-			(!isArchivePuzzle && percent >= 100);
+			((!isArchivePuzzle || isTomorrowsPuzzle) && percent >= 100);
 
 		var newData = {
 			foundWords: foundWords,
