@@ -22769,6 +22769,7 @@ maelstrom
 maelstroms
 magazine
 magazines
+mage
 magenta
 maggot
 maggots
