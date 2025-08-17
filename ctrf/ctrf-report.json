@@ -1,0 +1,30 @@
+{
+  "results": {
+    "tool": {
+      "name": "jest"
+    },
+    "summary": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "start": 1755474197536,
+      "stop": 1755474197684
+    },
+    "tests": [
+      {
+        "name": "test test",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/Users/isabellee/Dropbox/whittle/src/whittle.test.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "whittle.test.js"
+      }
+    ]
+  }
+}
