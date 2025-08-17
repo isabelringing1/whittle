@@ -14,9 +14,10 @@ jobs:
       - run: npm ci # install packages
       - run: npm test # run tests (configured to use jest-junit reporter)
 
-      - name: Publish Test Report
-        uses: ctrf-io/github-test-reporter@v1
+      - name: Test Report
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }} # run this step even if previous step failed
         with:
-          report-path: "./ctrf/*.json"
-          github-report: true
-        if: always()
+          name: JEST Tests # Name of the check run which will be created
+          path: ./reports/test-results.xml # Path to test results
+          reporter: jest-junit # Format of test results
