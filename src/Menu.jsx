@@ -156,7 +156,7 @@ function Menu(props) {
 				}}
 				onTouchStart={() => {
 					debugTimerRef.current = setTimeout(() => {
-						setDialogState("beta");
+						//setDialogState("beta");
 					}, 10000);
 				}}
 				onTouchEnd={() => {
