@@ -197,17 +197,18 @@ public class Main {
             }
         }
 
-        // step 1: generate all single word solutions 
-        //findSolutionsWithArgs(10, 0, false);
+        /*
+        findSolutionsWithArgs(10, 0, false);
 
-        // step 2: generate all multi word solutions
-        /*findSolutionsWithArgs(11, 2, false);
-        Set<String> solutions = getSolutions(11);
-        for (String word : solutions){
-            System.out.println(word);
+        for (var i = 1; i < 11; i++){
+            Set<String> solutions = getSolutions(i);
+            for (String word : solutions){
+                System.out.println(word);
+            }
         }*/
-
-      // printInterestingPuzzles(12);
+       
+        
+        //printInterestingPuzzles(12);
 
 
        

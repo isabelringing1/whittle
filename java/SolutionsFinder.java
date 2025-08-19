@@ -6,7 +6,7 @@ import java.util.*;
 public class SolutionsFinder {
     public static final String SINGLE_WORD_SOLUTIONS = "single_word_solutions.txt"; 
 
-    public static final String MULTI_WORD_SOLUTIONS = "eleven_letter_one_space_words.txt"; 
+    public static final String MULTI_WORD_SOLUTIONS = "11_phrases.txt"; 
 
     // set of all english words that are individual solutions
     public static final Set<String> SINGLE_WORD_SOLUTIONS_DICTIONARY = new HashSet<>();

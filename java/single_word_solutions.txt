@@ -79,7 +79,6 @@ had
 lab
 him
 pie
-lii
 hip
 lad
 dis
@@ -364,21 +363,18 @@ acts
 pits
 shin
 bank
-bani
 bang
 pact
 gins
 rind
 bane
 band
-assn
 want
 taxi
 malt
 seat
 wane
 wand
-asst
 fact
 scab
 hind
@@ -431,6 +427,7 @@ sink
 lass
 wash
 this
+cams
 fits
 lice
 sins
@@ -454,7 +451,6 @@ life
 damp
 bats
 lien
-masc
 twit
 lies
 mash
@@ -528,7 +524,6 @@ spay
 sits
 grin
 spat
-clii
 lead
 hits
 site
@@ -916,6 +911,7 @@ mangy
 plays
 whims
 wring
+rater
 rates
 basks
 rated
@@ -1155,7 +1151,6 @@ width
 clink
 heads
 sited
-asset
 first
 board
 wince
@@ -1293,6 +1288,7 @@ pasted
 hatted
 diners
 cameos
+rafter
 planet
 spanks
 planes
@@ -1306,6 +1302,7 @@ hardly
 palate
 blanks
 united
+rather
 parity
 slings
 petals
@@ -1382,6 +1379,7 @@ graded
 faucet
 linear
 linger
+raster
 grainy
 health
 spates
@@ -1491,6 +1489,7 @@ whines
 shifty
 taping
 clinks
+bather
 bathes
 whined
 miners
@@ -1576,7 +1575,6 @@ ranged
 chimps
 plains
 thrash
-assent
 soling
 chaste
 blinds
@@ -1614,6 +1612,7 @@ cawing
 slants
 gables
 flirts
+raters
 prizes
 palled
 chicks
@@ -1629,7 +1628,6 @@ stolid
 climbs
 creamy
 creams
-assert
 ridges
 lither
 sewing
@@ -1661,7 +1659,6 @@ padres
 minded
 shames
 plaids
-assets
 glades
 divers
 harmed
@@ -1717,7 +1714,6 @@ grander
 planked
 crowing
 granted
-asserts
 spiting
 scanned
 flicked
@@ -1812,6 +1808,7 @@ slither
 drivels
 skating
 graders
+rafters
 derives
 storing
 seating
@@ -1831,7 +1828,6 @@ stewing
 pleases
 fingers
 gowning
-assents
 stilted
 pricked
 stinger
@@ -1911,6 +1907,7 @@ minuted
 breasts
 friends
 flowing
+bathers
 chatted
 pleated
 creates
