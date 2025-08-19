@@ -691,6 +691,7 @@ function LetterPuzzle(props) {
 					goToArchive={goToArchive}
 					isNewBestScore={isNewBestScore}
 					number={number}
+					isTomorrowsPuzzle={isTomorrowsPuzzle}
 				/>
 			)}
 

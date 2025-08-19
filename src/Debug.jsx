@@ -99,6 +99,7 @@ function Debug(props) {
 			// By lines
 			var lines = text.split("\n");
 			var output = "";
+			var csvContent = "data:text/csv;charset=utf-8,";
 			for (var line = 0; line < lines.length; line++) {
 				var possibleWords = generatePossibleWords(
 					lines[line],
@@ -111,20 +112,41 @@ function Debug(props) {
 						combos.push(word.slice(1));
 					}
 				});
-				output +=
+
+				csvContent +=
 					lines[line] +
-					"/" +
-					combos +
-					"/" +
+					"," +
+					turnIntoListString(combos) +
+					"," +
 					Object.keys(possibleWords).length +
-					"/" +
-					Object.keys(possibleWords) +
-					"\n";
+					"," +
+					turnIntoListString(Object.keys(possibleWords)) +
+					"\r\n";
 			}
-			console.log(output);
-			navigator.clipboard.writeText(output);
+			var a = document.createElement("a");
+			document.body.appendChild(a);
+			a.style = "display: none";
+
+			var blob = new Blob([csvContent], {
+				type: "text/csv;charset=utf-8",
+			});
+			a.href = window.URL.createObjectURL(blob);
+			a.download = file.name.split(".")[0] + ".csv";
+			a.click();
+			window.URL.revokeObjectURL(a.href);
 		};
 		reader.readAsText(file);
+	};
+
+	const turnIntoListString = (list) => {
+		var listString = "";
+		for (var i = 0; i < list.length; i++) {
+			listString += list[i];
+			if (i < list.length - 1) {
+				listString += "/";
+			}
+		}
+		return listString;
 	};
 
 	const testPhrase = (phrase) => {
@@ -244,17 +266,19 @@ function Debug(props) {
 						</button>
 					</div>
 				)}
-				{/* <div className="debug-section">
-					CSV generator
-					<br />
-					<input
-						type="file"
-						name="file"
-						id="file"
-						ref={fileRef}
-						onChange={generateAllInfo}
-					/>
-				</div> */}
+				{
+					<div className="debug-section">
+						CSV generator
+						<br />
+						<input
+							type="file"
+							name="file"
+							id="file"
+							ref={fileRef}
+							onChange={generateAllInfo}
+						/>
+					</div>
+				}
 			</div>
 		</div>
 	) : null;

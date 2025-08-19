@@ -51,7 +51,7 @@ const getMovesLength = (moves) =>
     return move != "hint";
   }).length;
 
-const copyStats = (moves, isPerfect, number) => {
+const copyStats = (moves, isPerfect, number, tomorrow = false) => {
   var moveString = "";
   for (var i = 0; i < moves.length; i++) {
     if (moves[i] == "combo") {
@@ -67,8 +67,12 @@ const copyStats = (moves, isPerfect, number) => {
   if (isPerfect) {
     moveString = "⭐️" + moveString + "⭐️";
   }
+  var text = "Whittle #" + number + ": " + moveString;
+  if (tomorrow) {
+    text = "🅱️hittle #" + number + ": " + moveString;
+  }
   navigator.share({
-    text: "Whittle #" + number + ": " + moveString,
+    text: text,
     url: window.location.href,
   });
 };

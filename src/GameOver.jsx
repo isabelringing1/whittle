@@ -13,6 +13,7 @@ function GameOver(props) {
 		goToArchive,
 		isNewBestScore,
 		number,
+		isTomorrowsPuzzle,
 	} = props;
 
 	var title;
@@ -76,7 +77,7 @@ function GameOver(props) {
 				</div>
 			</button>
 
-			{!isArchivePuzzle && (
+			{(!isArchivePuzzle || isTomorrowsPuzzle) && (
 				<button
 					id="share-button"
 					onClick={() => {
@@ -84,9 +85,19 @@ function GameOver(props) {
 							gameOverShowState == "complete" &&
 							bestMoves != undefined
 						) {
-							copyStats(bestMoves, isPerfect, number);
+							copyStats(
+								bestMoves,
+								isPerfect,
+								number,
+								isTomorrowsPuzzle
+							);
 						} else {
-							copyStats(moves, isPerfect, number);
+							copyStats(
+								moves,
+								isPerfect,
+								number,
+								isTomorrowsPuzzle
+							);
 						}
 					}}
 				>
