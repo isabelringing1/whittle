@@ -72,3 +72,23 @@ const areValidWords = (words, allPossibleWords) => {
   }
   return true;
 };
+
+test("no repeats", async () => {
+  var dupeFound = false;
+  const file1 = path.join(__dirname, "./", "public/data/puzzles.txt");
+  const puzzleText = fs.readFileSync(file1, "utf8", function (err, data) {
+    return data;
+  });
+
+  var dailyPuzzles = puzzleText.split("\n");
+  var startingPhraseDict = {};
+  for (var i = 0; i < dailyPuzzles.length; i++) {
+    var tokens = dailyPuzzles[i].split(",");
+    if (tokens[1] in startingPhraseDict) {
+      dupeFound = true;
+      break;
+    }
+    startingPhraseDict[tokens[1]] = true;
+  }
+  expect(dupeFound).toBe(false);
+});
