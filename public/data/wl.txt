@@ -27143,7 +27143,6 @@ patching
 patchwork
 patchworks
 patchy
-pate
 patent
 patented
 patenting
@@ -27153,7 +27152,6 @@ paternal
 paternalism
 paternalistic
 paternity
-pates
 path
 pathetic
 pathetically

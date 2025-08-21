@@ -5,18 +5,18 @@
     },
     "summary": {
       "tests": 2,
-      "passed": 1,
-      "failed": 1,
+      "passed": 2,
+      "failed": 0,
       "pending": 0,
       "skipped": 0,
       "other": 0,
-      "start": 1755646619287,
-      "stop": 1755646619405
+      "start": 1755741292636,
+      "stop": 1755741292756
     },
     "tests": [
       {
         "name": "all puzzles are solvable",
-        "duration": 20,
+        "duration": 25,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
@@ -27,11 +27,9 @@
       },
       {
         "name": "no repeats",
-        "duration": 1,
-        "status": "failed",
-        "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: false\nReceived: true\n",
-        "trace": "at Object.toBe (/Users/isabellee/Dropbox/whittle/whittle.test.js:93:21)\nat Promise.finally.completed (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/jestAdapterInit.js:1559:28)\nat new Promise (<anonymous>)\nat callAsyncCircusFn (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/jestAdapterInit.js:1499:10)\nat _callCircusTest (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/jestAdapterInit.js:1009:40)\nat processTicksAndRejections (node:internal/process/task_queues:95:5)\nat _runTest (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/jestAdapterInit.js:949:3)\nat _runTestsForDescribeBlock (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/jestAdapterInit.js:839:13)\nat run (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/jestAdapterInit.js:757:3)\nat runAndTransformResultsToJestFormat (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/jestAdapterInit.js:1920:21)\nat jestAdapter (/Users/isabellee/Dropbox/whittle/node_modules/jest-circus/build/runner.js:101:19)\nat runTestInternal (/Users/isabellee/Dropbox/whittle/node_modules/jest-runner/build/index.js:275:16)\nat runTest (/Users/isabellee/Dropbox/whittle/node_modules/jest-runner/build/index.js:343:7)\n\n[object Object]",
-        "rawStatus": "failed",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
         "type": "unit",
         "filePath": "/Users/isabellee/Dropbox/whittle/whittle.test.js",
         "retries": 0,
