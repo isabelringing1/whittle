@@ -35962,6 +35962,8 @@ spaded
 spades
 spading
 spaghetti
+spam
+spams
 span
 spangle
 spangled
