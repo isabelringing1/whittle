@@ -291,7 +291,10 @@ function Archive(props) {
 											getDateString(date) == dailyPuzzleId
 										}
 										hasPuzzle={
-											date <= Date.now() ||
+											(date <= Date.now() &&
+												dailyPuzzleDict[
+													getDateString(date)
+												] != null) ||
 											(isBetaTester() &&
 												date <= getTomorrowDate() &&
 												dailyPuzzleDict[
