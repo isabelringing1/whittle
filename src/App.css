@@ -7,6 +7,12 @@ body {
 	font-family: "Dongle", sans-serif;
 	overflow: hidden;
 	position: fixed;
+
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 p {
@@ -922,6 +928,13 @@ button:disabled {
 	margin-left: 10vh;
 }
 
+.beta-icon {
+	position: absolute;
+	top: 92svh;
+	left: 2vh;
+	background-color: rgb(255, 73, 73);
+}
+
 .tutorial-button-text {
 	padding-top: 0.6vh;
 	font-size: 5vh;
@@ -1105,6 +1118,7 @@ button:disabled {
 	font-size: 6.5vh;
 	text-align: center;
 	line-height: 1;
+	padding-bottom: 0.5vh;
 }
 
 .dialog-text {
@@ -1112,7 +1126,7 @@ button:disabled {
 	font-weight: 300;
 	line-height: 0.8;
 	text-align: center;
-	padding-bottom: 0.5vh;
+	padding-bottom: 0.75vh;
 }
 
 .dialog-info {

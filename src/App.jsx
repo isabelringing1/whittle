@@ -93,6 +93,9 @@ function App() {
 			newPlayerData = {
 				...playerData,
 			};
+			if (playerData.puzzleLog == null) {
+				newPlayerData.puzzleLog = {};
+			}
 		}
 
 		newPlayerData.puzzleLog[currentPuzzleId] = puzzleData;
@@ -159,6 +162,7 @@ function App() {
 
 	const getCurrentPuzzlePercentFound = () => {
 		return playerData &&
+			playerData.puzzleLog &&
 			playerData.puzzleLog[currentPuzzleId] &&
 			playerData.puzzleLog[currentPuzzleId].percentFound != undefined
 			? playerData.puzzleLog[currentPuzzleId].percentFound
@@ -209,7 +213,9 @@ function App() {
 		if (puzzleSwitchDetected()) {
 			return null;
 		}
-		return playerData && currentDebugPuzzlePhrase == null
+		return playerData &&
+			playerData.puzzleLog &&
+			currentDebugPuzzlePhrase == null
 			? playerData.puzzleLog[currentPuzzleId]
 			: null;
 	};
@@ -333,6 +339,7 @@ function App() {
 					/>
 				)}
 			</div>
+			{/*
 			{true && (
 				<button
 					className="debug-button"
@@ -347,6 +354,7 @@ function App() {
 					}}
 				></button>
 			)}
+			*/}
 		</div>
 	);
 }

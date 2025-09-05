@@ -27,10 +27,8 @@ function Menu(props) {
 	const [status, setStatus] = useState("start"); //start, continue, finish
 	const [dialogState, setDialogState] = useState("none"); // none, info
 
-	const debugTimerRef = useRef(null);
-
 	useEffect(() => {
-		if (playerData == null) {
+		if (playerData == null || playerData.puzzleLog == null) {
 			return;
 		}
 		var dailyData = playerData.puzzleLog[dailyPuzzleId];
@@ -52,6 +50,7 @@ function Menu(props) {
 	const shouldShowShareButton = () => {
 		return (
 			playerData &&
+			playerData.puzzleLog &&
 			playerData.puzzleLog[dailyPuzzleId] &&
 			playerData.puzzleLog[dailyPuzzleId].bestMoves
 		);
@@ -136,9 +135,35 @@ function Menu(props) {
 							}
 							setDialogState("none");
 						},
-						() => setDialogState("none"),
+						() => {
+							if (dialogState == "beta") {
+								var newPlayerData = {
+									...playerData,
+								};
+								newPlayerData.betaTester = false;
+								var saveString = JSON.stringify(newPlayerData);
+								localStorage.setItem(
+									"whittle",
+									window.btoa(saveString)
+								);
+								console.log(newPlayerData);
+								setPlayerData(newPlayerData);
+							}
+							setDialogState("none");
+						},
 					]}
 				/>
+			)}
+
+			{playerData && playerData.betaTester && (
+				<div
+					className="small-circle-button beta-icon"
+					onClick={() => {
+						setDialogState("beta");
+					}}
+				>
+					<span className="tutorial-button-text">b</span>
+				</div>
 			)}
 
 			<div
@@ -153,14 +178,6 @@ function Menu(props) {
 				className="small-circle-button info-button-menu"
 				onClick={() => {
 					setDialogState("info");
-				}}
-				onTouchStart={() => {
-					debugTimerRef.current = setTimeout(() => {
-						//setDialogState("beta");
-					}, 10000);
-				}}
-				onTouchEnd={() => {
-					debugTimerRef.current = null;
 				}}
 			>
 				<span className="tutorial-button-text">i</span>

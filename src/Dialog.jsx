@@ -8,6 +8,8 @@ function Dialog(props) {
 	const [dialogDesc, setDialogDesc] = useState([]);
 	const [dialogButtons, setDialogButtons] = useState([]);
 
+	const betaClickCounter = useRef(0);
+
 	useEffect(() => {
 		if (dialogState == "hint") {
 			setDialogTitle("Turn On Hints?");
@@ -16,15 +18,14 @@ function Dialog(props) {
 			setDialogTitle("Credits");
 			setDialogDesc([
 				"Made by [Isabel Lee](https://isabellee.me)",
-				"(with help from Keaton Mueller)",
-				"Want to report a bug or request a feature? Submit your feedback [here](https://forms.gle/BbLJJp59pQcp9gE3A).",
-				"Thanks for playing!",
+				"Want to report a bug or request a feature? Submit your [feedback](https://forms.gle/BbLJJp59pQcp9gE3A).",
+				"Special thanks to Keaton Mueller & all beta testers!",
 			]);
 			setDialogButtons(["Close"]);
 		} else if (dialogState == "beta") {
 			setDialogTitle("Enable Beta?");
 			setDialogDesc(["You'll be able to play tomorrow's puzzle."]);
-			setDialogButtons(["Yes"]);
+			setDialogButtons(["Yes", "No"]);
 		}
 	}, [dialogState]);
 
@@ -44,6 +45,14 @@ function Dialog(props) {
 						<div
 							className={"dialog-text dialog-" + dialogState}
 							key={"dialog-text-" + i}
+							onClick={() => {
+								if (text.includes("beta")) {
+									betaClickCounter.current++;
+									if (betaClickCounter.current == 10) {
+										setDialogState("beta");
+									}
+								}
+							}}
 						>
 							<Markdown>{text}</Markdown>
 						</div>
