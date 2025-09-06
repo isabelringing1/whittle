@@ -11,6 +11,7 @@ import {
 
 import calendar from "/images/calendar.png";
 import share from "/images/share.png";
+import changelog from "/images/changelog.png";
 
 function Menu(props) {
 	const {
@@ -181,6 +182,15 @@ function Menu(props) {
 				}}
 			>
 				<span className="tutorial-button-text">i</span>
+			</div>
+
+			<div
+				className="changelog-button"
+				onClick={() => {
+					setDialogState("changelog");
+				}}
+			>
+				<img className="changelog-icon" src={changelog} />
 			</div>
 		</div>
 	);

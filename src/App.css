@@ -1158,3 +1158,48 @@ button:disabled {
 	justify-content: center;
 	align-items: center;
 }
+
+.dialog-info {
+	font-size: 4svh;
+	padding-bottom: 0.3vh;
+	text-align: left;
+	width: 100%;
+}
+
+.dialog-info a {
+	text-decoration: none;
+	color: rgb(228, 255, 73);
+}
+
+.dialog-changelog {
+	font-size: 3.5svh;
+	padding-bottom: 0.3vh;
+	text-align: left;
+	width: 100%;
+}
+
+ul {
+	margin: 0 0 1vh 0;
+}
+
+.dialog-container-changelog {
+	overflow-y: auto;
+	max-height: 30vh;
+}
+
+.changelog-button {
+	position: absolute;
+	top: 91.5svh;
+	right: 2vh;
+}
+
+.changelog-icon {
+	width: 4.5svh;
+}
+
+.changelog-button:hover {
+	opacity: 0.7;
+}
+.changelog-button:active {
+	opacity: 0.7;
+}

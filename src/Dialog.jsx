@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Markdown from "react-markdown";
+import changelogData from "/data/changelog.txt";
 
 function Dialog(props) {
 	const { dialogState, setDialogState, buttonActions } = props;
@@ -7,6 +8,7 @@ function Dialog(props) {
 	const [dialogTitle, setDialogTitle] = useState("");
 	const [dialogDesc, setDialogDesc] = useState([]);
 	const [dialogButtons, setDialogButtons] = useState([]);
+	const [changelog, setChangelog] = useState([]);
 
 	const betaClickCounter = useRef(0);
 
@@ -26,6 +28,11 @@ function Dialog(props) {
 			setDialogTitle("Enable Beta?");
 			setDialogDesc(["You'll be able to play tomorrow's puzzle."]);
 			setDialogButtons(["Yes", "No"]);
+		} else if (dialogState == "changelog") {
+			if (changelog.length == 0) {
+				setChangelogDescAsync();
+			}
+			setDialogTitle("Changelog");
 		}
 	}, [dialogState]);
 
@@ -36,28 +43,60 @@ function Dialog(props) {
 		setDialogState("none");
 	};
 
+	const setChangelogDescAsync = async () => {
+		try {
+			const changelogResponse = await fetch(changelogData);
+			const changelogText = await changelogResponse.text();
+			var changes = changelogText.split("#").filter((w) => w.length != 0);
+			setChangelog(changes);
+			var newDialogDesc = [];
+			for (var i in changes) {
+				var changeArray = changes[i]
+					.split("\n")
+					.filter((w) => w.length != 0);
+				console.log(changeArray);
+				newDialogDesc.push("**" + changeArray[0] + "**");
+				for (var j = 1; j < changeArray.length; j++) {
+					newDialogDesc.push(changeArray[j]);
+				}
+			}
+			setDialogDesc(newDialogDesc);
+		} catch (error) {
+			console.error("Error loading data:", error);
+		}
+	};
+
 	return (
 		<div className="dialog-container" onClick={onDialogPressed}>
 			<div className={"dialog-page"}>
 				<div className="dialog-title">{dialogTitle}</div>
-				{dialogDesc.map((text, i) => {
-					return (
-						<div
-							className={"dialog-text dialog-" + dialogState}
-							key={"dialog-text-" + i}
-							onClick={() => {
-								if (text.includes("beta")) {
-									betaClickCounter.current++;
-									if (betaClickCounter.current == 10) {
-										setDialogState("beta");
+				<div
+					className={
+						"dialog-text-container dialog-container-" + dialogState
+					}
+				>
+					{dialogDesc.map((text, i) => {
+						var cn = "dialog-text dialog-" + dialogState;
+						return (
+							<div
+								className={cn}
+								key={"dialog-text-" + i}
+								onClick={() => {
+									if (text.includes("beta")) {
+										betaClickCounter.current++;
+										if (betaClickCounter.current == 10) {
+											setDialogState("beta");
+										}
+									} else if (text.includes("changelog")) {
+										setDialogState("changelog");
 									}
-								}
-							}}
-						>
-							<Markdown>{text}</Markdown>
-						</div>
-					);
-				})}
+								}}
+							>
+								<Markdown>{text}</Markdown>
+							</div>
+						);
+					})}
+				</div>
 				<div className="dialog-buttons-container">
 					{dialogButtons.map((text, i) => {
 						return (
