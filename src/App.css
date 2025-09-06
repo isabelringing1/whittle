@@ -176,6 +176,14 @@ button:disabled {
 		background-color: #394652;
 		color: rgb(210, 210, 210);
 	}
+
+	.dialog-info {
+		font-size: 4svh;
+	}
+
+	.dialog-changelog {
+		font-size: 3.5svh;
+	}
 }
 
 #title {
@@ -1160,7 +1168,6 @@ button:disabled {
 }
 
 .dialog-info {
-	font-size: 4svh;
 	padding-bottom: 0.3vh;
 	text-align: left;
 	width: 100%;
@@ -1172,7 +1179,6 @@ button:disabled {
 }
 
 .dialog-changelog {
-	font-size: 3.5svh;
 	padding-bottom: 0.3vh;
 	text-align: left;
 	width: 100%;
@@ -1189,7 +1195,7 @@ ul {
 
 .changelog-button {
 	position: absolute;
-	top: 91.5svh;
+	top: 91.7svh;
 	right: 2vh;
 }
 
