@@ -24,6 +24,8 @@ function Archive(props) {
 		setIsTomorrowsPuzzle,
 		dailyPuzzleId,
 		setCurrentDebugPuzzlePhrase,
+		lastSelectedArchiveDate,
+		setLastSelectedArchiveDate,
 	} = props;
 
 	const [currentDate, setCurrentDate] = useState(null); //month day year
@@ -31,11 +33,17 @@ function Archive(props) {
 	const [selectedDate, setSelectedDate] = useState(null);
 
 	useEffect(() => {
-		var date = new Date();
-		const month = date.getMonth();
-		const day = date.getDate();
-		const year = date.getFullYear();
-		setCurrentDate([month, day, year]);
+		console.log(lastSelectedArchiveDate);
+		if (lastSelectedArchiveDate != null) {
+			setCurrentDate(lastSelectedArchiveDate);
+		} else {
+			var date = new Date();
+			setCurrentDate([
+				date.getMonth(),
+				date.getDate(),
+				date.getFullYear(),
+			]);
+		}
 	}, []);
 
 	useEffect(() => {
@@ -110,7 +118,9 @@ function Archive(props) {
 		}
 		var yearOffset = currentDate[0] == 0 ? -1 : 0;
 		var month = currentDate[0] == 0 ? 11 : currentDate[0] - 1;
-		setCurrentDate([month, 0, currentDate[2] + yearOffset]);
+		var date = [month, 0, currentDate[2] + yearOffset];
+		setCurrentDate(date);
+		setLastSelectedArchiveDate(date);
 	};
 
 	const onForwardArrowClicked = () => {
@@ -119,11 +129,9 @@ function Archive(props) {
 		}
 		var yearOffset = currentDate[0] == 11 ? 1 : 0;
 
-		setCurrentDate([
-			(currentDate[0] + 1) % 12,
-			0,
-			currentDate[2] + yearOffset,
-		]);
+		var date = [(currentDate[0] + 1) % 12, 0, currentDate[2] + yearOffset];
+		setCurrentDate(date);
+		setLastSelectedArchiveDate(date);
 	};
 
 	const getCurrentMonthName = () => {

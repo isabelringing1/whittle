@@ -26,6 +26,8 @@ function App() {
 
 	const [playerData, setPlayerData] = useState(null);
 	const [showTutorial, setShowTutorial] = useState(false);
+	const [lastSelectedArchiveDate, setLastSelectedArchiveDate] =
+		useState(null);
 	const [currentDebugPuzzlePhrase, setCurrentDebugPuzzlePhrase] =
 		useState(null);
 	const [showDebug, setShowDebug] = useState(false);
@@ -315,6 +317,8 @@ function App() {
 						setCurrentDebugPuzzlePhrase={
 							setCurrentDebugPuzzlePhrase
 						}
+						lastSelectedArchiveDate={lastSelectedArchiveDate}
+						setLastSelectedArchiveDate={setLastSelectedArchiveDate}
 					/>
 				)}
 				{(gameState == "play" || gameState == "win") && (

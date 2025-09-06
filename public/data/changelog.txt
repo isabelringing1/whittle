@@ -1,4 +1,5 @@
 9/6/25
 - Added: the changelog! Stay tuned for more updates and fixes.
+- Fix: Archive now remembers last month selected.
 - Fix: Added 'Sty' to Library
 #

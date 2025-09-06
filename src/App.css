@@ -244,6 +244,14 @@ button:disabled {
 	width: 3vh;
 }
 
+#back-button:active {
+	opacity: 0.8;
+}
+
+#back-button:hover {
+	opacity: 0.8;
+}
+
 .back-button-bounce-out {
 	animation: backButtonBounceOut 0.4s ease-in-out forwards;
 }
@@ -1175,7 +1183,7 @@ button:disabled {
 
 .dialog-info a {
 	text-decoration: none;
-	color: rgb(228, 255, 73);
+	color: rgb(252 255 52);
 }
 
 .dialog-changelog {
@@ -1185,7 +1193,7 @@ button:disabled {
 }
 
 ul {
-	margin: 0 0 1vh 0;
+	margin: 0 0 1vh 1vh;
 }
 
 .dialog-container-changelog {
@@ -1206,6 +1214,7 @@ ul {
 .changelog-button:hover {
 	opacity: 0.7;
 }
+
 .changelog-button:active {
 	opacity: 0.7;
 }
