@@ -213,26 +213,31 @@ function Archive(props) {
 								id="start-button-archive"
 								className={
 									"continue-" +
+									(puzzleLog != undefined &&
+									puzzleLog != null &&
 									getStatusClassName(
 										puzzleLog[getDateString(selectedDate)]
-											? puzzleLog[
-													getDateString(selectedDate)
-											  ].percentFound
-											: 0
 									)
+										? puzzleLog[getDateString(selectedDate)]
+												.percentFound
+										: 0)
 								}
 								onMouseUp={() => onStartButtonClicked()}
 								onTouchEnd={() => onStartButtonClicked()}
 							>
 								<div className="button-container">
-									{!puzzleLog[getDateString(selectedDate)] ||
+									{puzzleLog == undefined ||
+									!puzzleLog ||
+									!puzzleLog[getDateString(selectedDate)] ||
 									puzzleLog[getDateString(selectedDate)]
 										.percentFound == 0
 										? "Start"
 										: "Continue"}
 								</div>
 							</button>
-							{puzzleLog[getDateString(selectedDate)] &&
+							{puzzleLog != undefined &&
+								puzzleLog != null &&
+								puzzleLog[getDateString(selectedDate)] &&
 								puzzleLog[getDateString(selectedDate)]
 									.percentFound > 0 && (
 									<div id="percent-complete-info-archive">
@@ -293,7 +298,10 @@ function Archive(props) {
 									<Day
 										key={"day-" + i}
 										date={date}
-										data={puzzleLog[getDateString(date)]}
+										data={
+											puzzleLog &&
+											puzzleLog[getDateString(date)]
+										}
 										onDayClicked={onDayClicked}
 										isToday={
 											getDateString(date) == dailyPuzzleId

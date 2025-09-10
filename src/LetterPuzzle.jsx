@@ -29,6 +29,7 @@ function LetterPuzzle(props) {
 		setPrevGameState,
 		allPossibleWords,
 		saveData,
+		playerData,
 		data,
 		id,
 		startingPhrase,
@@ -780,13 +781,34 @@ function LetterPuzzle(props) {
 					setDialogState={setDialogState}
 					buttonActions={[
 						() => {
-							setHints(true);
-							reportHint(id);
-							addToMoves("hint");
+							if (dialogState == "hints") {
+								setHints(true);
+								reportHint(id);
+								addToMoves("hint");
+								hopWordlistTab();
+								var interval = setInterval(
+									hopWordlistTab,
+									2000
+								);
+								setHintAnimInterval(interval);
+							} else if (dialogState == "beta-archive-solve") {
+								var possibleWords = generatePossibleWords(
+									startingPhrase,
+									allPossibleWords
+								);
+
+								var newData = {
+									percentFound: 100,
+									solved: true,
+									completedToday: true,
+									bestMoves: [],
+									foundWords: possibleWords,
+								};
+								saveData(newData);
+								window.location.reload();
+							}
+
 							setDialogState("none");
-							hopWordlistTab();
-							var interval = setInterval(hopWordlistTab, 2000);
-							setHintAnimInterval(interval);
 						},
 						() => setDialogState("none"),
 					]}
@@ -806,6 +828,20 @@ function LetterPuzzle(props) {
 					setHintAnimInterval={setHintAnimInterval}
 				/>
 			</div>
+
+			{playerData &&
+				playerData.betaTester &&
+				isArchivePuzzle &&
+				!isTomorrowsPuzzle && (
+					<div
+						className="small-circle-button beta-icon beta-icon-archive"
+						onClick={() => {
+							setDialogState("beta-archive-solve");
+						}}
+					>
+						<span className="tutorial-button-text">b</span>
+					</div>
+				)}
 		</div>
 	);
 }

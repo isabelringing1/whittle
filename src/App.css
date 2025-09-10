@@ -951,6 +951,12 @@ button:disabled {
 	background-color: rgb(255, 73, 73);
 }
 
+.beta-icon-archive {
+	top: 7svh;
+	right: 10vh;
+	left: auto;
+}
+
 .tutorial-button-text {
 	padding-top: 0.6vh;
 	font-size: 5vh;

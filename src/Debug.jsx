@@ -22,7 +22,6 @@ function Debug(props) {
 	const saveDataRef = useRef();
 	const fileRef = useRef();
 
-	const [betaCheckmark, setBetaCheckmark] = useState(false);
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
@@ -40,29 +39,12 @@ function Debug(props) {
 
 	useEffect(() => {
 		if (!loaded && playerData) {
-			setBetaCheckmark(playerData.betaTester ?? false);
 			setLoaded(true);
 		}
 	}, [playerData]);
 
 	const toggleShowDebug = () => {
 		setShowDebug((prevShowDebug) => !prevShowDebug);
-	};
-
-	const onBetaTesterCheckboxChange = () => {
-		if (playerData == null) {
-			return;
-		}
-		setBetaCheckmark(!betaCheckmark);
-		var newPlayerData = {
-			...playerData,
-		};
-		newPlayerData.betaTester = !betaCheckmark;
-		var saveString = JSON.stringify(newPlayerData);
-		localStorage.setItem("whittle", window.btoa(saveString));
-		console.log("beta is " + !betaCheckmark);
-		console.log(newPlayerData);
-		setPlayerData(newPlayerData);
 	};
 
 	const printInfo = (phrases) => {
@@ -175,16 +157,6 @@ function Debug(props) {
 	return devMode && showDebug ? (
 		<div className="debug-menu">
 			<div className="debug-column">
-				<div className="debug-section">
-					<input
-						type="checkbox"
-						checked={betaCheckmark}
-						disabled={!playerData}
-						className="debug-checkbox"
-						onChange={onBetaTesterCheckboxChange}
-					/>{" "}
-					Beta Tester
-				</div>
 				<div className="debug-section">
 					<input
 						type="string"

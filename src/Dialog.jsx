@@ -33,6 +33,10 @@ function Dialog(props) {
 				setChangelogDescAsync();
 			}
 			setDialogTitle("Changelog");
+		} else if (dialogState == "beta-archive-solve") {
+			setDialogTitle("Cheat Solve?");
+			setDialogDesc(["Don't abuse this..."]);
+			setDialogButtons(["Yes", "No"]);
 		}
 	}, [dialogState]);
 

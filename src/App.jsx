@@ -329,6 +329,7 @@ function App() {
 						setGameState={setGameState}
 						setPrevGameState={setPrevGameState}
 						saveData={saveData}
+						playerData={playerData}
 						data={getCurrentPuzzleData()}
 						id={currentPuzzleId}
 						startingPhrase={getCurrentPuzzleStartingPhrase()}
@@ -340,25 +341,10 @@ function App() {
 						isDebug={currentDebugPuzzlePhrase != null}
 						number={dailyPuzzleDict[currentPuzzleId].number}
 						isNewPuzzleRef={isNewPuzzleRef}
+						showDebug={showDebug}
 					/>
 				)}
 			</div>
-			{/*
-			{true && (
-				<button
-					className="debug-button"
-					style={{
-						position: "absolute",
-						top: "90svh",
-						opacity: 0,
-						width: "10vw",
-					}}
-					onClick={() => {
-						setShowDebug(!showDebug);
-					}}
-				></button>
-			)}
-			*/}
 		</div>
 	);
 }
