@@ -14209,7 +14209,6 @@ felt
 felted
 felting
 felts
-fem
 female
 females
 feminine
@@ -14218,7 +14217,6 @@ femininity
 feminism
 feminist
 feminists
-fen
 fence
 fenced
 fences
