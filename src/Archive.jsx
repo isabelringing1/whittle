@@ -109,6 +109,9 @@ function Archive(props) {
 			currentDate[0],
 			today.getDate()
 		);
+		if (isBetaTester()) {
+			today.setHours(today.getHours() + 24); // check for tomorrow, actually
+		}
 		return compDate < today;
 	};
 
