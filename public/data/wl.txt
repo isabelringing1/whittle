@@ -5757,6 +5757,7 @@ chainsaw
 chainsawed
 chainsawing
 chainsaws
+chai
 chair
 chaired
 chairing
