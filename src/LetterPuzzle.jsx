@@ -781,7 +781,7 @@ function LetterPuzzle(props) {
 					setDialogState={setDialogState}
 					buttonActions={[
 						() => {
-							if (dialogState == "hints") {
+							if (dialogState == "hint") {
 								setHints(true);
 								reportHint(id);
 								addToMoves("hint");
