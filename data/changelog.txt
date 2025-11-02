@@ -1,3 +1,5 @@
+10/26/25
+- Fix: Another fix for hints.
 10/15/25
 - Fix: Hints weren't working. Thanks to the playtester who pointed this out!
 9/6/25
