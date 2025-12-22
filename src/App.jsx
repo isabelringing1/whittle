@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import puzzles from "/data/puzzles.txt";
 import wordData from "/data/wl.txt";
 import backArrow from "/images/back_arrow.png";
+import flower from "/images/flower.png";
 
 import "./App.css";
 import Letter from "./Letter";
@@ -244,6 +245,17 @@ function App() {
 
 	return (
 		<div id="content">
+			<div
+				className="isabisabel"
+				onClick={() => {
+					window.open("https://isabisabel.com", "_blank").focus();
+				}}
+			>
+				<span className="isabisabel-text">isabisabel</span>
+
+				<img className="flower" src={flower} />
+			</div>
+
 			<div id="title" className="container">
 				{"WHITTLE".split("").map((letter, i) => {
 					var id = "title-letter-" + i;

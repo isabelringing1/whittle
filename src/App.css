@@ -184,6 +184,16 @@ button:disabled {
 	.dialog-changelog {
 		font-size: 3.5svh;
 	}
+
+	.isabisabel-text {
+		display: inline !important;
+	}
+
+	.flower {
+		padding-top: 0.5vh !important;
+		padding-left: 3px !important;
+		height: 1em !important;
+	}
 }
 
 #title {
@@ -1223,4 +1233,32 @@ ul {
 
 .changelog-button:active {
 	opacity: 0.7;
+}
+
+@font-face {
+	font-family: readex-pro;
+	src: url("ReadexPro-Regular.ttf");
+}
+
+.isabisabel {
+	font-size: 3vh;
+	position: absolute;
+	bottom: 2vh;
+	left: 3vh;
+	z-index: 2;
+	color: rgba(255, 255, 255, 0.45);
+	cursor: pointer;
+	pointer-events: all;
+	font-family: readex-pro;
+}
+
+.isabisabel-text {
+	display: none;
+}
+
+.flower {
+	padding-bottom: 0.2vh;
+	height: 1.7em;
+	vertical-align: text-top;
+	opacity: 0.8;
 }

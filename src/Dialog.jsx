@@ -19,7 +19,7 @@ function Dialog(props) {
 		} else if (dialogState == "info") {
 			setDialogTitle("Credits");
 			setDialogDesc([
-				"Made by [Isabel Lee](https://isabellee.me)",
+				"Made by [Isabel Lee](https://isabisabel.com)",
 				"Want to report a bug or request a feature? Submit your [feedback](https://forms.gle/BbLJJp59pQcp9gE3A).",
 				"Special thanks to Keaton Mueller & all beta testers!",
 			]);
