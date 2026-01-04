@@ -245,16 +245,18 @@ function App() {
 
 	return (
 		<div id="content">
-			<div
-				className="isabisabel"
-				onClick={() => {
-					window.open("https://isabisabel.com", "_blank").focus();
-				}}
-			>
-				<span className="isabisabel-text">isabisabel</span>
+			{gameState == "menu" && (
+				<div
+					className="isabisabel"
+					onClick={() => {
+						window.open("https://isabisabel.com", "_blank").focus();
+					}}
+				>
+					<span className="isabisabel-text">isabisabel</span>
 
-				<img className="flower" src={flower} />
-			</div>
+					<img className="flower" src={flower} />
+				</div>
+			)}
 
 			<div id="title" className="container">
 				{"WHITTLE".split("").map((letter, i) => {
