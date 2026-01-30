@@ -38354,6 +38354,7 @@ tamer
 tames
 tamest
 taming
+tamp
 tamper
 tampered
 tampering
@@ -39685,6 +39686,7 @@ traitors
 traits
 trajectories
 trajectory
+tram
 tramp
 tramped
 tramping
