@@ -54,7 +54,7 @@ test("all puzzles are solvable", async () => {
     if (!whittleable) {
       console.error(
         "Could not find a valid whittle for " +
-          dailyPuzzleDict[id].startingPhrase
+          dailyPuzzleDict[id].startingPhrase,
       );
       allPhrasesAreWhittleable = false;
       break;
@@ -86,9 +86,10 @@ test("no repeats", async () => {
     var tokens = dailyPuzzles[i].split(",");
     if (tokens[1] in startingPhraseDict) {
       dupeFound = true;
-      break;
+      console.log("DUPE: " + tokens[1]);
+    } else {
+      startingPhraseDict[tokens[1]] = true;
     }
-    startingPhraseDict[tokens[1]] = true;
   }
   expect(dupeFound).toBe(false);
 });
