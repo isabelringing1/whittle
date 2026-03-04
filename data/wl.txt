@@ -27143,6 +27143,7 @@ patching
 patchwork
 patchworks
 patchy
+pate
 patent
 patented
 patenting
