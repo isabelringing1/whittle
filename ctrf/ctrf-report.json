@@ -10,28 +10,28 @@
       "pending": 0,
       "skipped": 0,
       "other": 0,
-      "start": 1755741292636,
-      "stop": 1755741292756
+      "start": 1782847541057,
+      "stop": 1782847541250
     },
     "tests": [
       {
         "name": "all puzzles are solvable",
-        "duration": 25,
+        "duration": 40,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/Users/isabellee/Dropbox/whittle/whittle.test.js",
+        "filePath": "/Users/ilee/Documents/GitHub/whittle/whittle.test.js",
         "retries": 0,
         "flaky": false,
         "suite": "whittle.test.js"
       },
       {
         "name": "no repeats",
-        "duration": 0,
+        "duration": 1,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/Users/isabellee/Dropbox/whittle/whittle.test.js",
+        "filePath": "/Users/ilee/Documents/GitHub/whittle/whittle.test.js",
         "retries": 0,
         "flaky": false,
         "suite": "whittle.test.js"
