@@ -1,3 +1,5 @@
+7/18/26
+- Added a way to move save files across browsers! Check out the info menu to learn more.
 10/26/25
 - Fix: Another fix for hints.
 10/15/25
