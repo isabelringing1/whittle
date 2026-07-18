@@ -12,7 +12,11 @@ import Tutorial from "./Tutorial";
 import Archive from "./Archive";
 import Debug from "./Debug";
 
-import { getDateString, getStatusClassName } from "../public/util";
+import {
+	decodeSaveData,
+	getDateString,
+	getStatusClassName,
+} from "../public/util";
 
 function App() {
 	const [allPossibleWords, setAllPossibleWords] = useState({});
@@ -108,17 +112,7 @@ function App() {
 	}
 
 	function loadData() {
-		var saveData = localStorage.getItem("whittle");
-		if (saveData != null) {
-			try {
-				saveData = JSON.parse(window.atob(saveData));
-			} catch (e) {
-				console.log("Could not parse save data: ", e);
-				return null;
-			}
-			return saveData;
-		}
-		return null;
+		return decodeSaveData(localStorage.getItem("whittle"));
 	}
 
 	const readDataAsync = async () => {

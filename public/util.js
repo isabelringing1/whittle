@@ -51,6 +51,47 @@ const getMovesLength = (moves) =>
     return move != "hint";
   }).length;
 
+const decodeSaveData = (saveString) => {
+  if (typeof saveString != "string" || saveString.trim() == "") {
+    return null;
+  }
+
+  try {
+    const saveData = JSON.parse(globalThis.atob(saveString.trim()));
+    if (
+      saveData == null ||
+      typeof saveData != "object" ||
+      Array.isArray(saveData) ||
+      saveData.puzzleLog == null ||
+      typeof saveData.puzzleLog != "object" ||
+      Array.isArray(saveData.puzzleLog)
+    ) {
+      return null;
+    }
+
+    for (const puzzleData of Object.values(saveData.puzzleLog)) {
+      if (
+        puzzleData == null ||
+        typeof puzzleData != "object" ||
+        Array.isArray(puzzleData) ||
+        (puzzleData.foundWords != null &&
+          (typeof puzzleData.foundWords != "object" ||
+            Array.isArray(puzzleData.foundWords))) ||
+        (puzzleData.bestMoves != null && !Array.isArray(puzzleData.bestMoves)) ||
+        (puzzleData.percentFound != null &&
+          (typeof puzzleData.percentFound != "number" ||
+            !Number.isFinite(puzzleData.percentFound)))
+      ) {
+        return null;
+      }
+    }
+
+    return saveData;
+  } catch {
+    return null;
+  }
+};
+
 const copyStats = (moves, isPerfect, number, tomorrow = false) => {
   var moveString = "";
   for (var i = 0; i < moves.length; i++) {
@@ -134,4 +175,5 @@ export {
   generatePossibleWords,
   areValidWords,
   getMovesLength,
+  decodeSaveData,
 };

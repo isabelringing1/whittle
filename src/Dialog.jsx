@@ -3,7 +3,13 @@ import Markdown from "react-markdown";
 import changelogData from "/data/changelog.txt";
 
 function Dialog(props) {
-	const { dialogState, setDialogState, buttonActions } = props;
+	const {
+		dialogState,
+		setDialogState,
+		buttonActions,
+		copySaveLabel = "Copy Save",
+		hasSaveData = false,
+	} = props;
 
 	const [dialogTitle, setDialogTitle] = useState("");
 	const [dialogDesc, setDialogDesc] = useState([]);
@@ -23,7 +29,21 @@ function Dialog(props) {
 				"Want to report a bug or request a feature? Submit your [feedback](https://forms.gle/BbLJJp59pQcp9gE3A).",
 				"Special thanks to Keaton Mueller & all beta testers!",
 			]);
+			setDialogButtons([
+				"Close",
+				copySaveLabel,
+				"Load Save",
+			]);
+		} else if (dialogState == "invalid-save") {
+			setDialogTitle("");
+			setDialogDesc(["Valid save file not detected on clipboard!"]);
 			setDialogButtons(["Close"]);
+		} else if (dialogState == "confirm-load-save") {
+			setDialogTitle(
+				""
+			);
+			setDialogDesc(["Are you sure you want to overwrite your current save? All data will be wiped."]);
+			setDialogButtons(["Yes", "No"]);
 		} else if (dialogState == "beta") {
 			setDialogTitle("Enable Beta?");
 			setDialogDesc(["You'll be able to play tomorrow's puzzle."]);
@@ -38,7 +58,7 @@ function Dialog(props) {
 			setDialogDesc(["Don't abuse this..."]);
 			setDialogButtons(["Yes", "No"]);
 		}
-	}, [dialogState]);
+	}, [dialogState, copySaveLabel]);
 
 	const onDialogPressed = (e) => {
 		if (e.target.className != "dialog-container") {
@@ -72,8 +92,10 @@ function Dialog(props) {
 
 	return (
 		<div className="dialog-container" onClick={onDialogPressed}>
-			<div className={"dialog-page"}>
-				<div className="dialog-title">{dialogTitle}</div>
+			<div className={"dialog-page dialog-page-" + dialogState}>
+				<div className={"dialog-title dialog-title-" + dialogState}>
+					{dialogTitle}
+				</div>
 				<div
 					className={
 						"dialog-text-container dialog-container-" + dialogState
@@ -101,11 +123,21 @@ function Dialog(props) {
 						);
 					})}
 				</div>
-				<div className="dialog-buttons-container">
+				<div
+					className={
+						"dialog-buttons-container dialog-buttons-container-" +
+						dialogState
+					}
+				>
 					{dialogButtons.map((text, i) => {
+						if (dialogState == "info" && i == 1 && !hasSaveData) {
+							return null;
+						}
 						return (
 							<button
-								className="dialog-button"
+								className={
+									"dialog-button dialog-button-" + dialogState
+								}
 								key={"dialog-buttons-" + i}
 								onClick={buttonActions[i]}
 							>

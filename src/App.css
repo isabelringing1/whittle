@@ -1174,10 +1174,29 @@ button:disabled {
 	justify-content: space-around;
 }
 
+.dialog-buttons-container-info {
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 2vh;
+}
+
+.dialog-button-info:first-child {
+	margin: 0 calc(50% - 5vh);
+	order: 2;
+}
+
 .dialog-button {
 	width: 10vh;
 	pointer-events: all;
 	height: 7vh;
+}
+
+.dialog-button-info:not(:first-child) {
+	width: 35%;
+	min-height: 7vh;
+	font-size: 4.5svh;
+	line-height: 0.75;
+	order: 1;
 }
 
 .dialog-button-text-container {

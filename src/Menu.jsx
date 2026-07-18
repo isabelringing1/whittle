@@ -7,6 +7,7 @@ import {
 	getStatusClassName,
 	copyStats,
 	getMovesLength,
+	decodeSaveData,
 } from "../public/util";
 
 import calendar from "/images/calendar.png";
@@ -27,6 +28,10 @@ function Menu(props) {
 
 	const [status, setStatus] = useState("start"); //start, continue, finish
 	const [dialogState, setDialogState] = useState("none"); // none, info
+	const [copySaveLabel, setCopySaveLabel] = useState("Copy Save");
+	const pendingSaveRef = useRef(null);
+	const copySaveTimeoutRef = useRef(null);
+	const hasSaveData = Boolean(localStorage.getItem("whittle"));
 
 	useEffect(() => {
 		if (playerData == null || playerData.puzzleLog == null) {
@@ -37,6 +42,10 @@ function Menu(props) {
 			setStatus("continue");
 		}
 	}, [playerData]);
+
+	useEffect(() => {
+		return () => clearTimeout(copySaveTimeoutRef.current);
+	}, []);
 
 	const onStartButtonClicked = () => {
 		setPrevGameState("menu");
@@ -66,6 +75,47 @@ function Menu(props) {
 			isPerfect,
 			dailyPuzzleDict[dailyPuzzleId].number
 		);
+	};
+
+	const onCopySaveClicked = async () => {
+		try {
+			await navigator.clipboard.writeText(
+				localStorage.getItem("whittle") ?? ""
+			);
+			setCopySaveLabel("Copied!");
+			clearTimeout(copySaveTimeoutRef.current);
+			copySaveTimeoutRef.current = setTimeout(() => {
+				setCopySaveLabel("Copy Save");
+			}, 1000);
+		} catch (error) {
+			console.error("Could not copy save data:", error);
+		}
+	};
+
+	const onLoadSaveClicked = async () => {
+		try {
+			const clipboardSave = await navigator.clipboard.readText();
+			if (decodeSaveData(clipboardSave) == null) {
+				setDialogState("invalid-save");
+				return;
+			}
+
+			pendingSaveRef.current = clipboardSave.trim();
+			setDialogState("confirm-load-save");
+		} catch (error) {
+			console.error("Could not read save data from clipboard:", error);
+			setDialogState("invalid-save");
+		}
+	};
+
+	const setBetaTester = (betaTester) => {
+		var newPlayerData = {
+			...playerData,
+			betaTester: betaTester,
+		};
+		var saveString = JSON.stringify(newPlayerData);
+		localStorage.setItem("whittle", window.btoa(saveString));
+		setPlayerData(newPlayerData);
 	};
 
 	return (
@@ -119,38 +169,39 @@ function Menu(props) {
 				<Dialog
 					dialogState={dialogState}
 					setDialogState={setDialogState}
+					copySaveLabel={copySaveLabel}
+					hasSaveData={hasSaveData}
 					buttonActions={[
 						() => {
 							if (dialogState == "beta") {
-								var newPlayerData = {
-									...playerData,
-								};
-								newPlayerData.betaTester = true;
-								var saveString = JSON.stringify(newPlayerData);
+								setBetaTester(true);
+							} else if (
+								dialogState == "confirm-load-save" &&
+								pendingSaveRef.current != null
+							) {
 								localStorage.setItem(
 									"whittle",
-									window.btoa(saveString)
+									pendingSaveRef.current
 								);
-								console.log(newPlayerData);
-								setPlayerData(newPlayerData);
+								window.location.reload();
+								return;
 							}
 							setDialogState("none");
 						},
 						() => {
+							if (dialogState == "info") {
+								onCopySaveClicked();
+								return;
+							}
 							if (dialogState == "beta") {
-								var newPlayerData = {
-									...playerData,
-								};
-								newPlayerData.betaTester = false;
-								var saveString = JSON.stringify(newPlayerData);
-								localStorage.setItem(
-									"whittle",
-									window.btoa(saveString)
-								);
-								console.log(newPlayerData);
-								setPlayerData(newPlayerData);
+								setBetaTester(false);
 							}
 							setDialogState("none");
+						},
+						() => {
+							if (dialogState == "info") {
+								onLoadSaveClicked();
+							}
 						},
 					]}
 				/>
